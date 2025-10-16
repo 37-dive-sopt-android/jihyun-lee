@@ -18,11 +18,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
-import com.sopt.dive.ui.component.InputField
+import com.sopt.dive.ui.components.InputField
 import com.sopt.dive.ui.theme.DiveTheme
 
 
@@ -122,25 +123,29 @@ private fun SignUpScreen(
                 value = id,
                 onValueChange = onIdChange,
                 placeholder = stringResource(R.string.signup_id_placeholder),
-                modifier = Modifier.padding(top = 40.dp)
+                modifier = Modifier.padding(top = 40.dp),
+                imeAction = ImeAction.Next
             )
             InputField(
                 label = stringResource(R.string.signup_pw),
                 value = password,
                 onValueChange = onPwChange,
-                placeholder = stringResource(R.string.signup_pw_placeholder)
+                placeholder = stringResource(R.string.signup_pw_placeholder),
+                imeAction = ImeAction.Next
             )
             InputField(
                 label = stringResource(R.string.signup_name),
                 value = name,
                 onValueChange = onNameChange,
-                placeholder = stringResource(R.string.signup_name_placeholder)
+                placeholder = stringResource(R.string.signup_name_placeholder),
+                imeAction = ImeAction.Next
             )
             InputField(
                 label = stringResource(R.string.signup_nickname),
                 value = nickname,
                 onValueChange = onNicknameChange,
-                placeholder = stringResource(R.string.signup_nickname_placeholder)
+                placeholder = stringResource(R.string.signup_nickname_placeholder),
+                imeAction = ImeAction.Next
             )
             InputField(
                 label = stringResource(R.string.signup_mbti),

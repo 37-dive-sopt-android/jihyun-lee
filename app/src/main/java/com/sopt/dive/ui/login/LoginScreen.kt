@@ -27,7 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
-import com.sopt.dive.ui.component.InputField
+import com.sopt.dive.ui.components.InputField
 import com.sopt.dive.ui.main.MainActivity
 import com.sopt.dive.ui.signup.SignUpActivity
 import com.sopt.dive.ui.theme.DiveTheme
