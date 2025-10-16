@@ -1,10 +1,5 @@
-package com.sopt.dive
+package com.sopt.dive.signup
 
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,29 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sopt.dive.component.InputField
 import com.sopt.dive.ui.theme.DiveTheme
 
-class SignUpActivity : ComponentActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            DiveTheme {
-                SignUpRoute { result ->
-                    val intent = Intent().apply {
-                        putExtra("userId", result.id)
-                        putExtra("password", result.pw)
-                        putExtra("nickname", result.nickname)
-                        putExtra("drinking", result.drinking)
-                    }
-                    setResult(RESULT_OK, intent)
-                    finish()
-                }
-            }
-        }
-    }
-}
 
 data class SignUpResult(
     val id: String,
@@ -55,6 +30,7 @@ data class SignUpResult(
 
 @Composable
 fun SignUpRoute(
+    modifier: Modifier = Modifier,
     onComplete: (SignUpResult) -> Unit
 ) {
     var id by remember { mutableStateOf("") }
@@ -73,12 +49,13 @@ fun SignUpRoute(
         onDrinkingChange = { drinking = it },
         onSignUpButtonClick = {
             onComplete(SignUpResult(id, pw, nickname, drinking))
-        }
+        },
+        modifier = modifier
     )
 }
 
 @Composable
-fun SignUpScreen(
+private fun SignUpScreen(
     id: String,
     onIdChange: (String) -> Unit,
     pw: String,
@@ -87,10 +64,11 @@ fun SignUpScreen(
     onNicknameChange: (String) -> Unit,
     drinking: String,
     onDrinkingChange: (String) -> Unit,
-    onSignUpButtonClick: () -> Unit
+    onSignUpButtonClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column (
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(vertical = 40.dp, horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -150,14 +128,14 @@ private fun SignUpPreview() {
     DiveTheme {
         SignUpScreen(
             id = id,
-            onIdChange = {},
+            onIdChange = { id = it },
             pw = pw,
-            onPwChange = {},
+            onPwChange = { pw = it },
             nickname = nickname,
-            onNicknameChange = {},
+            onNicknameChange = { nickname = it },
             drinking = drinking,
-            onDrinkingChange = {},
-            onSignUpButtonClick = { TODO() }
+            onDrinkingChange = { drinking = it },
+            onSignUpButtonClick = { }
         )
     }
 }

@@ -1,25 +1,22 @@
-package com.sopt.dive
+package com.sopt.dive.login
 
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts.*
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,19 +25,27 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sopt.dive.component.InputField
+import com.sopt.dive.main.MainActivity
+import com.sopt.dive.signup.SignUpActivity
 import com.sopt.dive.ui.theme.DiveTheme
 
-class LoginActivity : ComponentActivity() {
+@Composable
+fun LoginRoute(modifier: Modifier = Modifier) {
+    val context = LocalContext.current
 
-    private var registeredId by mutableStateOf("")
-    private var registeredPassword by mutableStateOf("")
-    private var registeredNickname by mutableStateOf("")
-    private var registeredDrinking by mutableStateOf("")
+    var userId by rememberSaveable { mutableStateOf("") }
+    var userPassword by rememberSaveable { mutableStateOf("") }
 
-    private val signUpLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
+    var registeredId by rememberSaveable { mutableStateOf("") }
+    var registeredPassword by rememberSaveable { mutableStateOf("") }
+    var registeredNickname by rememberSaveable { mutableStateOf("") }
+    var registeredDrinking by rememberSaveable { mutableStateOf("") }
+
+    val signUpLauncher = rememberLauncherForActivityResult(
+        contract = StartActivityForResult()
     ) { result ->
-        if (result.resultCode == RESULT_OK) {
+        if (result.resultCode == Activity.RESULT_OK) {
             val data = result.data
             registeredId = data?.getStringExtra("userId").orEmpty()
             registeredPassword = data?.getStringExtra("password").orEmpty()
@@ -49,50 +54,34 @@ class LoginActivity : ComponentActivity() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            val context = LocalContext.current
-            var userId by remember { mutableStateOf("") }
-            var userPassword by remember { mutableStateOf("") }
+    LogInScreen(
+        id = userId,
+        password = userPassword,
+        onIdChange = { userId = it },
+        onPasswordChange = { userPassword = it },
+        onLoginClick = {
+            val ok = userId.isNotBlank() &&
+                    userPassword.isNotBlank() &&
+                    userId == registeredId &&
+                    userPassword == registeredPassword
 
-            DiveTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LogInScreen(
-                        id = userId,
-                        password = userPassword,
-                        onIdChange = { userId = it },
-                        onPasswordChange = { userPassword = it },
-                        onLoginClick = {
-                            if (
-                                userId.isNotBlank() &&
-                                userPassword.isNotBlank() &&
-                                userId == registeredId &&
-                                userPassword == registeredPassword
-                            ) {
-                                Toast.makeText(context, "로그인 성공", Toast.LENGTH_SHORT).show()
-                                val intent = Intent(context, MainActivity::class.java)
-                                context.startActivity(intent)
-                            } else {
-                                Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show()
-                            }
-                        },
-                        onSignUpClick = {
-                            val intent = Intent(context, SignUpActivity::class.java)
-                            signUpLauncher.launch(intent)
-                        },
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+            if (ok) {
+                Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+                context.startActivity(Intent(context, MainActivity::class.java))
+            } else {
+                Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
             }
-        }
-    }
-
+        },
+        onSignUpClick = {
+            signUpLauncher.launch(Intent(context, SignUpActivity::class.java))
+        },
+        modifier = modifier
+    )
 }
 
+
 @Composable
-fun LogInScreen(
+private fun LogInScreen(
     id: String,
     password: String,
     onIdChange: (String) -> Unit,
@@ -129,7 +118,8 @@ fun LogInScreen(
                 value = password,
                 onValueChange = onPasswordChange,
                 placeholder = "비밀번호를 입력해주세요",
-                modifier = Modifier.padding(top = 20.dp)
+                modifier = Modifier.padding(top = 20.dp),
+                isPassword = true
             )
         }
 
