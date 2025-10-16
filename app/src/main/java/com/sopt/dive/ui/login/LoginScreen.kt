@@ -27,11 +27,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
+import com.sopt.dive.ui.components.DiveBasicButton
 import com.sopt.dive.ui.components.InputField
 import com.sopt.dive.ui.main.MainActivity
 import com.sopt.dive.ui.signup.SignUpActivity
 import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.util.IntentKeys
+import com.sopt.dive.util.noRippleClickable
 
 @Composable
 fun LoginRoute(modifier: Modifier = Modifier) {
@@ -142,18 +144,16 @@ private fun LoginScreen(
             )
         }
 
-        Button(
+        DiveBasicButton(
             onClick = onLoginClick,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(stringResource(R.string.login_title))
-        }
-
+            text = stringResource(R.string.login_title)
+        )
         Text(
             text = stringResource(R.string.signup_button),
+            fontSize = 14.sp,
             modifier = Modifier
                 .padding(top = 4.dp)
-                .clickable { onSignUpClick() },
+                .noRippleClickable { onSignUpClick() },
             textDecoration = TextDecoration.Underline
         )
     }

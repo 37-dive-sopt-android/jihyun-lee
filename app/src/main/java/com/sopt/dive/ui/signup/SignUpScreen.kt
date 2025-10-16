@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
+import com.sopt.dive.ui.components.DiveBasicButton
 import com.sopt.dive.ui.components.InputField
 import com.sopt.dive.ui.theme.DiveTheme
 
@@ -156,12 +157,10 @@ private fun SignUpScreen(
         }
 
         Spacer(modifier = Modifier.weight(1f))
-        Button(
+        DiveBasicButton(
             onClick = onSignUpButtonClick,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(stringResource(R.string.signup_button))
-        }
+            text = stringResource(R.string.signup_button)
+        )
     }
 }
 
