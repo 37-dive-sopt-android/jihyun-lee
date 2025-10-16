@@ -40,7 +40,7 @@ fun LoginRoute(modifier: Modifier = Modifier) {
     var registeredId by rememberSaveable { mutableStateOf("") }
     var registeredPassword by rememberSaveable { mutableStateOf("") }
     var registeredNickname by rememberSaveable { mutableStateOf("") }
-    var registeredDrinking by rememberSaveable { mutableStateOf("") }
+    var registeredMbti by rememberSaveable { mutableStateOf("") }
 
     val signUpLauncher = rememberLauncherForActivityResult(
         contract = StartActivityForResult()
@@ -50,7 +50,7 @@ fun LoginRoute(modifier: Modifier = Modifier) {
             registeredId = data?.getStringExtra("userId").orEmpty()
             registeredPassword = data?.getStringExtra("password").orEmpty()
             registeredNickname = data?.getStringExtra("nickname").orEmpty()
-            registeredDrinking = data?.getStringExtra("drinking").orEmpty()
+            registeredMbti = data?.getStringExtra("mbti").orEmpty()
         }
     }
 

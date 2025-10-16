@@ -24,7 +24,7 @@ class SignUpActivity : ComponentActivity() {
                             putExtra("userId", result.id)
                             putExtra("password", result.pw)
                             putExtra("nickname", result.nickname)
-                            putExtra("drinking", result.drinking)
+                            putExtra("mbti", result.mbti)
                         }
                         setResult(RESULT_OK, intent)
                         finish()

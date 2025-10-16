@@ -1,5 +1,6 @@
 package com.sopt.dive.signup
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,7 +27,7 @@ data class SignUpResult(
     val id: String,
     val pw: String,
     val nickname: String,
-    val drinking: String
+    val mbti: String
 )
 
 @Composable
@@ -36,7 +38,9 @@ fun SignUpRoute(
     var id by remember { mutableStateOf("") }
     var pw by remember { mutableStateOf("") }
     var nickname by remember { mutableStateOf("") }
-    var drinking by remember { mutableStateOf("") }
+    var mbti by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
 
     SignUpScreen(
         id = id,
@@ -45,10 +49,19 @@ fun SignUpRoute(
         onPwChange = { pw = it },
         nickname = nickname,
         onNicknameChange = { nickname = it },
-        drinking = drinking,
-        onDrinkingChange = { drinking = it },
+        mbti = mbti,
+        onMbtiChange = { mbti = it },
         onSignUpButtonClick = {
-            onComplete(SignUpResult(id, pw, nickname, drinking))
+            if (id.isBlank() || pw.isBlank() || nickname.isBlank() || mbti.isBlank()) {
+                Toast.makeText(context, "모든 정보를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            } else if (id.length < 6 || id.length > 10) {
+                Toast.makeText(context, "아이디는 6~10글자여야 합니다.", Toast.LENGTH_SHORT).show()
+            } else if (pw.length < 8 || pw.length > 12) {
+                Toast.makeText(context, "비밀번호는 8~12글자여야 합니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "회원가입 성공", Toast.LENGTH_SHORT).show()
+                onComplete(SignUpResult(id, pw, nickname, mbti))
+            }
         },
         modifier = modifier
     )
@@ -62,8 +75,8 @@ private fun SignUpScreen(
     onPwChange: (String) -> Unit,
     nickname: String,
     onNicknameChange: (String) -> Unit,
-    drinking: String,
-    onDrinkingChange: (String) -> Unit,
+    mbti: String,
+    onMbtiChange: (String) -> Unit,
     onSignUpButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -100,10 +113,10 @@ private fun SignUpScreen(
             modifier = Modifier.padding(top = 20.dp)
         )
         InputField(
-            label = "주량",
-            value = drinking,
-            onValueChange = onDrinkingChange,
-            placeholder = "소주 주량을 입력해주세요",
+            label = "MBTI",
+            value = mbti,
+            onValueChange = onMbtiChange,
+            placeholder = "MBTI를 입력해주세요",
             modifier = Modifier.padding(top = 20.dp)
         )
 
@@ -123,7 +136,7 @@ private fun SignUpPreview() {
     var id by remember { mutableStateOf("") }
     var pw by remember { mutableStateOf("") }
     var nickname by remember { mutableStateOf("") }
-    var drinking by remember { mutableStateOf("") }
+    var mbti by remember { mutableStateOf("") }
 
     DiveTheme {
         SignUpScreen(
@@ -133,8 +146,8 @@ private fun SignUpPreview() {
             onPwChange = { pw = it },
             nickname = nickname,
             onNicknameChange = { nickname = it },
-            drinking = drinking,
-            onDrinkingChange = { drinking = it },
+            mbti = mbti,
+            onMbtiChange = { mbti = it },
             onSignUpButtonClick = { }
         )
     }
