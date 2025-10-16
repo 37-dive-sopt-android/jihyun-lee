@@ -1,4 +1,4 @@
-package com.sopt.dive.signup
+package com.sopt.dive.ui.signup
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
@@ -17,16 +17,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sopt.dive.component.InputField
+import com.sopt.dive.R
+import com.sopt.dive.ui.component.InputField
 import com.sopt.dive.ui.theme.DiveTheme
 
 
 data class SignUpResult(
     val id: String,
     val pw: String,
+    val name: String,
     val nickname: String,
     val mbti: String
 )
@@ -37,7 +40,8 @@ fun SignUpRoute(
     onComplete: (SignUpResult) -> Unit
 ) {
     var id by remember { mutableStateOf("") }
-    var pw by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
     var nickname by remember { mutableStateOf("") }
     var mbti by remember { mutableStateOf("") }
 
@@ -46,22 +50,40 @@ fun SignUpRoute(
     SignUpScreen(
         id = id,
         onIdChange = { id = it },
-        pw = pw,
-        onPwChange = { pw = it },
+        password = password,
+        onPwChange = { password = it },
+        name = name,
+        onNameChange = { name = it },
         nickname = nickname,
         onNicknameChange = { nickname = it },
         mbti = mbti,
         onMbtiChange = { mbti = it },
         onSignUpButtonClick = {
-            if (id.isBlank() || pw.isBlank() || nickname.isBlank() || mbti.isBlank()) {
-                Toast.makeText(context, "모든 정보를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            if (id.isBlank() || password.isBlank() || nickname.isBlank() || mbti.isBlank()) {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.signup_empty_fail_message),
+                    Toast.LENGTH_SHORT
+                ).show()
             } else if (id.length < 6 || id.length > 10) {
-                Toast.makeText(context, "아이디는 6~10글자여야 합니다.", Toast.LENGTH_SHORT).show()
-            } else if (pw.length < 8 || pw.length > 12) {
-                Toast.makeText(context, "비밀번호는 8~12글자여야 합니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.signup_id_fail_message),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else if (password.length < 8 || password.length > 12) {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.signup_pw_fail_message),
+                    Toast.LENGTH_SHORT
+                ).show()
             } else {
-                Toast.makeText(context, "회원가입 성공", Toast.LENGTH_SHORT).show()
-                onComplete(SignUpResult(id, pw, nickname, mbti))
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.signup_success_message),
+                    Toast.LENGTH_SHORT
+                ).show()
+                onComplete(SignUpResult(id, password, name, nickname, mbti))
             }
         },
         modifier = modifier
@@ -72,8 +94,10 @@ fun SignUpRoute(
 private fun SignUpScreen(
     id: String,
     onIdChange: (String) -> Unit,
-    pw: String,
+    password: String,
     onPwChange: (String) -> Unit,
+    name: String,
+    onNameChange: (String) -> Unit,
     nickname: String,
     onNicknameChange: (String) -> Unit,
     mbti: String,
@@ -81,42 +105,48 @@ private fun SignUpScreen(
     onSignUpButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column (
+    Column(
         modifier = modifier
             .fillMaxSize()
             .padding(vertical = 40.dp, horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "SIGN UP",
+            text = stringResource(R.string.signup_title),
             fontSize = 30.sp
         )
 
-        Column (verticalArrangement = Arrangement.spacedBy(30.dp)) {
+        Column(verticalArrangement = Arrangement.spacedBy(30.dp)) {
             InputField(
-                label = "ID",
+                label = stringResource(R.string.signup_id),
                 value = id,
                 onValueChange = onIdChange,
-                placeholder = "아이디를 입력해주세요",
+                placeholder = stringResource(R.string.signup_id_placeholder),
                 modifier = Modifier.padding(top = 40.dp)
             )
             InputField(
-                label = "PW",
-                value = pw,
+                label = stringResource(R.string.signup_pw),
+                value = password,
                 onValueChange = onPwChange,
-                placeholder = "비밀번호를 입력해주세요"
+                placeholder = stringResource(R.string.signup_pw_placeholder)
             )
             InputField(
-                label = "NICKNAME",
+                label = stringResource(R.string.signup_name),
+                value = name,
+                onValueChange = onNameChange,
+                placeholder = stringResource(R.string.signup_name_placeholder)
+            )
+            InputField(
+                label = stringResource(R.string.signup_nickname),
                 value = nickname,
                 onValueChange = onNicknameChange,
-                placeholder = "닉네임을 입력해주세요"
+                placeholder = stringResource(R.string.signup_nickname_placeholder)
             )
             InputField(
-                label = "MBTI",
+                label = stringResource(R.string.signup_mbti),
                 value = mbti,
                 onValueChange = onMbtiChange,
-                placeholder = "MBTI를 입력해주세요"
+                placeholder = stringResource(R.string.signup_mbti_placeholder)
             )
         }
 
@@ -125,7 +155,7 @@ private fun SignUpScreen(
             onClick = onSignUpButtonClick,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("회원가입하기")
+            Text(stringResource(R.string.signup_button))
         }
     }
 }
@@ -134,7 +164,8 @@ private fun SignUpScreen(
 @Composable
 private fun SignUpPreview() {
     var id by remember { mutableStateOf("") }
-    var pw by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
     var nickname by remember { mutableStateOf("") }
     var mbti by remember { mutableStateOf("") }
 
@@ -142,8 +173,10 @@ private fun SignUpPreview() {
         SignUpScreen(
             id = id,
             onIdChange = { id = it },
-            pw = pw,
-            onPwChange = { pw = it },
+            password = password,
+            onPwChange = { password = it },
+            name = name,
+            onNameChange = { name = it },
             nickname = nickname,
             onNicknameChange = { nickname = it },
             mbti = mbti,

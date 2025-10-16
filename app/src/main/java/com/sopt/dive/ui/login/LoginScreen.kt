@@ -1,4 +1,4 @@
-package com.sopt.dive.login
+package com.sopt.dive.ui.login
 
 import android.app.Activity
 import android.content.Intent
@@ -21,14 +21,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sopt.dive.component.InputField
-import com.sopt.dive.main.MainActivity
-import com.sopt.dive.signup.SignUpActivity
+import com.sopt.dive.R
+import com.sopt.dive.ui.component.InputField
+import com.sopt.dive.ui.main.MainActivity
+import com.sopt.dive.ui.signup.SignUpActivity
 import com.sopt.dive.ui.theme.DiveTheme
+import com.sopt.dive.util.IntentKeys
 
 @Composable
 fun LoginRoute(modifier: Modifier = Modifier) {
@@ -39,6 +42,7 @@ fun LoginRoute(modifier: Modifier = Modifier) {
 
     var registeredId by rememberSaveable { mutableStateOf("") }
     var registeredPassword by rememberSaveable { mutableStateOf("") }
+    var registeredName by rememberSaveable { mutableStateOf("") }
     var registeredNickname by rememberSaveable { mutableStateOf("") }
     var registeredMbti by rememberSaveable { mutableStateOf("") }
 
@@ -47,10 +51,11 @@ fun LoginRoute(modifier: Modifier = Modifier) {
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data = result.data
-            registeredId = data?.getStringExtra("userId").orEmpty()
-            registeredPassword = data?.getStringExtra("password").orEmpty()
-            registeredNickname = data?.getStringExtra("nickname").orEmpty()
-            registeredMbti = data?.getStringExtra("mbti").orEmpty()
+            registeredId = data?.getStringExtra(IntentKeys.ID).orEmpty()
+            registeredPassword = data?.getStringExtra(IntentKeys.PASSWORD).orEmpty()
+            registeredName = data?.getStringExtra(IntentKeys.NAME).orEmpty()
+            registeredNickname = data?.getStringExtra(IntentKeys.NICKNAME).orEmpty()
+            registeredMbti = data?.getStringExtra(IntentKeys.MBTI).orEmpty()
         }
     }
 
@@ -66,16 +71,25 @@ fun LoginRoute(modifier: Modifier = Modifier) {
                     userPassword == registeredPassword
 
             if (ok) {
-                Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.login_success_message),
+                    Toast.LENGTH_SHORT
+                ).show()
                 val intent = Intent(context, MainActivity::class.java).apply {
-                    putExtra("userId", registeredId)
-                    putExtra("password", registeredPassword)
-                    putExtra("nickname", registeredNickname)
-                    putExtra("mbti", registeredMbti)
+                    putExtra(IntentKeys.ID, registeredId)
+                    putExtra(IntentKeys.PASSWORD, registeredPassword)
+                    putExtra(IntentKeys.NAME, registeredName)
+                    putExtra(IntentKeys.NICKNAME, registeredNickname)
+                    putExtra(IntentKeys.MBTI, registeredMbti)
                 }
                 context.startActivity(intent)
             } else {
-                Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.login_fail_message),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         },
         onSignUpClick = {
@@ -96,34 +110,33 @@ private fun LoginScreen(
     onSignUpClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column (
+    Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(horizontal = 20.dp, vertical = 40.dp)
-        ,
+            .padding(horizontal = 20.dp, vertical = 40.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Welcome To SOPT",
+            text = stringResource(R.string.login_title),
             fontSize = 30.sp
         )
 
-        Column (
+        Column(
             modifier = Modifier
                 .padding(top = 40.dp)
                 .weight(1f)
         ) {
             InputField(
-                label = "ID",
+                label = stringResource(R.string.signup_id),
                 value = id,
                 onValueChange = onIdChange,
-                placeholder = "아이디를 입력해주세요"
+                placeholder = stringResource(R.string.signup_id_placeholder)
             )
             InputField(
-                label = "PW",
+                label = stringResource(R.string.signup_pw),
                 value = password,
                 onValueChange = onPasswordChange,
-                placeholder = "비밀번호를 입력해주세요",
+                placeholder = stringResource(R.string.signup_pw_placeholder),
                 modifier = Modifier.padding(top = 20.dp),
                 isPassword = true
             )
@@ -133,11 +146,11 @@ private fun LoginScreen(
             onClick = onLoginClick,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("로그인 하기")
+            Text(stringResource(R.string.login_title))
         }
 
         Text(
-            text = "회원가입하기",
+            text = stringResource(R.string.signup_button),
             modifier = Modifier
                 .padding(top = 4.dp)
                 .clickable { onSignUpClick() },
@@ -149,15 +162,15 @@ private fun LoginScreen(
 @Preview(showBackground = true)
 @Composable
 private fun LoginPreview() {
-    val userId by remember { mutableStateOf("") }
-    val password by remember { mutableStateOf("") }
+    var userId by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
     DiveTheme {
         LoginScreen(
             id = userId,
             password = password,
-            onIdChange = {},
-            onPasswordChange = {},
+            onIdChange = { userId = it },
+            onPasswordChange = { password = it },
             onLoginClick = {},
             onSignUpClick = {}
         )

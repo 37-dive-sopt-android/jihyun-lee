@@ -1,4 +1,4 @@
-package com.sopt.dive.main
+package com.sopt.dive.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,16 +9,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.sopt.dive.ui.theme.DiveTheme
+import com.sopt.dive.util.IntentKeys
 
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val id = intent.getStringExtra("userId").orEmpty()
-        val password = intent.getStringExtra("password").orEmpty()
-        val nickname = intent.getStringExtra("nickname").orEmpty()
-        val mbti = intent.getStringExtra("mbti").orEmpty()
+        val id = intent.getStringExtra(IntentKeys.ID).orEmpty()
+        val password = intent.getStringExtra(IntentKeys.PASSWORD).orEmpty()
+        val name = intent.getStringExtra(IntentKeys.NAME).orEmpty()
+        val nickname = intent.getStringExtra(IntentKeys.NICKNAME).orEmpty()
+        val mbti = intent.getStringExtra(IntentKeys.MBTI).orEmpty()
 
         setContent {
             DiveTheme {
@@ -26,6 +28,7 @@ class MainActivity : ComponentActivity() {
                     MainRoute(
                         id = id,
                         password = password,
+                        name = name,
                         nickname = nickname,
                         mbti = mbti,
                         modifier = Modifier.padding(innerPadding)

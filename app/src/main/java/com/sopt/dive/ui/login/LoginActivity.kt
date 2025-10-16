@@ -1,6 +1,5 @@
-package com.sopt.dive.signup
+package com.sopt.dive.ui.login
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,7 +10,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.sopt.dive.ui.theme.DiveTheme
 
-class SignUpActivity : ComponentActivity() {
+class LoginActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,16 +18,7 @@ class SignUpActivity : ComponentActivity() {
         setContent {
             DiveTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SignUpRoute (modifier = Modifier.padding(innerPadding)) { result ->
-                        val intent = Intent().apply {
-                            putExtra("userId", result.id)
-                            putExtra("password", result.pw)
-                            putExtra("nickname", result.nickname)
-                            putExtra("mbti", result.mbti)
-                        }
-                        setResult(RESULT_OK, intent)
-                        finish()
-                    }
+                    LoginRoute(modifier = Modifier.padding(innerPadding))
                 }
             }
         }

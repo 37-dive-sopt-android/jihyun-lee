@@ -1,4 +1,4 @@
-package com.sopt.dive.main
+package com.sopt.dive.ui.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -25,17 +26,19 @@ import com.sopt.dive.ui.theme.DiveTheme
 fun MainRoute(
     id: String,
     password: String,
+    name: String,
     nickname: String,
     mbti: String,
     modifier: Modifier = Modifier
 ) {
-    MainScreen(id, password, nickname, mbti, modifier)
+    MainScreen(id, password,name, nickname, mbti, modifier)
 }
 
 @Composable
 private fun MainScreen(
     id: String,
     password: String,
+    name: String,
     nickname: String,
     mbti: String,
     modifier: Modifier = Modifier
@@ -48,20 +51,20 @@ private fun MainScreen(
             Image(
                 imageVector = ImageVector.vectorResource(R.drawable.tomayo),
                 contentDescription = null,
-                modifier = Modifier.size(30.dp)
+                modifier = Modifier.size(50.dp)
             )
-            Text("이지현")
+            Text(name)
         }
-        Text("안녕하세요. 이지현입니다.")
+        Text(stringResource(R.string.main_user_description, name))
 
         Column(
             modifier = Modifier.padding(top = 20.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            MainDataField("ID", id)
-            MainDataField("PW", password)
-            MainDataField("NICKNAME", nickname)
-            MainDataField("MBTI", mbti)
+            MainDataField(stringResource(R.string.signup_id), id)
+            MainDataField(stringResource(R.string.signup_pw), password)
+            MainDataField(stringResource(R.string.signup_nickname), nickname)
+            MainDataField(stringResource(R.string.signup_mbti), mbti)
         }
     }
 }
@@ -86,10 +89,11 @@ private fun MainDataField(
 private fun MainPreview() {
     val id by remember { mutableStateOf("아이디") }
     val password by remember { mutableStateOf("비밀번호") }
+    val name by remember { mutableStateOf("이지현") }
     val nickname by remember { mutableStateOf("지현") }
     val mbti by remember { mutableStateOf("ISTP") }
 
     DiveTheme {
-        MainScreen(id, password, nickname, mbti)
+        MainScreen(id, password,name, nickname, mbti)
     }
 }
