@@ -32,23 +32,20 @@ import com.sopt.dive.ui.theme.DiveTheme
 
 class LoginActivity : ComponentActivity() {
 
-    private var userId by mutableStateOf("")
-    private var password by mutableStateOf("")
-    private var nickname by mutableStateOf("")
-    private var drinking by mutableStateOf("")
-
-    private var loginId by mutableStateOf("")
-    private var loginPassword by mutableStateOf("")
+    private var registeredId by mutableStateOf("")
+    private var registeredPassword by mutableStateOf("")
+    private var registeredNickname by mutableStateOf("")
+    private var registeredDrinking by mutableStateOf("")
 
     private val signUpLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
+        if (result.resultCode == RESULT_OK) {
             val data = result.data
-            userId = data?.getStringExtra("userId").orEmpty()
-            password = data?.getStringExtra("password").orEmpty()
-            nickname = data?.getStringExtra("nickname").orEmpty()
-            drinking = data?.getStringExtra("drinking").orEmpty()
+            registeredId = data?.getStringExtra("userId").orEmpty()
+            registeredPassword = data?.getStringExtra("password").orEmpty()
+            registeredNickname = data?.getStringExtra("nickname").orEmpty()
+            registeredDrinking = data?.getStringExtra("drinking").orEmpty()
         }
     }
 
@@ -57,20 +54,22 @@ class LoginActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val context = LocalContext.current
+            var userId by remember { mutableStateOf("") }
+            var userPassword by remember { mutableStateOf("") }
 
             DiveTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     LogInScreen(
-                        id = loginId,
-                        password = loginPassword,
-                        onIdChange = { loginId = it },
-                        onPasswordChange = { loginPassword = it },
-                        onClickLogin = {
+                        id = userId,
+                        password = userPassword,
+                        onIdChange = { userId = it },
+                        onPasswordChange = { userPassword = it },
+                        onLoginClick = {
                             if (
-                                loginId.isNotBlank() &&
-                                loginPassword.isNotBlank() &&
-                                loginId == userId &&
-                                loginPassword == password
+                                userId.isNotBlank() &&
+                                userPassword.isNotBlank() &&
+                                userId == registeredId &&
+                                userPassword == registeredPassword
                             ) {
                                 Toast.makeText(context, "로그인 성공", Toast.LENGTH_SHORT).show()
                                 val intent = Intent(context, MainActivity::class.java)
@@ -79,8 +78,8 @@ class LoginActivity : ComponentActivity() {
                                 Toast.makeText(context, "로그인 실패", Toast.LENGTH_SHORT).show()
                             }
                         },
-                        onClickSignUp = {
-                            val intent = Intent(this, SignUpActivity::class.java)
+                        onSignUpClick = {
+                            val intent = Intent(context, SignUpActivity::class.java)
                             signUpLauncher.launch(intent)
                         },
                         modifier = Modifier.padding(innerPadding)
@@ -98,8 +97,8 @@ fun LogInScreen(
     password: String,
     onIdChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onClickLogin: () -> Unit,
-    onClickSignUp: () -> Unit,
+    onLoginClick: () -> Unit,
+    onSignUpClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column (
@@ -135,7 +134,7 @@ fun LogInScreen(
         }
 
         Button(
-            onClick = onClickLogin,
+            onClick = onLoginClick,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("로그인 하기")
@@ -145,7 +144,7 @@ fun LogInScreen(
             text = "회원가입하기",
             modifier = Modifier
                 .padding(top = 4.dp)
-                .clickable { onClickSignUp() },
+                .clickable { onSignUpClick() },
             textDecoration = TextDecoration.Underline
         )
     }
@@ -163,8 +162,8 @@ private fun LogInPreview() {
             password = password,
             onIdChange = {},
             onPasswordChange = {},
-            onClickLogin = {},
-            onClickSignUp = {}
+            onLoginClick = {},
+            onSignUpClick = {}
         )
     }
 }
