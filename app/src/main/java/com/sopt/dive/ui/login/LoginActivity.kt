@@ -1,5 +1,6 @@
 package com.sopt.dive.ui.login
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,12 +9,21 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.sopt.dive.ui.main.MainActivity
 import com.sopt.dive.ui.theme.DiveTheme
+import com.sopt.dive.util.Prefs
 
 class LoginActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (Prefs.isLoggedIn(this)) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         enableEdgeToEdge()
         setContent {
             DiveTheme {

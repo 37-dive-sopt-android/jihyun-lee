@@ -32,6 +32,7 @@ import com.sopt.dive.ui.main.MainActivity
 import com.sopt.dive.ui.signup.SignUpActivity
 import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.util.IntentKeys
+import com.sopt.dive.util.Prefs
 import com.sopt.dive.util.noRippleClickable
 
 @Composable
@@ -77,6 +78,12 @@ fun LoginRoute(modifier: Modifier = Modifier) {
                     context.getString(R.string.login_success_message),
                     Toast.LENGTH_SHORT
                 ).show()
+
+                Prefs.setLoggedIn(
+                    context = context,
+                    value = true
+                )
+
                 val intent = Intent(context, MainActivity::class.java).apply {
                     putExtra(IntentKeys.ID, registeredId)
                     putExtra(IntentKeys.PASSWORD, registeredPassword)

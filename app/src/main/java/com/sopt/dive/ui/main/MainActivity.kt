@@ -10,27 +10,38 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.util.IntentKeys
+import com.sopt.dive.util.Prefs
 
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val id = intent.getStringExtra(IntentKeys.ID).orEmpty()
-        val password = intent.getStringExtra(IntentKeys.PASSWORD).orEmpty()
-        val name = intent.getStringExtra(IntentKeys.NAME).orEmpty()
-        val nickname = intent.getStringExtra(IntentKeys.NICKNAME).orEmpty()
-        val mbti = intent.getStringExtra(IntentKeys.MBTI).orEmpty()
+        var id = intent.getStringExtra(IntentKeys.ID)
+        var password = intent.getStringExtra(IntentKeys.PASSWORD)
+        var name = intent.getStringExtra(IntentKeys.NAME)
+        var nickname = intent.getStringExtra(IntentKeys.NICKNAME)
+        var mbti = intent.getStringExtra(IntentKeys.MBTI)
+
+        if (id.isNullOrEmpty() && Prefs.isLoggedIn(this)) {
+            Prefs.loadUser(this)?.let { user ->
+                id = user.id
+                password = user.password
+                name = user.name
+                nickname = user.nickname
+                mbti = user.mbti
+            }
+        }
 
         setContent {
             DiveTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MainRoute(
-                        id = id,
-                        password = password,
-                        name = name,
-                        nickname = nickname,
-                        mbti = mbti,
+                        id = id.orEmpty(),
+                        password = password.orEmpty(),
+                        name = name.orEmpty(),
+                        nickname = nickname.orEmpty(),
+                        mbti = mbti.orEmpty(),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
