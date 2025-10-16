@@ -1,6 +1,7 @@
 package com.sopt.dive.signup
 
 import android.widget.Toast
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -91,34 +92,33 @@ private fun SignUpScreen(
             fontSize = 30.sp
         )
 
-        InputField(
-            label = "ID",
-            value = id,
-            onValueChange = onIdChange,
-            placeholder = "아이디를 입력해주세요",
-            modifier = Modifier.padding(top = 40.dp)
-        )
-        InputField(
-            label = "PW",
-            value = pw,
-            onValueChange = onPwChange,
-            placeholder = "비밀번호를 입력해주세요",
-            modifier = Modifier.padding(top = 20.dp)
-        )
-        InputField(
-            label = "NICKNAME",
-            value = nickname,
-            onValueChange = onNicknameChange,
-            placeholder = "닉네임을 입력해주세요",
-            modifier = Modifier.padding(top = 20.dp)
-        )
-        InputField(
-            label = "MBTI",
-            value = mbti,
-            onValueChange = onMbtiChange,
-            placeholder = "MBTI를 입력해주세요",
-            modifier = Modifier.padding(top = 20.dp)
-        )
+        Column (verticalArrangement = Arrangement.spacedBy(30.dp)) {
+            InputField(
+                label = "ID",
+                value = id,
+                onValueChange = onIdChange,
+                placeholder = "아이디를 입력해주세요",
+                modifier = Modifier.padding(top = 40.dp)
+            )
+            InputField(
+                label = "PW",
+                value = pw,
+                onValueChange = onPwChange,
+                placeholder = "비밀번호를 입력해주세요"
+            )
+            InputField(
+                label = "NICKNAME",
+                value = nickname,
+                onValueChange = onNicknameChange,
+                placeholder = "닉네임을 입력해주세요"
+            )
+            InputField(
+                label = "MBTI",
+                value = mbti,
+                onValueChange = onMbtiChange,
+                placeholder = "MBTI를 입력해주세요"
+            )
+        }
 
         Spacer(modifier = Modifier.weight(1f))
         Button(

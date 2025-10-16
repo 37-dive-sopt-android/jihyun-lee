@@ -54,7 +54,7 @@ fun LoginRoute(modifier: Modifier = Modifier) {
         }
     }
 
-    LogInScreen(
+    LoginScreen(
         id = userId,
         password = userPassword,
         onIdChange = { userId = it },
@@ -67,7 +67,13 @@ fun LoginRoute(modifier: Modifier = Modifier) {
 
             if (ok) {
                 Toast.makeText(context, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
-                context.startActivity(Intent(context, MainActivity::class.java))
+                val intent = Intent(context, MainActivity::class.java).apply {
+                    putExtra("userId", registeredId)
+                    putExtra("password", registeredPassword)
+                    putExtra("nickname", registeredNickname)
+                    putExtra("mbti", registeredMbti)
+                }
+                context.startActivity(intent)
             } else {
                 Toast.makeText(context, "로그인에 실패했습니다", Toast.LENGTH_SHORT).show()
             }
@@ -81,7 +87,7 @@ fun LoginRoute(modifier: Modifier = Modifier) {
 
 
 @Composable
-private fun LogInScreen(
+private fun LoginScreen(
     id: String,
     password: String,
     onIdChange: (String) -> Unit,
@@ -142,12 +148,12 @@ private fun LogInScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun LogInPreview() {
+private fun LoginPreview() {
     val userId by remember { mutableStateOf("") }
     val password by remember { mutableStateOf("") }
 
     DiveTheme {
-        LogInScreen(
+        LoginScreen(
             id = userId,
             password = password,
             onIdChange = {},

@@ -15,10 +15,21 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        val id = intent.getStringExtra("userId").orEmpty()
+        val password = intent.getStringExtra("password").orEmpty()
+        val nickname = intent.getStringExtra("nickname").orEmpty()
+        val mbti = intent.getStringExtra("mbti").orEmpty()
+
         setContent {
             DiveTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(modifier = Modifier.padding(innerPadding))
+                    MainRoute(
+                        id = id,
+                        password = password,
+                        nickname = nickname,
+                        mbti = mbti,
+                        modifier = Modifier.padding(innerPadding)
+                    )
                 }
             }
         }
