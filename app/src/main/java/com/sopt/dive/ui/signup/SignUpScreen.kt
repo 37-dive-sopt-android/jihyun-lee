@@ -3,11 +3,11 @@ package com.sopt.dive.ui.signup
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -107,59 +108,67 @@ private fun SignUpScreen(
     onSignUpButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(vertical = 40.dp, horizontal = 20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+    Column (modifier = modifier
+        .fillMaxSize()
+        .padding(20.dp)
     ) {
-        Text(
-            text = stringResource(R.string.signup_title),
-            fontSize = 30.sp
-        )
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(top = 20.dp)
+                .weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(R.string.signup_title),
+                fontSize = 30.sp
+            )
 
-        Column(verticalArrangement = Arrangement.spacedBy(30.dp)) {
-            InputField(
-                label = stringResource(R.string.signup_id),
-                value = id,
-                onValueChange = onIdChange,
-                placeholder = stringResource(R.string.signup_id_placeholder),
-                modifier = Modifier.padding(top = 40.dp),
-                imeAction = ImeAction.Next
-            )
-            InputField(
-                label = stringResource(R.string.signup_pw),
-                value = password,
-                onValueChange = onPwChange,
-                placeholder = stringResource(R.string.signup_pw_placeholder),
-                imeAction = ImeAction.Next
-            )
-            InputField(
-                label = stringResource(R.string.signup_name),
-                value = name,
-                onValueChange = onNameChange,
-                placeholder = stringResource(R.string.signup_name_placeholder),
-                imeAction = ImeAction.Next
-            )
-            InputField(
-                label = stringResource(R.string.signup_nickname),
-                value = nickname,
-                onValueChange = onNicknameChange,
-                placeholder = stringResource(R.string.signup_nickname_placeholder),
-                imeAction = ImeAction.Next
-            )
-            InputField(
-                label = stringResource(R.string.signup_mbti),
-                value = mbti,
-                onValueChange = onMbtiChange,
-                placeholder = stringResource(R.string.signup_mbti_placeholder)
-            )
+            Column(verticalArrangement = Arrangement.spacedBy(30.dp)) {
+                InputField(
+                    label = stringResource(R.string.signup_id),
+                    value = id,
+                    onValueChange = onIdChange,
+                    placeholder = stringResource(R.string.signup_id_placeholder),
+                    modifier = Modifier.padding(top = 40.dp),
+                    imeAction = ImeAction.Next
+                )
+                InputField(
+                    label = stringResource(R.string.signup_pw),
+                    value = password,
+                    onValueChange = onPwChange,
+                    placeholder = stringResource(R.string.signup_pw_placeholder),
+                    imeAction = ImeAction.Next,
+                    keyboardType = KeyboardType.Password
+                )
+                InputField(
+                    label = stringResource(R.string.signup_name),
+                    value = name,
+                    onValueChange = onNameChange,
+                    placeholder = stringResource(R.string.signup_name_placeholder),
+                    imeAction = ImeAction.Next
+                )
+                InputField(
+                    label = stringResource(R.string.signup_nickname),
+                    value = nickname,
+                    onValueChange = onNicknameChange,
+                    placeholder = stringResource(R.string.signup_nickname_placeholder),
+                    imeAction = ImeAction.Next
+                )
+                InputField(
+                    label = stringResource(R.string.signup_mbti),
+                    value = mbti,
+                    onValueChange = onMbtiChange,
+                    placeholder = stringResource(R.string.signup_mbti_placeholder)
+                )
+            }
         }
-
-        Spacer(modifier = Modifier.weight(1f))
         DiveBasicButton(
             onClick = onSignUpButtonClick,
-            text = stringResource(R.string.signup_button)
+            text = stringResource(R.string.signup_button),
+            modifier = Modifier
+                .padding(vertical = 10.dp)
+                .imePadding()
         )
     }
 }
