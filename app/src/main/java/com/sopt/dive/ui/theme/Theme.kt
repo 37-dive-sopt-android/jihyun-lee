@@ -14,7 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
-    tertiary = Pink80,
+    tertiary = Pink80
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -22,7 +22,7 @@ private val LightColorScheme = lightColorScheme(
     secondary = PurpleGrey40,
     tertiary = Pink40,
     background = Color.White,
-    surface = Color.White,
+    surface = Color.White
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
     surface = Color(0xFFFFFBFE),
@@ -31,7 +31,7 @@ private val LightColorScheme = lightColorScheme(
     onTertiary = Color.White,
     onBackground = Color(0xFF1C1B1F),
     onSurface = Color(0xFF1C1B1F),
-     */
+    */
 )
 
 @Composable
@@ -39,7 +39,7 @@ fun DiveTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = false,
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
