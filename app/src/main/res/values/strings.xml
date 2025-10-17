@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">dive</string>
+
+    <string name="signup_title">SIGN UP</string>
+    <string name="signup_id">ID</string>
+    <string name="signup_id_placeholder">아이디를 입력해주세요</string>
+    <string name="signup_pw">PW</string>
+    <string name="signup_pw_placeholder">비밀번호를 입력해주세요</string>
+    <string name="signup_name">NAME</string>
+    <string name="signup_name_placeholder">이름을 입력해주세요</string>
+    <string name="signup_nickname">NICKNAME</string>
+    <string name="signup_nickname_placeholder">닉네임을 입력해주세요</string>
+    <string name="signup_mbti">MBTI</string>
+    <string name="signup_mbti_placeholder">MBTI를 입력해주세요</string>
+    <string name="signup_button">회원가입하기</string>
+    <string name="signup_success_message">회원가입 성공</string>
+    <string name="signup_id_fail_message">아이디는 6~10글자여야 합니다.</string>
+    <string name="signup_pw_fail_message">비밀번호는 8~12글자여야 합니다.</string>
+    <string name="signup_empty_fail_message">모든 정보를 입력해주세요</string>
+
+    <string name="login_title">Welcome To SOPT</string>
+    <string name="login_success_message">로그인에 성공했습니다</string>
+    <string name="login_fail_message">로그인에 실패했습니다</string>
+    
+    <string name="main_user_description">안녕하세요. %1$s입니다.</string>
+    <string name="main_logout">회원 탈퇴</string>
 </resources>
