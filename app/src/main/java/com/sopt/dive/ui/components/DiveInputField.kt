@@ -31,6 +31,8 @@ fun DiveInputField(
     onValueChange: (String) -> Unit,
     placeholder: String,
     modifier: Modifier = Modifier,
+    isError: Boolean = false,
+    errorMessage: String? = null,
     isPassword: Boolean = false,
     singleLine: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Text,
@@ -51,6 +53,7 @@ fun DiveInputField(
                     .fillMaxWidth()
                     .padding(top = 4.dp),
             placeholder = { Text(placeholder) },
+            isError = isError,
             visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
             keyboardOptions =
                 KeyboardOptions(
@@ -62,8 +65,17 @@ fun DiveInputField(
                 TextFieldDefaults.colors(
                     unfocusedContainerColor = Color.Transparent,
                     focusedContainerColor = Color.Transparent,
+                    errorContainerColor = Color.Transparent,
                 ),
         )
+        if (errorMessage != null) {
+            Text(
+                text = errorMessage,
+                color = Color.Red,
+                fontSize = 12.sp,
+                modifier = Modifier.padding(top = 4.dp),
+            )
+        }
     }
 }
 
