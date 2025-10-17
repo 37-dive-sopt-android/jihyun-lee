@@ -71,13 +71,19 @@ private fun MainScreen(
                 contentDescription = null,
                 modifier = Modifier.size(50.dp),
             )
-            Text(name)
+            Text(
+                text = name,
+                fontSize = 20.sp,
+            )
         }
-        Text(stringResource(R.string.main_user_description, name))
+        Text(
+            text = stringResource(R.string.main_user_description, name),
+            modifier = Modifier.padding(top = 10.dp),
+        )
 
         Column(
-            modifier = Modifier.padding(top = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = Modifier.padding(top = 40.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             MainDataField(stringResource(R.string.signup_id), id)
             MainDataField(stringResource(R.string.signup_pw), password)

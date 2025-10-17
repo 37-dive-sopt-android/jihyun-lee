@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun InputField(
+fun DiveInputField(
     label: String,
     value: String,
     onValueChange: (String) -> Unit,
@@ -80,14 +80,14 @@ private fun InputFieldPreview() {
                 .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
-        InputField(
+        DiveInputField(
             label = "ID",
             value = id,
             onValueChange = { id = it },
             placeholder = "아이디를 입력해주세요",
             imeAction = ImeAction.Next,
         )
-        InputField(
+        DiveInputField(
             label = "PW",
             value = pw,
             onValueChange = { pw = it },

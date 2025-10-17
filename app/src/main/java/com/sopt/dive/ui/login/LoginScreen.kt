@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
 import com.sopt.dive.ui.components.DiveBasicButton
-import com.sopt.dive.ui.components.InputField
+import com.sopt.dive.ui.components.DiveInputField
 import com.sopt.dive.ui.main.MainActivity
 import com.sopt.dive.ui.signup.SignUpActivity
 import com.sopt.dive.ui.theme.DiveTheme
@@ -140,14 +140,14 @@ private fun LoginScreen(
                     .padding(top = 40.dp)
                     .weight(1f),
         ) {
-            InputField(
+            DiveInputField(
                 label = stringResource(R.string.signup_id),
                 value = id,
                 onValueChange = onIdChange,
                 placeholder = stringResource(R.string.signup_id_placeholder),
                 imeAction = ImeAction.Next,
             )
-            InputField(
+            DiveInputField(
                 label = stringResource(R.string.signup_pw),
                 value = password,
                 onValueChange = onPasswordChange,

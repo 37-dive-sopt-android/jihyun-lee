@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,8 +27,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
 import com.sopt.dive.ui.components.DiveBasicButton
-import com.sopt.dive.ui.components.InputField
+import com.sopt.dive.ui.components.DiveInputField
 import com.sopt.dive.ui.theme.DiveTheme
+import kotlinx.coroutines.launch
 
 data class SignUpResult(
     val id: String,
@@ -38,8 +41,9 @@ data class SignUpResult(
 
 @Composable
 fun SignUpRoute(
-    modifier: Modifier = Modifier,
     onComplete: (SignUpResult) -> Unit,
+    snackbarHostState: SnackbarHostState,
+    modifier: Modifier = Modifier,
 ) {
     var id by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -48,6 +52,8 @@ fun SignUpRoute(
     var mbti by remember { mutableStateOf("") }
 
     val context = LocalContext.current
+
+    val scope = rememberCoroutineScope()
 
     SignUpScreen(
         id = id,
@@ -62,33 +68,13 @@ fun SignUpRoute(
         onMbtiChange = { mbti = it },
         onSignUpButtonClick = {
             if (id.isBlank() || password.isBlank() || nickname.isBlank() || mbti.isBlank()) {
-                Toast
-                    .makeText(
-                        context,
-                        context.getString(R.string.signup_empty_fail_message),
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                scope.launch { snackbarHostState.showSnackbar(context.getString(R.string.signup_empty_fail_message)) }
             } else if (id.length < 6 || id.length > 10) {
-                Toast
-                    .makeText(
-                        context,
-                        context.getString(R.string.signup_id_fail_message),
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                scope.launch { snackbarHostState.showSnackbar(context.getString(R.string.signup_id_fail_message)) }
             } else if (password.length < 8 || password.length > 12) {
-                Toast
-                    .makeText(
-                        context,
-                        context.getString(R.string.signup_pw_fail_message),
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                scope.launch { snackbarHostState.showSnackbar(context.getString(R.string.signup_pw_fail_message)) }
             } else {
-                Toast
-                    .makeText(
-                        context,
-                        context.getString(R.string.signup_success_message),
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                Toast.makeText(context, context.getString(R.string.signup_success_message), Toast.LENGTH_SHORT).show()
                 onComplete(SignUpResult(id, password, name, nickname, mbti))
             }
         },
@@ -131,7 +117,7 @@ private fun SignUpScreen(
             )
 
             Column(verticalArrangement = Arrangement.spacedBy(30.dp)) {
-                InputField(
+                DiveInputField(
                     label = stringResource(R.string.signup_id),
                     value = id,
                     onValueChange = onIdChange,
@@ -139,7 +125,7 @@ private fun SignUpScreen(
                     modifier = Modifier.padding(top = 40.dp),
                     imeAction = ImeAction.Next,
                 )
-                InputField(
+                DiveInputField(
                     label = stringResource(R.string.signup_pw),
                     value = password,
                     onValueChange = onPwChange,
@@ -147,21 +133,21 @@ private fun SignUpScreen(
                     imeAction = ImeAction.Next,
                     keyboardType = KeyboardType.Password,
                 )
-                InputField(
+                DiveInputField(
                     label = stringResource(R.string.signup_name),
                     value = name,
                     onValueChange = onNameChange,
                     placeholder = stringResource(R.string.signup_name_placeholder),
                     imeAction = ImeAction.Next,
                 )
-                InputField(
+                DiveInputField(
                     label = stringResource(R.string.signup_nickname),
                     value = nickname,
                     onValueChange = onNicknameChange,
                     placeholder = stringResource(R.string.signup_nickname_placeholder),
                     imeAction = ImeAction.Next,
                 )
-                InputField(
+                DiveInputField(
                     label = stringResource(R.string.signup_mbti),
                     value = mbti,
                     onValueChange = onMbtiChange,
