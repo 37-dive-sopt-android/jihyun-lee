@@ -30,14 +30,13 @@ class SignUpActivity : ComponentActivity() {
                                 nickname = result.name,
                                 mbti = result.mbti,
                             )
-                            val intent =
-                                Intent().apply {
-                                    putExtra(IntentKeys.ID, result.id)
-                                    putExtra(IntentKeys.PASSWORD, result.pw)
-                                    putExtra(IntentKeys.NAME, result.name)
-                                    putExtra(IntentKeys.NICKNAME, result.nickname)
-                                    putExtra(IntentKeys.MBTI, result.mbti)
-                                }
+                            val intent = Intent().apply {
+                                putExtra(IntentKeys.ID, result.id)
+                                putExtra(IntentKeys.PASSWORD, result.pw)
+                                putExtra(IntentKeys.NAME, result.name)
+                                putExtra(IntentKeys.NICKNAME, result.nickname)
+                                putExtra(IntentKeys.MBTI, result.mbti)
+                            }
                             setResult(RESULT_OK, intent)
                             finish()
                         },

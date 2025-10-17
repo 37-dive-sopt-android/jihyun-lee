@@ -60,12 +60,14 @@ fun SignUpRoute(
         id = id,
         onIdChange = {
             id = it
-            idError = if (it.length in 6..10) null else context.getString(R.string.signup_id_fail_message)
+            idError =
+                if (it.length in 6..10) null else context.getString(R.string.signup_id_fail_message)
         },
         password = password,
         onPwChange = {
             password = it
-            passwordError = if (it.length in 8..12) null else context.getString(R.string.signup_pw_fail_message)
+            passwordError =
+                if (it.length in 8..12) null else context.getString(R.string.signup_pw_fail_message)
         },
         name = name,
         onNameChange = {
@@ -75,7 +77,7 @@ fun SignUpRoute(
         nickname = nickname,
         onNicknameChange = {
             nickname = it
-            nameError = it.isBlank()
+            nicknameError = it.isBlank()
         },
         mbti = mbti,
         onMbtiChange = {
@@ -89,12 +91,11 @@ fun SignUpRoute(
         mbtiError = mbtiError,
         onSignUpButtonClick = {
             if (idError == null && passwordError == null && !nameError && !nicknameError && !mbtiError) {
-                Toast
-                    .makeText(
-                        context,
-                        context.getString(R.string.signup_success_message),
-                        Toast.LENGTH_SHORT,
-                    ).show()
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.signup_success_message),
+                    Toast.LENGTH_SHORT,
+                ).show()
                 onComplete(SignUpResult(id, password, name, nickname, mbti))
             }
         },
@@ -123,17 +124,15 @@ private fun SignUpScreen(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier =
-            modifier
-                .fillMaxSize()
-                .padding(20.dp),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(20.dp),
     ) {
         Column(
-            modifier =
-                Modifier
-                    .verticalScroll(rememberScrollState())
-                    .padding(top = 20.dp)
-                    .weight(1f),
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(top = 20.dp)
+                .weight(1f),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
@@ -190,10 +189,9 @@ private fun SignUpScreen(
         DiveBasicButton(
             onClick = onSignUpButtonClick,
             text = stringResource(R.string.signup_button),
-            modifier =
-                Modifier
-                    .padding(vertical = 10.dp)
-                    .imePadding(),
+            modifier = Modifier
+                .padding(vertical = 10.dp)
+                .imePadding(),
         )
     }
 }
@@ -235,13 +233,11 @@ private fun SignUpPreview() {
             mbtiError = mbtiError,
             onSignUpButtonClick = {
                 when {
-                    id.length !in 6..10 ->
-                        idError =
-                            context.getString(R.string.signup_id_fail_message)
+                    id.length !in 6..10 -> idError =
+                        context.getString(R.string.signup_id_fail_message)
 
-                    password.length !in 8..12 ->
-                        passwordError =
-                            context.getString(R.string.signup_pw_fail_message)
+                    password.length !in 8..12 -> passwordError =
+                        context.getString(R.string.signup_pw_fail_message)
 
                     name.isBlank() -> nameError = true
                     nickname.isBlank() -> nicknameError = true

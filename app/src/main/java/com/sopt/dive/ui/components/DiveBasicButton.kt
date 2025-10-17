@@ -27,13 +27,12 @@ fun DiveBasicButton(
     contentColor: Color = contentColorFor(containerColor),
 ) {
     Box(
-        modifier =
-            modifier
-                .clip(RoundedCornerShape(20.dp))
-                .noRippleClickable { onClick() }
-                .background(containerColor)
-                .padding(vertical = 10.dp, horizontal = 20.dp)
-                .fillMaxWidth(),
+        modifier = modifier
+            .clip(RoundedCornerShape(20.dp))
+            .noRippleClickable { onClick() }
+            .background(containerColor)
+            .padding(vertical = 10.dp, horizontal = 20.dp)
+            .fillMaxWidth(),
         contentAlignment = Alignment.Center,
     ) {
         Text(

@@ -1,8 +1,6 @@
 package com.sopt.dive.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
@@ -23,6 +21,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun DiveInputField(
@@ -48,25 +47,22 @@ fun DiveInputField(
         TextField(
             value = value,
             onValueChange = onValueChange,
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp),
             placeholder = { Text(placeholder) },
             isError = isError,
             visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
-            keyboardOptions =
-                KeyboardOptions(
-                    keyboardType = keyboardType,
-                    imeAction = imeAction,
-                ),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = keyboardType,
+                imeAction = imeAction,
+            ),
             singleLine = singleLine,
-            colors =
-                TextFieldDefaults.colors(
-                    unfocusedContainerColor = Color.Transparent,
-                    focusedContainerColor = Color.Transparent,
-                    errorContainerColor = Color.Transparent,
-                ),
+            colors = TextFieldDefaults.colors(
+                unfocusedContainerColor = Color.Transparent,
+                focusedContainerColor = Color.Transparent,
+                errorContainerColor = Color.Transparent,
+            ),
         )
         if (errorMessage != null) {
             Text(
@@ -83,28 +79,14 @@ fun DiveInputField(
 @Composable
 private fun InputFieldPreview() {
     var id by remember { mutableStateOf("") }
-    var pw by remember { mutableStateOf("") }
 
-    Column(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(20.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp),
-    ) {
+    DiveTheme {
         DiveInputField(
             label = "ID",
             value = id,
             onValueChange = { id = it },
             placeholder = "아이디를 입력해주세요",
             imeAction = ImeAction.Next,
-        )
-        DiveInputField(
-            label = "PW",
-            value = pw,
-            onValueChange = { pw = it },
-            placeholder = "아이디를 입력해주세요",
-            keyboardType = KeyboardType.Password,
         )
     }
 }
