@@ -14,7 +14,6 @@ import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.util.Prefs
 
 class LoginActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,5 +32,4 @@ class LoginActivity : ComponentActivity() {
             }
         }
     }
-
 }

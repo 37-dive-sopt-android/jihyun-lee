@@ -14,29 +14,29 @@ import com.sopt.dive.util.IntentKeys
 import com.sopt.dive.util.Prefs
 
 class SignUpActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             DiveTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    SignUpRoute (modifier = Modifier.padding(innerPadding)) { result ->
+                    SignUpRoute(modifier = Modifier.padding(innerPadding)) { result ->
                         Prefs.saveUserInfo(
                             context = this,
                             id = result.id,
                             password = result.pw,
                             name = result.name,
                             nickname = result.name,
-                            mbti = result.mbti
+                            mbti = result.mbti,
                         )
-                        val intent = Intent().apply {
-                            putExtra(IntentKeys.ID, result.id)
-                            putExtra(IntentKeys.PASSWORD, result.pw)
-                            putExtra(IntentKeys.NAME, result.name)
-                            putExtra(IntentKeys.NICKNAME, result.nickname)
-                            putExtra(IntentKeys.MBTI, result.mbti)
-                        }
+                        val intent =
+                            Intent().apply {
+                                putExtra(IntentKeys.ID, result.id)
+                                putExtra(IntentKeys.PASSWORD, result.pw)
+                                putExtra(IntentKeys.NAME, result.name)
+                                putExtra(IntentKeys.NICKNAME, result.nickname)
+                                putExtra(IntentKeys.MBTI, result.mbti)
+                            }
                         setResult(RESULT_OK, intent)
                         finish()
                     }
@@ -44,5 +44,4 @@ class SignUpActivity : ComponentActivity() {
             }
         }
     }
-
 }

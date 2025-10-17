@@ -24,20 +24,21 @@ fun DiveBasicButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     containerColor: Color = Purple40,
-    contentColor: Color = contentColorFor(containerColor)
+    contentColor: Color = contentColorFor(containerColor),
 ) {
-    Box (
-        modifier = modifier
-            .clip(RoundedCornerShape(20.dp))
-            .noRippleClickable { onClick() }
-            .background(containerColor)
-            .padding(vertical = 10.dp, horizontal = 20.dp)
-            .fillMaxWidth(),
-        contentAlignment = Alignment.Center
+    Box(
+        modifier =
+            modifier
+                .clip(RoundedCornerShape(20.dp))
+                .noRippleClickable { onClick() }
+                .background(containerColor)
+                .padding(vertical = 10.dp, horizontal = 20.dp)
+                .fillMaxWidth(),
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = text,
-            color = contentColor
+            color = contentColor,
         )
     }
 }
@@ -48,7 +49,7 @@ private fun DiveBasicButtonPreview() {
     DiveTheme {
         DiveBasicButton(
             "회원가입하기",
-            onClick = {}
+            onClick = {},
         )
     }
 }

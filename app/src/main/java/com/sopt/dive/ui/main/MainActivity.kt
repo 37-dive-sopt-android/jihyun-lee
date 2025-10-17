@@ -1,5 +1,6 @@
 package com.sopt.dive.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,12 +9,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.sopt.dive.ui.login.LoginActivity
 import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.util.IntentKeys
 import com.sopt.dive.util.Prefs
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -42,11 +43,16 @@ class MainActivity : ComponentActivity() {
                         name = name.orEmpty(),
                         nickname = nickname.orEmpty(),
                         mbti = mbti.orEmpty(),
-                        modifier = Modifier.padding(innerPadding)
+                        onLogoutClick = {
+                            Prefs.logout(this)
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        },
+                        modifier = Modifier.padding(innerPadding),
                     )
                 }
             }
         }
     }
-
 }

@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
@@ -48,18 +48,19 @@ fun LoginRoute(modifier: Modifier = Modifier) {
     var registeredNickname by rememberSaveable { mutableStateOf("") }
     var registeredMbti by rememberSaveable { mutableStateOf("") }
 
-    val signUpLauncher = rememberLauncherForActivityResult(
-        contract = StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val data = result.data
-            registeredId = data?.getStringExtra(IntentKeys.ID).orEmpty()
-            registeredPassword = data?.getStringExtra(IntentKeys.PASSWORD).orEmpty()
-            registeredName = data?.getStringExtra(IntentKeys.NAME).orEmpty()
-            registeredNickname = data?.getStringExtra(IntentKeys.NICKNAME).orEmpty()
-            registeredMbti = data?.getStringExtra(IntentKeys.MBTI).orEmpty()
+    val signUpLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartActivityForResult(),
+        ) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val data = result.data
+                registeredId = data?.getStringExtra(IntentKeys.ID).orEmpty()
+                registeredPassword = data?.getStringExtra(IntentKeys.PASSWORD).orEmpty()
+                registeredName = data?.getStringExtra(IntentKeys.NAME).orEmpty()
+                registeredNickname = data?.getStringExtra(IntentKeys.NICKNAME).orEmpty()
+                registeredMbti = data?.getStringExtra(IntentKeys.MBTI).orEmpty()
+            }
         }
-    }
 
     LoginScreen(
         id = userId,
@@ -67,46 +68,49 @@ fun LoginRoute(modifier: Modifier = Modifier) {
         onIdChange = { userId = it },
         onPasswordChange = { userPassword = it },
         onLoginClick = {
-            val ok = userId.isNotBlank() &&
+            val ok =
+                userId.isNotBlank() &&
                     userPassword.isNotBlank() &&
                     userId == registeredId &&
                     userPassword == registeredPassword
 
             if (ok) {
-                Toast.makeText(
-                    context,
-                    context.getString(R.string.login_success_message),
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast
+                    .makeText(
+                        context,
+                        context.getString(R.string.login_success_message),
+                        Toast.LENGTH_SHORT,
+                    ).show()
 
                 Prefs.setLoggedIn(
                     context = context,
-                    value = true
+                    value = true,
                 )
 
-                val intent = Intent(context, MainActivity::class.java).apply {
-                    putExtra(IntentKeys.ID, registeredId)
-                    putExtra(IntentKeys.PASSWORD, registeredPassword)
-                    putExtra(IntentKeys.NAME, registeredName)
-                    putExtra(IntentKeys.NICKNAME, registeredNickname)
-                    putExtra(IntentKeys.MBTI, registeredMbti)
-                }
+                val intent =
+                    Intent(context, MainActivity::class.java).apply {
+                        putExtra(IntentKeys.ID, registeredId)
+                        putExtra(IntentKeys.PASSWORD, registeredPassword)
+                        putExtra(IntentKeys.NAME, registeredName)
+                        putExtra(IntentKeys.NICKNAME, registeredNickname)
+                        putExtra(IntentKeys.MBTI, registeredMbti)
+                    }
                 context.startActivity(intent)
             } else {
-                Toast.makeText(
-                    context,
-                    context.getString(R.string.login_fail_message),
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast
+                    .makeText(
+                        context,
+                        context.getString(R.string.login_fail_message),
+                        Toast.LENGTH_SHORT,
+                    ).show()
             }
         },
         onSignUpClick = {
             signUpLauncher.launch(Intent(context, SignUpActivity::class.java))
         },
-        modifier = modifier
+        modifier = modifier,
     )
 }
-
 
 @Composable
 private fun LoginScreen(
@@ -116,30 +120,32 @@ private fun LoginScreen(
     onPasswordChange: (String) -> Unit,
     onLoginClick: () -> Unit,
     onSignUpClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
-            .padding(horizontal = 20.dp, vertical = 40.dp)
-            .imePadding(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            modifier
+                .padding(horizontal = 20.dp, vertical = 40.dp)
+                .imePadding(),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = stringResource(R.string.login_title),
-            fontSize = 30.sp
+            fontSize = 30.sp,
         )
 
         Column(
-            modifier = Modifier
-                .padding(top = 40.dp)
-                .weight(1f)
+            modifier =
+                Modifier
+                    .padding(top = 40.dp)
+                    .weight(1f),
         ) {
             InputField(
                 label = stringResource(R.string.signup_id),
                 value = id,
                 onValueChange = onIdChange,
                 placeholder = stringResource(R.string.signup_id_placeholder),
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Next,
             )
             InputField(
                 label = stringResource(R.string.signup_pw),
@@ -148,21 +154,22 @@ private fun LoginScreen(
                 placeholder = stringResource(R.string.signup_pw_placeholder),
                 modifier = Modifier.padding(top = 20.dp),
                 isPassword = true,
-                keyboardType = KeyboardType.Password
+                keyboardType = KeyboardType.Password,
             )
         }
 
         DiveBasicButton(
             onClick = onLoginClick,
-            text = stringResource(R.string.login_title)
+            text = stringResource(R.string.login_title),
         )
         Text(
             text = stringResource(R.string.signup_button),
             fontSize = 14.sp,
-            modifier = Modifier
-                .padding(top = 4.dp)
-                .noRippleClickable { onSignUpClick() },
-            textDecoration = TextDecoration.Underline
+            modifier =
+                Modifier
+                    .padding(top = 4.dp)
+                    .noRippleClickable { onSignUpClick() },
+            textDecoration = TextDecoration.Underline,
         )
     }
 }
@@ -180,7 +187,7 @@ private fun LoginPreview() {
             onIdChange = { userId = it },
             onPasswordChange = { password = it },
             onLoginClick = {},
-            onSignUpClick = {}
+            onSignUpClick = {},
         )
     }
 }

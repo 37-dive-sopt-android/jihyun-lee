@@ -34,32 +34,35 @@ fun InputField(
     isPassword: Boolean = false,
     singleLine: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Text,
-    imeAction: ImeAction = ImeAction.Done
+    imeAction: ImeAction = ImeAction.Done,
 ) {
-    Column (
-        modifier = modifier.fillMaxWidth()
+    Column(
+        modifier = modifier.fillMaxWidth(),
     ) {
         Text(
             text = label,
-            fontSize = 20.sp
+            fontSize = 20.sp,
         )
         TextField(
             value = value,
             onValueChange = onValueChange,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 4.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp),
             placeholder = { Text(placeholder) },
-            visualTransformation = if(isPassword) PasswordVisualTransformation() else VisualTransformation.None,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = keyboardType,
-                imeAction = imeAction
-            ),
+            visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
+            keyboardOptions =
+                KeyboardOptions(
+                    keyboardType = keyboardType,
+                    imeAction = imeAction,
+                ),
             singleLine = singleLine,
-            colors = TextFieldDefaults.colors(
-                unfocusedContainerColor = Color.Transparent,
-                focusedContainerColor = Color.Transparent
-            )
+            colors =
+                TextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedContainerColor = Color.Transparent,
+                ),
         )
     }
 }
@@ -70,25 +73,26 @@ private fun InputFieldPreview() {
     var id by remember { mutableStateOf("") }
     var pw by remember { mutableStateOf("") }
 
-    Column (
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+    Column(
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(20.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         InputField(
             label = "ID",
             value = id,
-            onValueChange = {id = it},
+            onValueChange = { id = it },
             placeholder = "아이디를 입력해주세요",
-            imeAction = ImeAction.Next
+            imeAction = ImeAction.Next,
         )
         InputField(
             label = "PW",
             value = pw,
-            onValueChange = {pw = it},
+            onValueChange = { pw = it },
             placeholder = "아이디를 입력해주세요",
-            keyboardType = KeyboardType.Password
+            keyboardType = KeyboardType.Password,
         )
     }
 }

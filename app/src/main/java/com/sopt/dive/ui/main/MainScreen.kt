@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
@@ -20,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
+import com.sopt.dive.ui.components.DiveBasicButton
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
@@ -29,9 +32,18 @@ fun MainRoute(
     name: String,
     nickname: String,
     mbti: String,
-    modifier: Modifier = Modifier
+    onLogoutClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    MainScreen(id, password,name, nickname, mbti, modifier)
+    MainScreen(
+        id = id,
+        password = password,
+        name = name,
+        nickname = nickname,
+        mbti = mbti,
+        onLogoutClick = onLogoutClick,
+        modifier = modifier,
+    )
 }
 
 @Composable
@@ -41,17 +53,23 @@ private fun MainScreen(
     name: String,
     nickname: String,
     mbti: String,
-    modifier: Modifier = Modifier
+    onLogoutClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier.padding(vertical = 20.dp, horizontal = 20.dp)) {
+    Column(
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(vertical = 20.dp, horizontal = 20.dp),
+    ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
                 imageVector = ImageVector.vectorResource(R.drawable.tomayo),
                 contentDescription = null,
-                modifier = Modifier.size(50.dp)
+                modifier = Modifier.size(50.dp),
             )
             Text(name)
         }
@@ -59,13 +77,19 @@ private fun MainScreen(
 
         Column(
             modifier = Modifier.padding(top = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+            verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             MainDataField(stringResource(R.string.signup_id), id)
             MainDataField(stringResource(R.string.signup_pw), password)
             MainDataField(stringResource(R.string.signup_nickname), nickname)
             MainDataField(stringResource(R.string.signup_mbti), mbti)
         }
+
+        Spacer(modifier = Modifier.weight(1f))
+        DiveBasicButton(
+            text = stringResource(R.string.main_logout),
+            onClick = onLogoutClick,
+        )
     }
 }
 
@@ -73,12 +97,12 @@ private fun MainScreen(
 private fun MainDataField(
     label: String,
     text: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    Column (modifier = modifier) {
+    Column(modifier = modifier) {
         Text(
             text = label,
-            fontSize = 25.sp
+            fontSize = 25.sp,
         )
         Text(text)
     }
@@ -94,6 +118,6 @@ private fun MainPreview() {
     val mbti by remember { mutableStateOf("ISTP") }
 
     DiveTheme {
-        MainScreen(id, password,name, nickname, mbti)
+        MainScreen(id, password, name, nickname, mbti, {})
     }
 }

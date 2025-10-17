@@ -20,7 +20,7 @@ object Prefs {
         password: String,
         name: String,
         nickname: String,
-        mbti: String
+        mbti: String,
     ) {
         sp(context).edit {
             putString(ID, id)
@@ -31,15 +31,21 @@ object Prefs {
         }
     }
 
-    fun setLoggedIn(context: Context, value: Boolean) =
-        sp(context).edit { putBoolean(IS_LOGGED_IN, value) }
+    fun setLoggedIn(
+        context: Context,
+        value: Boolean,
+    ) = sp(context).edit { putBoolean(IS_LOGGED_IN, value) }
 
     fun isLoggedIn(context: Context): Boolean = sp(context).getBoolean(IS_LOGGED_IN, false)
 
     fun getId(context: Context): String? = sp(context).getString(ID, null)
+
     fun getPassword(context: Context): String? = sp(context).getString(PASSWORD, null)
+
     fun getName(context: Context): String? = sp(context).getString(NAME, null)
+
     fun getNickname(context: Context): String? = sp(context).getString(NICKNAME, null)
+
     fun getMbti(context: Context): String? = sp(context).getString(MBTI, null)
 
     data class User(
@@ -47,7 +53,7 @@ object Prefs {
         val password: String,
         val name: String,
         val nickname: String,
-        val mbti: String
+        val mbti: String,
     )
 
     fun loadUser(context: Context): User? {
@@ -57,5 +63,9 @@ object Prefs {
         val nick = getNickname(context) ?: ""
         val mbti = getMbti(context) ?: ""
         return User(id, pw, name, nick, mbti)
+    }
+
+    fun logout(context: Context) {
+        sp(context).edit { clear() }
     }
 }
