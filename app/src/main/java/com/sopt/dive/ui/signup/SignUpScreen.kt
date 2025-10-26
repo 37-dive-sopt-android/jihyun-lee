@@ -25,7 +25,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
-import com.sopt.dive.data.UserInfo
+import com.sopt.dive.domain.data.UserInfo
+import com.sopt.dive.domain.type.TextFieldValidState
 import com.sopt.dive.ui.components.DiveBasicButton
 import com.sopt.dive.ui.components.DiveBasicTextField
 import com.sopt.dive.ui.theme.DiveTheme
@@ -40,24 +41,56 @@ fun SignUpRoute(
     var name by remember { mutableStateOf("") }
     var nickname by remember { mutableStateOf("") }
     var mbti by remember { mutableStateOf("") }
+    var isNameTouched by remember { mutableStateOf(false) }
+    var isNicknameTouched by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
 
-    val idError by remember {
+    val idValidType by remember(id) {
         derivedStateOf {
-            if (id.length in 6..10) null else context.getString(R.string.signup_id_fail_message)
+            when {
+                id.isEmpty() -> TextFieldValidState.DEFAULT
+                id.length in 6..10 -> TextFieldValidState.VALID
+                else -> TextFieldValidState.INVALID(R.string.signup_id_fail_message)
+            }
         }
     }
-
-    val passwordError by remember(password) {
+    val passwordValidType by remember(password) {
         derivedStateOf {
-            if (password.length in 8..12) null else context.getString(R.string.signup_pw_fail_message)
+            when {
+                password.isEmpty() -> TextFieldValidState.DEFAULT
+                password.length in 8..12 -> TextFieldValidState.VALID
+                else -> TextFieldValidState.INVALID(R.string.signup_pw_fail_message)
+            }
         }
     }
-
-    val nameError by remember(name) { derivedStateOf { name.isBlank() } }
-    val nicknameError by remember(nickname) { derivedStateOf { nickname.isBlank() } }
-    val mbtiError by remember(mbti) { derivedStateOf { mbti.isBlank() } }
+    val nameValidType by remember(name, isNameTouched) {
+        derivedStateOf {
+            when {
+                !isNameTouched -> TextFieldValidState.DEFAULT
+                name.isNotBlank() -> TextFieldValidState.VALID
+                else -> TextFieldValidState.INVALID(R.string.signup_name_fail_message)
+            }
+        }
+    }
+    val nicknameValidType by remember(nickname, isNicknameTouched) {
+        derivedStateOf {
+            when {
+                !isNicknameTouched -> TextFieldValidState.DEFAULT
+                nickname.isNotBlank() -> TextFieldValidState.VALID
+                else -> TextFieldValidState.INVALID(R.string.signup_nickname_fail_message)
+            }
+        }
+    }
+    val mbtiValidType by remember(mbti) {
+        derivedStateOf {
+            when {
+                mbti.isEmpty() -> TextFieldValidState.DEFAULT
+                mbti.length == 4 -> TextFieldValidState.VALID
+                else -> TextFieldValidState.INVALID(R.string.signup_mbti_fail_message)
+            }
+        }
+    }
 
     val uiState = SignUpUiState(
         id = id,
@@ -65,19 +98,25 @@ fun SignUpRoute(
         name = name,
         nickname = nickname,
         mbti = mbti,
-        idError = idError,
-        passwordError = passwordError,
-        nameError = nameError,
-        nicknameError = nicknameError,
-        mbtiError = mbtiError
+        idValidType = idValidType,
+        passwordValidType = passwordValidType,
+        nameValidType = nameValidType,
+        nicknameValidType = nicknameValidType,
+        mbtiValidType = mbtiValidType
     )
 
     SignUpScreen(
         uiState = uiState,
         onIdChange = { id = it },
         onPwChange = { password = it },
-        onNameChange = { name = it },
-        onNicknameChange = { nickname = it },
+        onNameChange = {
+            name = it
+            isNameTouched = true
+        },
+        onNicknameChange = {
+            nickname = it
+            isNicknameTouched = true
+        },
         onMbtiChange = { mbti = it },
         onSignUpButtonClick = {
             if (uiState.isSignUpEnabled) {
@@ -129,7 +168,7 @@ private fun SignUpScreen(
                     placeholder = stringResource(R.string.signup_id_placeholder),
                     modifier = Modifier.padding(top = 40.dp),
                     imeAction = ImeAction.Next,
-                    textFieldValidType =  uiState.textFieldValidType
+                    textFieldValidType =  uiState.idValidType
                 )
                 DiveBasicTextField(
                     label = stringResource(R.string.signup_pw),
@@ -138,7 +177,7 @@ private fun SignUpScreen(
                     placeholder = stringResource(R.string.signup_pw_placeholder),
                     imeAction = ImeAction.Next,
                     keyboardType = KeyboardType.Password,
-                    textFieldValidType = uiState.textFieldValidType
+                    textFieldValidType = uiState.passwordValidType
                 )
                 DiveBasicTextField(
                     label = stringResource(R.string.signup_name),
@@ -146,7 +185,7 @@ private fun SignUpScreen(
                     onValueChange = onNameChange,
                     placeholder = stringResource(R.string.signup_name_placeholder),
                     imeAction = ImeAction.Next,
-                    textFieldValidType = uiState.textFieldValidType
+                    textFieldValidType = uiState.nameValidType
                 )
                 DiveBasicTextField(
                     label = stringResource(R.string.signup_nickname),
@@ -154,14 +193,14 @@ private fun SignUpScreen(
                     onValueChange = onNicknameChange,
                     placeholder = stringResource(R.string.signup_nickname_placeholder),
                     imeAction = ImeAction.Next,
-                    textFieldValidType = uiState.textFieldValidType
+                    textFieldValidType = uiState.nicknameValidType
                 )
                 DiveBasicTextField(
                     label = stringResource(R.string.signup_mbti),
                     value = uiState.mbti,
                     onValueChange = onMbtiChange,
                     placeholder = stringResource(R.string.signup_mbti_placeholder),
-                    textFieldValidType = uiState.textFieldValidType
+                    textFieldValidType = uiState.mbtiValidType
                 )
             }
         }
@@ -183,24 +222,56 @@ private fun SignUpPreview() {
     var name by remember { mutableStateOf("") }
     var nickname by remember { mutableStateOf("") }
     var mbti by remember { mutableStateOf("") }
+    var isNameTouched by remember { mutableStateOf(false) }
+    var isNicknameTouched by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
 
-    val idError by remember {
+    val idValidType by remember(id) {
         derivedStateOf {
-            if (id.length in 6..10) null else context.getString(R.string.signup_id_fail_message)
+            when {
+                id.isEmpty() -> TextFieldValidState.DEFAULT
+                id.length in 6..10 -> TextFieldValidState.VALID
+                else -> TextFieldValidState.INVALID(R.string.signup_id_fail_message)
+            }
         }
     }
-
-    val passwordError by remember(password) {
+    val passwordValidType by remember(password) {
         derivedStateOf {
-            if (password.length in 8..12) null else context.getString(R.string.signup_pw_fail_message)
+            when {
+                password.isEmpty() -> TextFieldValidState.DEFAULT
+                password.length in 8..12 -> TextFieldValidState.VALID
+                else -> TextFieldValidState.INVALID(R.string.signup_pw_fail_message)
+            }
         }
     }
-
-    val nameError by remember(name) { derivedStateOf { name.isBlank() } }
-    val nicknameError by remember(nickname) { derivedStateOf { nickname.isBlank() } }
-    val mbtiError by remember(mbti) { derivedStateOf { mbti.isBlank() } }
+    val nameValidType by remember(name) {
+        derivedStateOf {
+            when {
+                !isNameTouched -> TextFieldValidState.DEFAULT
+                name.isNotBlank() -> TextFieldValidState.VALID
+                else -> TextFieldValidState.INVALID(R.string.signup_name_fail_message)
+            }
+        }
+    }
+    val nicknameValidType by remember(nickname) {
+        derivedStateOf {
+            when {
+                !isNicknameTouched -> TextFieldValidState.DEFAULT
+                nickname.isNotBlank() -> TextFieldValidState.VALID
+                else -> TextFieldValidState.INVALID(R.string.signup_nickname_fail_message)
+            }
+        }
+    }
+    val mbtiValidType by remember(mbti) {
+        derivedStateOf {
+            when {
+                mbti.isEmpty() -> TextFieldValidState.DEFAULT
+                mbti.length == 4 -> TextFieldValidState.VALID
+                else -> TextFieldValidState.INVALID(R.string.signup_mbti_fail_message)
+            }
+        }
+    }
 
     val uiState = SignUpUiState(
         id = id,
@@ -208,11 +279,11 @@ private fun SignUpPreview() {
         name = name,
         nickname = nickname,
         mbti = mbti,
-        idError = idError,
-        passwordError = passwordError,
-        nameError = nameError,
-        nicknameError = nicknameError,
-        mbtiError = mbtiError
+        idValidType = idValidType,
+        passwordValidType = passwordValidType,
+        nameValidType = nameValidType,
+        nicknameValidType = nicknameValidType,
+        mbtiValidType = mbtiValidType
     )
 
     DiveTheme {
@@ -220,8 +291,14 @@ private fun SignUpPreview() {
             uiState = uiState,
             onIdChange = { id = it },
             onPwChange = { password = it },
-            onNameChange = { name = it },
-            onNicknameChange = { nickname = it },
+            onNameChange = {
+                name = it
+                isNameTouched = true
+            },
+            onNicknameChange = {
+                nickname = it
+                isNicknameTouched = true
+            },
             onMbtiChange = { mbti = it },
             onSignUpButtonClick = {
                 if (uiState.isSignUpEnabled) {

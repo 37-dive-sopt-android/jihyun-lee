@@ -16,6 +16,9 @@
     <string name="signup_success_message">회원가입 성공</string>
     <string name="signup_id_fail_message">아이디는 6~10글자여야 합니다.</string>
     <string name="signup_pw_fail_message">비밀번호는 8~12글자여야 합니다.</string>
+    <string name="signup_name_fail_message">이름은 1글자 이상 입력해야 합니다.</string>
+    <string name="signup_nickname_fail_message">닉네임은 1글자 이상 입력해야 합니다.</string>
+    <string name="signup_mbti_fail_message">MBTI는 4글자여야 합니다.</string>
     <string name="signup_empty_fail_message">모든 정보를 입력해주세요</string>
 
     <string name="login_title">Welcome To SOPT</string>

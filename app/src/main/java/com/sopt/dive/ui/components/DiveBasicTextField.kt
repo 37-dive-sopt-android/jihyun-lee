@@ -24,7 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sopt.dive.type.TextFieldValidType
+import com.sopt.dive.domain.type.TextFieldValidState
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
@@ -37,7 +37,7 @@ fun DiveBasicTextField(
     maxLines: Int = 1,
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Done,
-    textFieldValidType: TextFieldValidType = TextFieldValidType.DEFAULT
+    textFieldValidType: TextFieldValidState = TextFieldValidState.DEFAULT
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
@@ -78,12 +78,11 @@ fun DiveBasicTextField(
                 innerTextField()
             }
         )
-        if (textFieldValidType.messageResId!=null) {
+        if (textFieldValidType is TextFieldValidState.INVALID) {
             Text(
                 text = stringResource(textFieldValidType.messageResId),
                 color = textFieldValidType.color,
-                fontSize = 12.sp,
-                modifier = Modifier.padding(top = 4.dp),
+                fontSize = 12.sp
             )
         }
     }
