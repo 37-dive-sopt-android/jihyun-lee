@@ -28,7 +28,7 @@ fun DiveBottomBar(
     navController: NavHostController,
     currentTab: DiveTab,
     modifier: Modifier = Modifier
-): @Composable () -> Unit = {
+) {
     Row (
         modifier = modifier
             .fillMaxWidth()
@@ -82,12 +82,11 @@ private fun BottomBarItem(
 @Composable
 private fun BottomBarPreview() {
     val navController = rememberNavController()
-    val diveBottomBar = DiveBottomBar(
-        navController = navController,
-        currentTab = DiveTab.HOME
-    )
 
     DiveTheme {
-        diveBottomBar()
+        DiveBottomBar(
+            navController = navController,
+            currentTab = DiveTab.HOME
+        )
     }
 }

@@ -11,13 +11,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.sopt.dive.ui.MainActivity
 import com.sopt.dive.ui.theme.DiveTheme
-import com.sopt.dive.data.local.Prefs
+import com.sopt.dive.data.local.UserPrefs
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (Prefs.isLoggedIn(this)) {
+        if (UserPrefs.isLoggedIn(this)) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()

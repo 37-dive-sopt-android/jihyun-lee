@@ -2,8 +2,9 @@ package com.sopt.dive.data.local
 
 import android.content.Context
 import androidx.core.content.edit
+import com.sopt.dive.domain.model.UserInfo
 
-object Prefs {
+object UserPrefs {
     private const val FILE = "user_prefs"
     private const val IS_LOGGED_IN = "is_logged_in"
     private const val ID = "id"
@@ -48,21 +49,13 @@ object Prefs {
 
     fun getMbti(context: Context): String? = sp(context).getString(MBTI, null)
 
-    data class User(
-        val id: String,
-        val password: String,
-        val name: String,
-        val nickname: String,
-        val mbti: String,
-    )
-
-    fun loadUser(context: Context): User? {
+    fun loadUser(context: Context): UserInfo? {
         val id = getId(context) ?: return null
         val pw = getPassword(context) ?: ""
         val name = getName(context) ?: ""
         val nick = getNickname(context) ?: ""
         val mbti = getMbti(context) ?: ""
-        return User(id, pw, name, nick, mbti)
+        return UserInfo(id, pw, name, nick, mbti)
     }
 
     fun logout(context: Context) {

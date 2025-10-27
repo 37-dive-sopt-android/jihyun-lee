@@ -34,7 +34,7 @@ import com.sopt.dive.ui.MainActivity
 import com.sopt.dive.ui.feature.signup.SignUpActivity
 import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.ui.model.IntentKeys
-import com.sopt.dive.data.local.Prefs
+import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.ui.util.noRippleClickable
 
 @Composable
@@ -75,7 +75,7 @@ fun LoginRoute(modifier: Modifier = Modifier) {
             if (ok) {
                 Toast.makeText(context, context.getString(R.string.login_success_message), Toast.LENGTH_SHORT,).show()
 
-                Prefs.setLoggedIn(
+                UserPrefs.setLoggedIn(
                     context = context,
                     value = true,
                 )

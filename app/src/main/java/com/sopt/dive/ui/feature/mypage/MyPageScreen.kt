@@ -1,5 +1,6 @@
 package com.sopt.dive.ui.feature.mypage
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,51 +13,48 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
+import com.sopt.dive.data.local.UserPrefs
+import com.sopt.dive.domain.model.UserInfo
 import com.sopt.dive.ui.components.DiveBasicButton
+import com.sopt.dive.ui.feature.login.LoginActivity
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun MyPageRoute(
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
-    val id = "id"
-    val password = "password"
-    val name = "name"
-    val nickname = "nickname"
-    val mbti = "mbti"
+    val context = LocalContext.current
+    val userInfo = remember { UserPrefs.loadUser(context) }
 
     MyPageScreen(
-        id = id,
-        password = password,
-        name = name,
-        nickname = nickname,
-        mbti = mbti,
-        onLogoutClick = {},
-        modifier = modifier,
+        userInfo = userInfo?: UserInfo(),
+        onLogoutClick = {
+            UserPrefs.logout(context)
+            val intent = Intent(context, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            context.startActivity(intent)
+        },
+        modifier = modifier
     )
 }
 
 @Composable
 private fun MyPageScreen(
-    id: String,
-    password: String,
-    name: String,
-    nickname: String,
-    mbti: String,
+    userInfo: UserInfo,
     onLogoutClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -78,12 +76,12 @@ private fun MyPageScreen(
                     .background(Color.LightGray)
             )
             Text(
-                text = name,
+                text = userInfo.name,
                 fontSize = 20.sp,
             )
         }
         Text(
-            text = stringResource(R.string.mypage_user_description, name),
+            text = stringResource(R.string.mypage_user_description, userInfo.name),
             modifier = Modifier.padding(top = 10.dp),
         )
 
@@ -91,10 +89,10 @@ private fun MyPageScreen(
             modifier = Modifier.padding(top = 40.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
-            MyDataField(stringResource(R.string.signup_id), id)
-            MyDataField(stringResource(R.string.signup_pw), password)
-            MyDataField(stringResource(R.string.signup_nickname), nickname)
-            MyDataField(stringResource(R.string.signup_mbti), mbti)
+            MyDataField(stringResource(R.string.signup_id), userInfo.id)
+            MyDataField(stringResource(R.string.signup_pw), userInfo.password)
+            MyDataField(stringResource(R.string.signup_nickname), userInfo.nickname)
+            MyDataField(stringResource(R.string.signup_mbti), userInfo.mbti)
         }
 
         Spacer(modifier = Modifier.weight(1f))
@@ -123,13 +121,20 @@ private fun MyDataField(
 @Preview(showBackground = true)
 @Composable
 private fun MyPagePreview() {
-    val id by remember { mutableStateOf("아이디") }
-    val password by remember { mutableStateOf("비밀번호") }
-    val name by remember { mutableStateOf("이지현") }
-    val nickname by remember { mutableStateOf("지현") }
-    val mbti by remember { mutableStateOf("ISTP") }
+    val userInfo = remember {
+        UserInfo(
+            id = "아이디",
+            password = "비밀번호",
+            name = "이지현",
+            nickname = "지현",
+            mbti = "istp"
+        )
+    }
 
     DiveTheme {
-        MyPageScreen(id, password, name, nickname, mbti, {})
+        MyPageScreen(
+            userInfo = userInfo,
+            onLogoutClick = {}
+        )
     }
 }

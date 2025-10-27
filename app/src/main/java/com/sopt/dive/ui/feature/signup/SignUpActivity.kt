@@ -11,7 +11,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.ui.model.IntentKeys
-import com.sopt.dive.data.local.Prefs
+import com.sopt.dive.data.local.UserPrefs
 
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,17 +22,17 @@ class SignUpActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     SignUpRoute(
                         onComplete = { result ->
-                            Prefs.saveUserInfo(
+                            UserPrefs.saveUserInfo(
                                 context = this,
                                 id = result.id,
-                                password = result.pw,
+                                password = result.password,
                                 name = result.name,
                                 nickname = result.name,
                                 mbti = result.mbti,
                             )
                             val intent = Intent().apply {
                                 putExtra(IntentKeys.ID, result.id)
-                                putExtra(IntentKeys.PASSWORD, result.pw)
+                                putExtra(IntentKeys.PASSWORD, result.password)
                                 putExtra(IntentKeys.NAME, result.name)
                                 putExtra(IntentKeys.NICKNAME, result.nickname)
                                 putExtra(IntentKeys.MBTI, result.mbti)
