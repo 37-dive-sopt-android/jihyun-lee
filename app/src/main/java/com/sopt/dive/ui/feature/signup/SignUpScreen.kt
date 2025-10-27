@@ -3,8 +3,8 @@ package com.sopt.dive.ui.feature.signup
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -145,7 +145,8 @@ private fun SignUpScreen(
 ) {
     Column(
         modifier = modifier
-            .fillMaxSize()
+            .navigationBarsPadding()
+            .imePadding()
             .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -201,14 +202,11 @@ private fun SignUpScreen(
                 placeholder = stringResource(R.string.signup_mbti_placeholder),
                 textFieldValidType = uiState.mbtiValidType
             )
-
         }
         DiveBasicButton(
             onClick = onSignUpButtonClick,
             text = stringResource(R.string.signup_button),
             modifier = Modifier
-                .padding(vertical = 10.dp)
-                .imePadding()
         )
     }
 }

@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.sopt.dive.ui.feature.home.HomeRoute
 import com.sopt.dive.ui.feature.mypage.MyPageRoute
+import com.sopt.dive.ui.feature.search.SearchRoute
 
 @Composable
 fun DiveNavHost(
@@ -21,15 +22,17 @@ fun DiveNavHost(
     ) {
         composable<Route.Home> {
             HomeRoute(
-                modifier = Modifier.padding(padding)
+                padding = padding
             )
         }
         composable<Route.Search> {
-
+            SearchRoute(
+                padding = padding
+            )
         }
         composable<Route.MyPage> {
             MyPageRoute(
-                modifier = Modifier.padding(padding)
+                padding = padding
             )
         }
     }

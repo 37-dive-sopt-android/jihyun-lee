@@ -26,9 +26,7 @@ class LoginActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DiveTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    LoginRoute(modifier = Modifier.padding(innerPadding))
-                }
+                LoginRoute()
             }
         }
     }

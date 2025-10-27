@@ -7,7 +7,9 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -109,14 +111,16 @@ private fun LoginScreen(
 ) {
     Column(
         modifier = modifier
-            .padding(20.dp)
-            .imePadding(),
+            .fillMaxSize()
+            .imePadding()
+            .navigationBarsPadding()
+            .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = stringResource(R.string.login_title),
             style = MaterialTheme.typography.displaySmall,
-            modifier = Modifier.padding(top = 20.dp)
+            modifier = Modifier.padding(top = 40.dp)
         )
 
         Column(
@@ -130,7 +134,7 @@ private fun LoginScreen(
                 value = id,
                 onValueChange = onIdChange,
                 placeholder = stringResource(R.string.signup_id_placeholder),
-                imeAction = ImeAction.Next,
+                imeAction = ImeAction.Next
             )
             DiveBasicTextField(
                 label = stringResource(R.string.signup_pw),
@@ -144,7 +148,7 @@ private fun LoginScreen(
 
         DiveBasicButton(
             onClick = onLoginClick,
-            text = stringResource(R.string.login_title),
+            text = stringResource(R.string.login_title)
         )
         Text(
             text = stringResource(R.string.signup_button),
@@ -152,7 +156,7 @@ private fun LoginScreen(
             modifier = Modifier
                 .padding(top = 4.dp)
                 .noRippleClickable { onSignUpClick() },
-            textDecoration = TextDecoration.Underline,
+            textDecoration = TextDecoration.Underline
         )
     }
 }

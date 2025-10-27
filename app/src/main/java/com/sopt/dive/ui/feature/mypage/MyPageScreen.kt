@@ -5,8 +5,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,19 +22,20 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
 import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.domain.model.UserInfo
-import com.sopt.dive.ui.components.DiveBasicButton
 import com.sopt.dive.ui.feature.login.LoginActivity
 import com.sopt.dive.ui.theme.DiveTheme
+import com.sopt.dive.ui.util.noRippleClickable
 
 @Composable
 fun MyPageRoute(
-    modifier: Modifier = Modifier
+    padding: PaddingValues
 ) {
     val context = LocalContext.current
     val userInfo = remember { UserPrefs.loadUser(context) }
@@ -48,7 +49,7 @@ fun MyPageRoute(
             }
             context.startActivity(intent)
         },
-        modifier = modifier
+        modifier = Modifier.padding(padding)
     )
 }
 
@@ -64,6 +65,7 @@ private fun MyPageScreen(
             .padding(20.dp),
     ) {
         Row(
+            modifier = Modifier.padding(top = 20.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -95,10 +97,12 @@ private fun MyPageScreen(
             MyDataField(stringResource(R.string.signup_mbti), userInfo.mbti)
         }
 
-        Spacer(modifier = Modifier.weight(1f))
-        DiveBasicButton(
+        Text(
             text = stringResource(R.string.mypage_logout),
-            onClick = onLogoutClick,
+            modifier = Modifier
+                .noRippleClickable { onLogoutClick() }
+                .padding(top = 40.dp),
+            textDecoration = TextDecoration.Underline,
         )
     }
 }
