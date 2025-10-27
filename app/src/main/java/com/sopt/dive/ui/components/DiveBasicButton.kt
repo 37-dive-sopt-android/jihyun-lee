@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.ui.theme.Purple40
-import com.sopt.dive.util.noRippleClickable
+import com.sopt.dive.ui.util.noRippleClickable
 
 @Composable
 fun DiveBasicButton(

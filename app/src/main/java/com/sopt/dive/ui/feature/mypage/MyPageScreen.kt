@@ -1,4 +1,4 @@
-package com.sopt.dive.ui.main
+package com.sopt.dive.ui.feature.mypage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,28 +30,28 @@ import com.sopt.dive.ui.components.DiveBasicButton
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
-fun MainRoute(
-    id: String,
-    password: String,
-    name: String,
-    nickname: String,
-    mbti: String,
-    onLogoutClick: () -> Unit,
+fun MyPageRoute(
     modifier: Modifier = Modifier,
 ) {
-    MainScreen(
+    val id = "id"
+    val password = "password"
+    val name = "name"
+    val nickname = "nickname"
+    val mbti = "mbti"
+
+    MyPageScreen(
         id = id,
         password = password,
         name = name,
         nickname = nickname,
         mbti = mbti,
-        onLogoutClick = onLogoutClick,
+        onLogoutClick = {},
         modifier = modifier,
     )
 }
 
 @Composable
-private fun MainScreen(
+private fun MyPageScreen(
     id: String,
     password: String,
     name: String,
@@ -61,17 +61,16 @@ private fun MainScreen(
     modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier =
-            modifier
-                .fillMaxSize()
-                .padding(vertical = 20.dp, horizontal = 20.dp),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(20.dp),
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
-                imageVector = ImageVector.vectorResource(R.drawable.icon_person_24),
+                imageVector = ImageVector.vectorResource(R.drawable.ic_person_24),
                 contentDescription = null,
                 modifier = Modifier
                     .size(50.dp)
@@ -84,7 +83,7 @@ private fun MainScreen(
             )
         }
         Text(
-            text = stringResource(R.string.main_user_description, name),
+            text = stringResource(R.string.mypage_user_description, name),
             modifier = Modifier.padding(top = 10.dp),
         )
 
@@ -92,22 +91,22 @@ private fun MainScreen(
             modifier = Modifier.padding(top = 40.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
-            MainDataField(stringResource(R.string.signup_id), id)
-            MainDataField(stringResource(R.string.signup_pw), password)
-            MainDataField(stringResource(R.string.signup_nickname), nickname)
-            MainDataField(stringResource(R.string.signup_mbti), mbti)
+            MyDataField(stringResource(R.string.signup_id), id)
+            MyDataField(stringResource(R.string.signup_pw), password)
+            MyDataField(stringResource(R.string.signup_nickname), nickname)
+            MyDataField(stringResource(R.string.signup_mbti), mbti)
         }
 
         Spacer(modifier = Modifier.weight(1f))
         DiveBasicButton(
-            text = stringResource(R.string.main_logout),
+            text = stringResource(R.string.mypage_logout),
             onClick = onLogoutClick,
         )
     }
 }
 
 @Composable
-private fun MainDataField(
+private fun MyDataField(
     label: String,
     text: String,
     modifier: Modifier = Modifier,
@@ -123,7 +122,7 @@ private fun MainDataField(
 
 @Preview(showBackground = true)
 @Composable
-private fun MainPreview() {
+private fun MyPagePreview() {
     val id by remember { mutableStateOf("아이디") }
     val password by remember { mutableStateOf("비밀번호") }
     val name by remember { mutableStateOf("이지현") }
@@ -131,6 +130,6 @@ private fun MainPreview() {
     val mbti by remember { mutableStateOf("ISTP") }
 
     DiveTheme {
-        MainScreen(id, password, name, nickname, mbti, {})
+        MyPageScreen(id, password, name, nickname, mbti, {})
     }
 }

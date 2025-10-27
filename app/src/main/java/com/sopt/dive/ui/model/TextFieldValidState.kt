@@ -1,4 +1,4 @@
-package com.sopt.dive.domain.type
+package com.sopt.dive.ui.model
 
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color

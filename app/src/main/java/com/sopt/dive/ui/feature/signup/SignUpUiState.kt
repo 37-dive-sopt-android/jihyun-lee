@@ -1,6 +1,6 @@
-package com.sopt.dive.ui.signup
+package com.sopt.dive.ui.feature.signup
 
-import com.sopt.dive.domain.type.TextFieldValidState
+import com.sopt.dive.ui.model.TextFieldValidState
 
 data class SignUpUiState(
     val id: String = "",

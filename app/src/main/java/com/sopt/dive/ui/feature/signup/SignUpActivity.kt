@@ -1,4 +1,4 @@
-package com.sopt.dive.ui.signup
+package com.sopt.dive.ui.feature.signup
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.sopt.dive.ui.theme.DiveTheme
-import com.sopt.dive.util.IntentKeys
-import com.sopt.dive.util.Prefs
+import com.sopt.dive.ui.model.IntentKeys
+import com.sopt.dive.data.local.Prefs
 
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

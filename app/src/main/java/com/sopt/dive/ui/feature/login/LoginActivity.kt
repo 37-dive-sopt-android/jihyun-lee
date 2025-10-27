@@ -1,4 +1,4 @@
-package com.sopt.dive.ui.login
+package com.sopt.dive.ui.feature.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.sopt.dive.ui.main.MainActivity
+import com.sopt.dive.ui.MainActivity
 import com.sopt.dive.ui.theme.DiveTheme
-import com.sopt.dive.util.Prefs
+import com.sopt.dive.data.local.Prefs
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -1,4 +1,4 @@
-package com.sopt.dive.domain.data
+package com.sopt.dive.domain.model
 
 data class UserInfo(
     val id: String,

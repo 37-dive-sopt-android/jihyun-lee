@@ -1,13 +1,15 @@
-package com.sopt.dive.ui.login
+package com.sopt.dive.ui.feature.login
 
 import android.app.Activity
 import android.content.Intent
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,12 +30,12 @@ import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
 import com.sopt.dive.ui.components.DiveBasicButton
 import com.sopt.dive.ui.components.DiveBasicTextField
-import com.sopt.dive.ui.main.MainActivity
-import com.sopt.dive.ui.signup.SignUpActivity
+import com.sopt.dive.ui.MainActivity
+import com.sopt.dive.ui.feature.signup.SignUpActivity
 import com.sopt.dive.ui.theme.DiveTheme
-import com.sopt.dive.util.IntentKeys
-import com.sopt.dive.util.Prefs
-import com.sopt.dive.util.noRippleClickable
+import com.sopt.dive.ui.model.IntentKeys
+import com.sopt.dive.data.local.Prefs
+import com.sopt.dive.ui.util.noRippleClickable
 
 @Composable
 fun LoginRoute(modifier: Modifier = Modifier) {
@@ -107,19 +109,21 @@ private fun LoginScreen(
 ) {
     Column(
         modifier = modifier
-            .padding(horizontal = 20.dp, vertical = 40.dp)
+            .padding(20.dp)
             .imePadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             text = stringResource(R.string.login_title),
-            fontSize = 30.sp,
+            style = MaterialTheme.typography.displaySmall,
+            modifier = Modifier.padding(top = 20.dp)
         )
 
         Column(
             modifier = Modifier
-                .padding(top = 40.dp)
+                .padding(top = 50.dp)
                 .weight(1f),
+            verticalArrangement = Arrangement.spacedBy(30.dp)
         ) {
             DiveBasicTextField(
                 label = stringResource(R.string.signup_id),
@@ -133,7 +137,6 @@ private fun LoginScreen(
                 value = password,
                 onValueChange = onPasswordChange,
                 placeholder = stringResource(R.string.signup_pw_placeholder),
-                modifier = Modifier.padding(top = 20.dp),
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done
             )

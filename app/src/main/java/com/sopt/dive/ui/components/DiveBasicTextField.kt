@@ -24,7 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sopt.dive.domain.type.TextFieldValidState
+import com.sopt.dive.ui.model.TextFieldValidState
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable

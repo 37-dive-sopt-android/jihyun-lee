@@ -1,4 +1,4 @@
-package com.sopt.dive.util
+package com.sopt.dive.data.local
 
 import android.content.Context
 import androidx.core.content.edit
