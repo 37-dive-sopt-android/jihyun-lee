@@ -6,7 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.sopt.dive.ui.theme.DiveTheme
-import com.sopt.dive.ui.model.IntentKeys
+import com.sopt.dive.ui.util.IntentKeys
 import com.sopt.dive.data.local.UserPrefs
 
 class SignUpActivity : ComponentActivity() {

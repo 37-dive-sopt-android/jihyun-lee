@@ -1,4 +1,4 @@
-package com.sopt.dive.ui.model
+package com.sopt.dive.ui.util
 
 object IntentKeys {
     const val ID = "id"

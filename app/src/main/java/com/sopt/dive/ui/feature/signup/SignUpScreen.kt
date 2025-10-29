@@ -200,6 +200,7 @@ private fun SignUpScreen(
                 value = uiState.mbti,
                 onValueChange = onMbtiChange,
                 placeholder = stringResource(R.string.signup_mbti_placeholder),
+                imeAction = ImeAction.Done,
                 textFieldValidType = uiState.mbtiValidType
             )
         }
