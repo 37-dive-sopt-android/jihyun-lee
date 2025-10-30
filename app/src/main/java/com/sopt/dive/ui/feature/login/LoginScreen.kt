@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,7 +27,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.sopt.dive.R
 import com.sopt.dive.ui.components.DiveBasicButton
 import com.sopt.dive.ui.components.DiveBasicTextField
@@ -119,7 +117,8 @@ private fun LoginScreen(
     ) {
         Text(
             text = stringResource(R.string.login_title),
-            style = MaterialTheme.typography.displaySmall,
+            style = DiveTheme.typography.heather.semibold_32,
+            color = DiveTheme.colors.gray600,
             modifier = Modifier.padding(top = 40.dp)
         )
 
@@ -152,7 +151,7 @@ private fun LoginScreen(
         )
         Text(
             text = stringResource(R.string.signup_button),
-            fontSize = 14.sp,
+            style = DiveTheme.typography.caption.regular_12,
             modifier = Modifier
                 .padding(top = 4.dp)
                 .noRippleClickable { onSignUpClick() },

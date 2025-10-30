@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.ui.theme.DiveTheme
-import com.sopt.dive.ui.theme.Purple40
 import com.sopt.dive.ui.util.noRippleClickable
 
 @Composable
@@ -23,8 +21,8 @@ fun DiveBasicButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    containerColor: Color = Purple40,
-    contentColor: Color = contentColorFor(containerColor),
+    containerColor: Color = DiveTheme.colors.purple40,
+    contentColor: Color = DiveTheme.colors.white,
 ) {
     Box(
         modifier = modifier
@@ -38,6 +36,7 @@ fun DiveBasicButton(
         Text(
             text = text,
             color = contentColor,
+            style = DiveTheme.typography.caption.regular_14
         )
     }
 }

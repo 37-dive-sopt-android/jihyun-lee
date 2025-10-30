@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,13 +16,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.sopt.dive.ui.model.TextFieldValidState
 import com.sopt.dive.ui.theme.DiveTheme
 
@@ -45,8 +42,8 @@ fun DiveBasicTextField(
     ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.onSurface
+            style = DiveTheme.typography.body.semibold_18,
+            color = DiveTheme.colors.gray600
         )
         BasicTextField(
             value = value,
@@ -60,7 +57,9 @@ fun DiveBasicTextField(
                     shape = RoundedCornerShape(8.dp)
                 )
                 .padding(vertical = 16.dp, horizontal = 12.dp),
-            textStyle = MaterialTheme.typography.labelSmall,
+            textStyle = DiveTheme.typography.caption.regular_12.copy(
+                color = DiveTheme.colors.gray600
+            ),
             maxLines = maxLines,
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = imeAction,
@@ -70,9 +69,8 @@ fun DiveBasicTextField(
                 if (value.isEmpty()) {
                     Text(
                         text = placeholder,
-                        style = MaterialTheme.typography.labelSmall.copy(
-                            color = Color.Gray
-                        )
+                        style = DiveTheme.typography.caption.regular_12,
+                        color = DiveTheme.colors.gray400
                     )
                 }
                 innerTextField()
@@ -82,7 +80,7 @@ fun DiveBasicTextField(
             Text(
                 text = stringResource(textFieldValidType.messageResId),
                 color = textFieldValidType.color,
-                fontSize = 12.sp
+                style = DiveTheme.typography.caption.regular_10
             )
         }
     }

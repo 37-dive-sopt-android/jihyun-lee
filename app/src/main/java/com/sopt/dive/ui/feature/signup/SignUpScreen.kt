@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -152,7 +151,8 @@ private fun SignUpScreen(
     ) {
         Text(
             text = stringResource(R.string.signup_title),
-            style = MaterialTheme.typography.displaySmall,
+            style = DiveTheme.typography.heather.semibold_32,
+            color = DiveTheme.colors.gray600,
             modifier = Modifier.padding(top = 20.dp)
         )
         Column(

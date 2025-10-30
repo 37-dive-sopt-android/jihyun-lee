@@ -1,8 +1,6 @@
 package com.sopt.dive.ui.feature.home
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,34 +11,37 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.sopt.dive.R
 import com.sopt.dive.domain.model.ProfileInfo
+import com.sopt.dive.ui.components.ProfileImage
 import com.sopt.dive.ui.theme.DiveTheme
+import com.sopt.dive.ui.theme.defaultDiveTypography
 
 @Composable
 fun ProfileItem(
     profileInfo: ProfileInfo,
     modifier: Modifier = Modifier,
-    imageSize: Dp = Dp(60F)
+    imageSize: Dp = Dp(60F),
+    nameTextStyle: TextStyle = defaultDiveTypography.body.regular_16,
+    messageTextStyle: TextStyle = defaultDiveTypography.caption.regular_12
 ) {
     Row (
         modifier = modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         ProfileImage(
             imageUrl = profileInfo.profileImageUrl,
@@ -48,9 +49,7 @@ fun ProfileItem(
         )
 
         Column (
-            modifier = Modifier
-                .padding(start = 8.dp)
-                .weight(1f)
+            modifier = Modifier.weight(1f)
         ) {
             Row (
                 verticalAlignment = Alignment.CenterVertically,
@@ -58,7 +57,7 @@ fun ProfileItem(
             ) {
                 Text(
                     text = profileInfo.name,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = nameTextStyle,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -73,6 +72,7 @@ fun ProfileItem(
             if (!profileInfo.statusMessage.isNullOrEmpty()) {
                 Text(
                     text = profileInfo.statusMessage,
+                    style = messageTextStyle,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -92,49 +92,20 @@ fun ProfileItem(
 }
 
 @Composable
-private fun ProfileImage(
-    imageUrl: String?,
-    modifier: Modifier = Modifier,
-    imageSize: Dp = Dp(60F)
-) {
-    Box(
-        modifier = modifier
-            .size(imageSize)
-            .clip(RoundedCornerShape(24.dp))
-            .background(if(imageUrl == null) Color.LightGray else Color.Transparent),
-        contentAlignment = Alignment.Center
-    ) {
-        if (imageUrl.isNullOrEmpty()) {
-            Icon(
-                imageVector = ImageVector.vectorResource(R.drawable.ic_person_24),
-                contentDescription = null,
-                modifier = Modifier.size(imageSize * 2 / 3),
-                tint = Color.Gray
-            )
-        } else {
-            AsyncImage(
-                model = imageUrl,
-                contentDescription = null,
-                modifier = Modifier.size(imageSize)
-            )
-        }
-    }
-}
-
-@Composable
 private fun MusicBox(
     music: String,
     modifier: Modifier = Modifier
 ) {
     Row (
         modifier = modifier
-            .border(1.dp, Color.Green, RoundedCornerShape(20.dp))
+            .border(1.dp, DiveTheme.colors.limeGreen, RoundedCornerShape(20.dp))
             .padding(vertical = 4.dp, horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
             text = music,
+            style = DiveTheme.typography.caption.regular_14,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1f, fill = false)
@@ -142,7 +113,8 @@ private fun MusicBox(
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_play_button),
             contentDescription = null,
-            modifier = Modifier.size(12.dp)
+            modifier = Modifier.size(10.dp),
+            tint = DiveTheme.colors.gray600
         )
     }
 }
@@ -151,12 +123,13 @@ private fun MusicBox(
 private fun GiftButton(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .border(1.dp, Color.Gray, RoundedCornerShape(20.dp))
+            .border(1.dp, DiveTheme.colors.gray400, RoundedCornerShape(20.dp))
             .padding(vertical = 4.dp, horizontal = 12.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = stringResource(R.string.home_gift_button)
+            text = stringResource(R.string.home_gift_button),
+            style = DiveTheme.typography.caption.regular_14
         )
     }
 }

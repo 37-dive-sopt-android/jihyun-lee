@@ -4,12 +4,13 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import com.sopt.dive.R
+import com.sopt.dive.ui.theme.defaultDiveColors
 
 enum class DiveTab(
     @DrawableRes val iconResId: Int,
     @StringRes val label: Int,
-    val defaultColor: Color = Color.Gray,
-    val selectedColor: Color = Color.Blue
+    val defaultColor: Color = defaultDiveColors.gray400,
+    val selectedColor: Color = defaultDiveColors.mainBlue
 ) {
     HOME(
         iconResId = R.drawable.ic_home_24,

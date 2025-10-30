@@ -65,7 +65,8 @@ fun HomeScreen(
         item {
             ProfileItem(
                 profileInfo = userProfile,
-                imageSize = 80.dp
+                imageSize = 80.dp,
+                nameTextStyle = DiveTheme.typography.body.regular_18
             )
         }
 
@@ -74,6 +75,7 @@ fun HomeScreen(
                 HorizontalDivider()
                 Text(
                     text = stringResource(R.string.home_friends, friendList.size),
+                    style = DiveTheme.typography.caption.regular_14,
                     modifier = Modifier.padding(top = 12.dp)
                 )
             }
