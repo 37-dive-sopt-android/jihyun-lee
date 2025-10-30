@@ -22,13 +22,13 @@ fun HomeRoute(
     padding: PaddingValues
 ) {
     val userProfile = ProfileInfo(
-        profileImageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
+        profileImageUrl = "https://i.pinimg.com/736x/96/37/2d/96372ded13d1e6b17cdf10b4ecb23483.jpg",
         name = "이지현"
     )
 
     val friendList = listOf(
         ProfileInfo(
-            profileImageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
+            profileImageUrl = "https://i.pinimg.com/736x/22/42/9b/22429b5137154dbefb84162d58d3f76b.jpg",
             name = "이지현",
             statusMessage = "안녕하세요",
             music = "COLOR - NCT WISH"
@@ -38,6 +38,7 @@ fun HomeRoute(
             isBirthday = true
         ),
         ProfileInfo(
+            profileImageUrl = "https://i.pinimg.com/736x/e6/17/fa/e617fa85c330cba8abbf56e11c542913.jpg",
             name = "이지현",
             isBirthday = true,
             music = "COLOR - NCT WISH"

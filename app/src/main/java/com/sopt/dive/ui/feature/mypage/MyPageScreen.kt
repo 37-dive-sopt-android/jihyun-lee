@@ -32,7 +32,7 @@ fun MyPageRoute(
 ) {
     val context = LocalContext.current
     val userInfo = remember { UserPrefs.loadUser(context) }
-    val userProfile = ProfileInfo()
+    val userProfile = ProfileInfo(profileImageUrl = "https://i.pinimg.com/736x/96/37/2d/96372ded13d1e6b17cdf10b4ecb23483.jpg")
 
     MyPageScreen(
         userInfo = userInfo?: UserInfo(),
