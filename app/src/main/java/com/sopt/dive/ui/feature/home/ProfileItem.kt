@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,7 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -38,7 +40,7 @@ fun ProfileItem(
     imageSize: Dp = Dp(60F)
 ) {
     Row (
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         ProfileImage(
@@ -47,7 +49,9 @@ fun ProfileItem(
         )
 
         Column (
-            modifier = Modifier.padding(start = 8.dp)
+            modifier = Modifier
+                .padding(start = 8.dp)
+                .weight(1f)
         ) {
             Row (
                 verticalAlignment = Alignment.CenterVertically,
@@ -55,7 +59,9 @@ fun ProfileItem(
             ) {
                 Text(
                     text = profileInfo.name,
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                 )
                 if (profileInfo.isBirth) {
                     Image(
@@ -66,14 +72,19 @@ fun ProfileItem(
                 }
             }
             if (profileInfo.introduction != null) {
-                Text(text = profileInfo.introduction)
+                Text(
+                    text = profileInfo.introduction,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
             }
         }
 
-        Spacer(modifier = Modifier.weight(1f))
-
         if (profileInfo.music != null) {
-            MusicBox(music = profileInfo.music)
+            MusicBox(
+                music = profileInfo.music,
+                modifier = Modifier.weight(1f, fill = false)
+            )
         }
     }
 }
@@ -121,7 +132,10 @@ private fun MusicBox(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = music.title + " - " + music.artist
+            text = stringResource(R.string.home_profile_music, music.title, music.artist),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f, fill = false)
         )
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_play_button),

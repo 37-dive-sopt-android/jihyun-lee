@@ -31,6 +31,7 @@
 
     <string name="home_title">Home</string>
     <string name="home_friends">친구 %d</string>
+    <string name="home_profile_music">%s - %s</string>
 
     <string name="search_title">Search</string>
 </resources>

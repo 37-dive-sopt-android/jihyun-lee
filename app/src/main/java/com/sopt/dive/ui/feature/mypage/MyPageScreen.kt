@@ -88,7 +88,7 @@ private fun MyPageScreen(
         )
 
         Column(
-            modifier = Modifier.padding(top = 40.dp),
+            modifier = Modifier.padding(vertical = 40.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
             MyDataField(stringResource(R.string.signup_id), userInfo.id)
@@ -99,9 +99,7 @@ private fun MyPageScreen(
 
         Text(
             text = stringResource(R.string.mypage_logout),
-            modifier = Modifier
-                .noRippleClickable { onLogoutClick() }
-                .padding(top = 40.dp),
+            modifier = Modifier.noRippleClickable { onLogoutClick() },
             textDecoration = TextDecoration.Underline,
         )
     }
