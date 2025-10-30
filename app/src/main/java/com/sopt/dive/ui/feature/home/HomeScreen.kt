@@ -37,6 +37,11 @@ fun HomeRoute(
         ProfileInfo(
             name = "이지현",
             isBirth = true
+        ),
+        ProfileInfo(
+            name = "이지현",
+            isBirth = true,
+            music = Music("COLOR", "NCT WISH")
         )
     )
 
