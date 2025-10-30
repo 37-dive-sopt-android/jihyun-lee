@@ -1,8 +1,10 @@
 package com.sopt.dive.ui.feature.home
 
+import androidx.compose.foundation.background
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,48 +21,89 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.sopt.dive.R
 import com.sopt.dive.domain.model.Music
+import com.sopt.dive.domain.model.ProfileInfo
 import com.sopt.dive.ui.theme.DiveTheme
+import kotlin.math.roundToInt
 
 @Composable
 fun ProfileItem(
-    imageUrl: String,
-    name: String,
+    profileInfo: ProfileInfo,
     modifier: Modifier = Modifier,
-    introduction:String? = null,
-    music: Music? = null
+    imageSize: Dp = Dp(60F)
 ) {
     Row (
-        modifier = modifier.padding(vertical = 8.dp, horizontal = 12.dp),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        AsyncImage(
-            model = imageUrl,
-            contentDescription = null,
-            modifier = Modifier
-                .size(60.dp)
-                .clip(RoundedCornerShape(20.dp))
+        ProfileImage(
+            imageUrl = profileInfo.imageUrl,
+            imageSize = imageSize
         )
 
         Column (
             modifier = Modifier.padding(start = 8.dp)
         ) {
-            Text(
-                text = name,
-                style = MaterialTheme.typography.titleLarge
-            )
-            if (introduction != null) {
-                Text(text = introduction)
+            Row (
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Text(
+                    text = profileInfo.name,
+                    style = MaterialTheme.typography.titleLarge
+                )
+                if (profileInfo.isBirth) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.ic_birthday_cake),
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp),
+                        tint = Color.Unspecified
+                    )
+                }
+            }
+            if (profileInfo.introduction != null) {
+                Text(text = profileInfo.introduction)
             }
         }
 
         Spacer(modifier = Modifier.weight(1f))
 
-        if (music != null) {
-            MusicBox(music = music)
+        if (profileInfo.music != null) {
+            MusicBox(music = profileInfo.music)
+        }
+    }
+}
+
+@Composable
+private fun ProfileImage(
+    imageUrl: String?,
+    modifier: Modifier = Modifier,
+    imageSize: Dp = Dp(60F)
+) {
+    Box(
+        modifier = modifier
+            .size(imageSize)
+            .clip(RoundedCornerShape(24.dp))
+            .background(if(imageUrl == null) Color.LightGray else Color.Transparent),
+        contentAlignment = Alignment.Center
+    ) {
+        if (imageUrl.isNullOrEmpty()) {
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_person_24),
+                contentDescription = null,
+                modifier = Modifier.size(imageSize * 2 / 3),
+                tint = Color.Gray
+            )
+        } else {
+            AsyncImage(
+                model = imageUrl,
+                contentDescription = null,
+                modifier = Modifier.size(imageSize)
+            )
         }
     }
 }
@@ -73,7 +116,7 @@ private fun MusicBox(
     Row (
         modifier = modifier
             .border(1.dp, Color.Green, RoundedCornerShape(20.dp))
-            .padding(vertical = 8.dp, horizontal = 12.dp),
+            .padding(vertical = 4.dp, horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
@@ -83,8 +126,7 @@ private fun MusicBox(
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_play_button),
             contentDescription = null,
-            modifier = Modifier
-                .size(16.dp)
+            modifier = Modifier.size(12.dp)
         )
     }
 }
@@ -93,11 +135,21 @@ private fun MusicBox(
 @Composable
 private fun ProfileItemPreview() {
     DiveTheme {
-        ProfileItem(
-            imageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
-            name = "이지현",
-            introduction = "안녕하세요",
-            music = Music("COLOR", "NCT WISH")
-        )
+        Column {
+            ProfileItem(
+                ProfileInfo(
+                    imageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
+                    name = "이지현",
+                    introduction = "안녕하세요",
+                    music = Music("COLOR", "NCT WISH")
+                )
+            )
+            ProfileItem(
+                ProfileInfo(
+                    name = "이지현",
+                    isBirth = true
+                )
+            )
+        }
     }
 }

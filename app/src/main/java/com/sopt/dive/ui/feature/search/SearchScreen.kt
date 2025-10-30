@@ -2,6 +2,7 @@ package com.sopt.dive.ui.feature.search
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,7 +14,9 @@ import androidx.compose.ui.tooling.preview.Preview
 fun SearchRoute(
     padding: PaddingValues
 ) {
-    SearchScreen()
+    SearchScreen(
+        modifier = Modifier.padding(padding)
+    )
 }
 
 @Composable
@@ -21,6 +24,7 @@ fun SearchScreen(
     modifier: Modifier = Modifier
 ) {
     Box(
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ){
         Text(text = "Search 화면")
