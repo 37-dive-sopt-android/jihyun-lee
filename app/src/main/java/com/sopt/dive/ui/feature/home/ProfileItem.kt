@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.sopt.dive.R
-import com.sopt.dive.domain.model.Music
 import com.sopt.dive.domain.model.ProfileInfo
 import com.sopt.dive.ui.theme.DiveTheme
 
@@ -44,7 +43,7 @@ fun ProfileItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         ProfileImage(
-            imageUrl = profileInfo.imageUrl,
+            imageUrl = profileInfo.profileImageUrl,
             imageSize = imageSize
         )
 
@@ -63,7 +62,7 @@ fun ProfileItem(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
-                if (profileInfo.isBirth) {
+                if (profileInfo.isBirthday) {
                     Image(
                         painter = painterResource(R.drawable.ic_birthday_cake),
                         contentDescription = null,
@@ -71,16 +70,19 @@ fun ProfileItem(
                     )
                 }
             }
-            if (profileInfo.introduction != null) {
+            if (!profileInfo.statusMessage.isNullOrEmpty()) {
                 Text(
-                    text = profileInfo.introduction,
+                    text = profileInfo.statusMessage,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
             }
         }
 
-        if (profileInfo.music != null) {
+        if(profileInfo.isBirthday) {
+            GiftButton()
+        }
+        else if (!profileInfo.music.isNullOrEmpty()) {
             MusicBox(
                 music = profileInfo.music,
                 modifier = Modifier.weight(1f, fill = false)
@@ -121,7 +123,7 @@ private fun ProfileImage(
 
 @Composable
 private fun MusicBox(
-    music: Music,
+    music: String,
     modifier: Modifier = Modifier
 ) {
     Row (
@@ -132,7 +134,7 @@ private fun MusicBox(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = stringResource(R.string.home_profile_music, music.title, music.artist),
+            text = music,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1f, fill = false)
@@ -145,6 +147,20 @@ private fun MusicBox(
     }
 }
 
+@Composable
+private fun GiftButton(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .border(1.dp, Color.Gray, RoundedCornerShape(20.dp))
+            .padding(vertical = 4.dp, horizontal = 12.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = stringResource(R.string.home_gift_button)
+        )
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun ProfileItemPreview() {
@@ -152,16 +168,16 @@ private fun ProfileItemPreview() {
         Column {
             ProfileItem(
                 ProfileInfo(
-                    imageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
+                    profileImageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
                     name = "이지현",
-                    introduction = "안녕하세요",
-                    music = Music("COLOR", "NCT WISH")
+                    statusMessage = "안녕하세요",
+                    music = "COLOR - NCT WISH"
                 )
             )
             ProfileItem(
                 ProfileInfo(
                     name = "이지현",
-                    isBirth = true
+                    isBirthday = true
                 )
             )
         }

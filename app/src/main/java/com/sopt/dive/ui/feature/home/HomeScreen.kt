@@ -14,7 +14,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
-import com.sopt.dive.domain.model.Music
 import com.sopt.dive.domain.model.ProfileInfo
 import com.sopt.dive.ui.theme.DiveTheme
 
@@ -23,25 +22,25 @@ fun HomeRoute(
     padding: PaddingValues
 ) {
     val userProfile = ProfileInfo(
-        imageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
+        profileImageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
         name = "이지현"
     )
 
     val friendList = listOf(
         ProfileInfo(
-            imageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
+            profileImageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
             name = "이지현",
-            introduction = "안녕하세요",
-            music = Music("COLOR", "NCT WISH")
+            statusMessage = "안녕하세요",
+            music = "COLOR - NCT WISH"
         ),
         ProfileInfo(
             name = "이지현",
-            isBirth = true
+            isBirthday = true
         ),
         ProfileInfo(
             name = "이지현",
-            isBirth = true,
-            music = Music("COLOR", "NCT WISH")
+            isBirthday = true,
+            music = "COLOR - NCT WISH"
         )
     )
 
@@ -61,7 +60,7 @@ fun HomeScreen(
     LazyColumn (
         modifier = modifier,
         contentPadding = PaddingValues(20.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         item {
             ProfileItem(
@@ -90,20 +89,20 @@ fun HomeScreen(
 @Composable
 private fun HomePreview() {
     val userProfile = ProfileInfo(
-        imageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
+        profileImageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
         name = "이지현"
     )
 
     val friendList = listOf(
         ProfileInfo(
-            imageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
+            profileImageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
             name = "이지현",
-            introduction = "안녕하세요",
-            music = Music("COLOR", "NCT WISH")
+            statusMessage = "안녕하세요",
+            music = "COLOR - NCT WISH"
         ),
         ProfileInfo(
             name = "이지현",
-            isBirth = true
+            isBirthday = true
         )
     )
 

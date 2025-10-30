@@ -1,9 +1,9 @@
 package com.sopt.dive.domain.model
 
 data class ProfileInfo(
-    val imageUrl: String? = null,
     val name: String = "",
-    val introduction: String? = null,
-    val isBirth: Boolean = false,
-    val music: Music? = null
+    val profileImageUrl: String? = null,
+    val statusMessage: String? = null,
+    val music: String? = null,
+    val isBirthday: Boolean = false
 )
