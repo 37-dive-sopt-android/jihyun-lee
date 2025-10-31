@@ -47,7 +47,11 @@ fun DiveBasicTextField(
         )
         BasicTextField(
             value = value,
-            onValueChange = onValueChange,
+            onValueChange = { newValue ->
+                if (newValue.contains("\n").not()) {
+                    onValueChange(newValue)
+                }
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
@@ -61,6 +65,7 @@ fun DiveBasicTextField(
                 color = DiveTheme.colors.gray600
             ),
             maxLines = maxLines,
+            singleLine = (maxLines == 1),
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = imeAction,
                 keyboardType = keyboardType

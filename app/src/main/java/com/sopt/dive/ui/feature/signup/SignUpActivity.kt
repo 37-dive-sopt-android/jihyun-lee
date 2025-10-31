@@ -18,7 +18,6 @@ class SignUpActivity : ComponentActivity() {
                 SignUpRoute(
                     onComplete = { result ->
                         UserPrefs.saveUserInfo(
-                            context = this,
                             id = result.id,
                             password = result.password,
                             name = result.name,

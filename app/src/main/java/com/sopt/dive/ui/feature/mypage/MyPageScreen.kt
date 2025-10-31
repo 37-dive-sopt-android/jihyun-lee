@@ -31,14 +31,14 @@ fun MyPageRoute(
     padding: PaddingValues
 ) {
     val context = LocalContext.current
-    val userInfo = remember { UserPrefs.loadUser(context) }
+    val userInfo = remember { UserPrefs.loadUser() }
     val userProfile = ProfileInfo(profileImageUrl = "https://i.pinimg.com/736x/96/37/2d/96372ded13d1e6b17cdf10b4ecb23483.jpg")
 
     MyPageScreen(
         userInfo = userInfo?: UserInfo(),
         userProfile = userProfile,
         onLogoutClick = {
-            UserPrefs.logout(context)
+            UserPrefs.logout()
             val intent = Intent(context, LoginActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }

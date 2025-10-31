@@ -75,10 +75,7 @@ fun LoginRoute(modifier: Modifier = Modifier) {
             if (ok) {
                 Toast.makeText(context, context.getString(R.string.login_success_message), Toast.LENGTH_SHORT,).show()
 
-                UserPrefs.setLoggedIn(
-                    context = context,
-                    value = true,
-                )
+                UserPrefs.setLoggedIn(value = true,)
 
                 val intent = Intent(context, MainActivity::class.java).apply {
                     putExtra(IntentKeys.ID, registeredId)
