@@ -15,17 +15,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.sopt.dive.ui.feature.main.MainRoute
 import com.sopt.dive.ui.model.DiveTab
 import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.ui.util.noRippleClickable
 
 @Composable
 fun DiveBottomBar(
-    navController: NavHostController,
     currentTab: DiveTab,
+    onTabSelected: (DiveTab) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row (
@@ -37,17 +34,17 @@ fun DiveBottomBar(
         BottomBarItem(
             tab = DiveTab.HOME,
             selected = (currentTab == DiveTab.HOME),
-            onClick = { navController.navigate(MainRoute.Home) }
+            onClick = { onTabSelected(DiveTab.HOME) }
         )
         BottomBarItem(
             tab = DiveTab.SEARCH,
             selected = (currentTab == DiveTab.SEARCH),
-            onClick = { navController.navigate(MainRoute.Search)}
+            onClick = { onTabSelected(DiveTab.SEARCH)}
         )
         BottomBarItem(
             tab = DiveTab.MYPAGE,
             selected = (currentTab == DiveTab.MYPAGE),
-            onClick = { navController.navigate(MainRoute.MyPage)}
+            onClick = { onTabSelected(DiveTab.MYPAGE)}
         )
     }
 }
@@ -80,12 +77,10 @@ private fun BottomBarItem(
 @Preview(showBackground = true)
 @Composable
 private fun BottomBarPreview() {
-    val navController = rememberNavController()
-
     DiveTheme {
         DiveBottomBar(
-            navController = navController,
-            currentTab = DiveTab.HOME
+            currentTab = DiveTab.HOME,
+            onTabSelected = {}
         )
     }
 }

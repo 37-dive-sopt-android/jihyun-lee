@@ -25,7 +25,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
 import com.sopt.dive.data.local.UserPrefs
-import com.sopt.dive.domain.model.UserInfo
 import com.sopt.dive.ui.model.TextFieldValidState
 import com.sopt.dive.ui.components.DiveBasicButton
 import com.sopt.dive.ui.components.DiveBasicTextField
