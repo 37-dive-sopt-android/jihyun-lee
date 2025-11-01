@@ -1,6 +1,5 @@
 package com.sopt.dive.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,23 +27,25 @@ fun DiveBottomBar(
     Row (
         modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 20.dp),
-        horizontalArrangement = Arrangement.SpaceAround
+            .padding(vertical = 10.dp)
     ) {
         BottomBarItem(
             tab = DiveTab.HOME,
             selected = (currentTab == DiveTab.HOME),
-            onClick = { onTabSelected(DiveTab.HOME) }
+            onClick = { onTabSelected(DiveTab.HOME) },
+            modifier = Modifier.weight(1f)
         )
         BottomBarItem(
             tab = DiveTab.SEARCH,
             selected = (currentTab == DiveTab.SEARCH),
-            onClick = { onTabSelected(DiveTab.SEARCH)}
+            onClick = { onTabSelected(DiveTab.SEARCH)},
+            modifier = Modifier.weight(1f)
         )
         BottomBarItem(
             tab = DiveTab.MYPAGE,
             selected = (currentTab == DiveTab.MYPAGE),
-            onClick = { onTabSelected(DiveTab.MYPAGE)}
+            onClick = { onTabSelected(DiveTab.MYPAGE)},
+            modifier = Modifier.weight(1f)
         )
     }
 }
