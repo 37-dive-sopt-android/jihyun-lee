@@ -116,7 +116,7 @@ private fun LoginScreen(
                             imageVector = if (uiState.isPasswordVisible) {
                                 ImageVector.vectorResource(R.drawable.ic_visibility_off)
                             } else {
-                                ImageVector.vectorResource(R.drawable.ic_visible)
+                                ImageVector.vectorResource(R.drawable.ic_visibility)
                             },
                             contentDescription = null,
                             tint = DiveTheme.colors.gray400

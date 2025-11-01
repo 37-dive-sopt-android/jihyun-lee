@@ -67,7 +67,7 @@ fun DiveBasicTextField(
                     color = textFieldValidType.color,
                     shape = RoundedCornerShape(8.dp)
                 )
-                .padding(vertical = 16.dp, horizontal = 12.dp),
+                .padding(12.dp),
             textStyle = DiveTheme.typography.caption.regular_12.copy(
                 color = DiveTheme.colors.gray600
             ),
@@ -82,7 +82,10 @@ fun DiveBasicTextField(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Box (modifier = Modifier.weight(1f)) {
+                    Box (
+                        modifier = Modifier.weight(1f),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
                         if (value.isEmpty()) {
                             Text(
                                 text = placeholder,
