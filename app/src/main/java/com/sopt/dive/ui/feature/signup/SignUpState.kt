@@ -18,13 +18,11 @@ import com.sopt.dive.ui.model.TextFieldValidState
 fun rememberSignUpState(
     onNavigateToLogin: () -> Unit,
     context: Context = LocalContext.current
-): SignUpState {
-    return remember(onNavigateToLogin, context) {
-        SignUpState(
-            context = context,
-            onNavigateToLogin = onNavigateToLogin
-        )
-    }
+): SignUpState = remember(onNavigateToLogin, context) {
+    SignUpState(
+        context = context,
+        onNavigateToLogin = onNavigateToLogin
+    )
 }
 
 @Stable
