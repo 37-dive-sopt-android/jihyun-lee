@@ -24,6 +24,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
+import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.domain.model.UserInfo
 import com.sopt.dive.ui.model.TextFieldValidState
 import com.sopt.dive.ui.components.DiveBasicButton
@@ -32,8 +33,7 @@ import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun SignUpRoute(
-    onComplete: (UserInfo) -> Unit,
-    modifier: Modifier = Modifier,
+    onNavigateToLogin: () -> Unit
 ) {
     var id by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -118,16 +118,20 @@ fun SignUpRoute(
         },
         onMbtiChange = { mbti = it },
         onSignUpButtonClick = {
-            if (uiState.isSignUpEnabled) {
-                Toast.makeText(
-                    context,
-                    context.getString(R.string.signup_success_message),
-                    Toast.LENGTH_SHORT,
-                ).show()
-                onComplete(UserInfo(id, password, name, nickname, mbti))
-            }
-        },
-        modifier = modifier
+            UserPrefs.saveUserInfo(
+                id = id,
+                password = password,
+                name = name,
+                nickname = nickname,
+                mbti = mbti
+            )
+            Toast.makeText(
+                context,
+                context.getString(R.string.signup_success_message),
+                Toast.LENGTH_SHORT,
+            ).show()
+            onNavigateToLogin()
+        }
     )
 }
 

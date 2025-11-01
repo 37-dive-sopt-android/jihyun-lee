@@ -1,10 +1,6 @@
 package com.sopt.dive.ui.feature.login
 
-import android.app.Activity
-import android.content.Intent
 import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,39 +26,20 @@ import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
 import com.sopt.dive.ui.components.DiveBasicButton
 import com.sopt.dive.ui.components.DiveBasicTextField
-import com.sopt.dive.ui.MainActivity
-import com.sopt.dive.ui.feature.signup.SignUpActivity
 import com.sopt.dive.ui.theme.DiveTheme
-import com.sopt.dive.ui.util.IntentKeys
 import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.ui.util.noRippleClickable
 
 @Composable
-fun LoginRoute(modifier: Modifier = Modifier) {
+fun LoginRoute(
+    onNavigateToSignUp: () -> Unit,
+    onNavigateToHome: () -> Unit
+) {
     val context = LocalContext.current
 
     var userId by rememberSaveable { mutableStateOf("") }
     var userPassword by rememberSaveable { mutableStateOf("") }
 
-    var registeredId by rememberSaveable { mutableStateOf("") }
-    var registeredPassword by rememberSaveable { mutableStateOf("") }
-    var registeredName by rememberSaveable { mutableStateOf("") }
-    var registeredNickname by rememberSaveable { mutableStateOf("") }
-    var registeredMbti by rememberSaveable { mutableStateOf("") }
-
-    val signUpLauncher =
-        rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.StartActivityForResult(),
-        ) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                val data = result.data
-                registeredId = data?.getStringExtra(IntentKeys.ID).orEmpty()
-                registeredPassword = data?.getStringExtra(IntentKeys.PASSWORD).orEmpty()
-                registeredName = data?.getStringExtra(IntentKeys.NAME).orEmpty()
-                registeredNickname = data?.getStringExtra(IntentKeys.NICKNAME).orEmpty()
-                registeredMbti = data?.getStringExtra(IntentKeys.MBTI).orEmpty()
-            }
-        }
 
     LoginScreen(
         id = userId,
@@ -70,27 +47,20 @@ fun LoginRoute(modifier: Modifier = Modifier) {
         onIdChange = { userId = it },
         onPasswordChange = { userPassword = it },
         onLoginClick = {
-            val ok = userId.isNotBlank() && userPassword.isNotBlank() && userId == registeredId && userPassword == registeredPassword
+            val registeredId = UserPrefs.getId()
+            val registeredPassword = UserPrefs.getPassword()
 
-            if (ok) {
+            val isLoginEnable = userId.isNotBlank() && userPassword.isNotBlank() && userId == registeredId && userPassword == registeredPassword
+
+            if (isLoginEnable) {
                 Toast.makeText(context, context.getString(R.string.login_success_message), Toast.LENGTH_SHORT,).show()
-
                 UserPrefs.setLoggedIn(value = true,)
-
-                val intent = Intent(context, MainActivity::class.java).apply {
-                    putExtra(IntentKeys.ID, registeredId)
-                    putExtra(IntentKeys.PASSWORD, registeredPassword)
-                    putExtra(IntentKeys.NAME, registeredName)
-                    putExtra(IntentKeys.NICKNAME, registeredNickname)
-                    putExtra(IntentKeys.MBTI, registeredMbti)
-                }
-                context.startActivity(intent)
+                onNavigateToHome()
             } else {
                 Toast.makeText(context, context.getString(R.string.login_fail_message), Toast.LENGTH_SHORT).show()
             }
         },
-        onSignUpClick = { signUpLauncher.launch(Intent(context, SignUpActivity::class.java)) },
-        modifier = modifier,
+        onSignUpClick = onNavigateToSignUp
     )
 }
 

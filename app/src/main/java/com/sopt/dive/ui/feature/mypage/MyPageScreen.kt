@@ -1,9 +1,7 @@
 package com.sopt.dive.ui.feature.mypage
 
-import android.content.Intent
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -12,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,29 +19,23 @@ import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.domain.model.ProfileInfo
 import com.sopt.dive.domain.model.UserInfo
 import com.sopt.dive.ui.components.ProfileImage
-import com.sopt.dive.ui.feature.login.LoginActivity
 import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.ui.util.noRippleClickable
 
 @Composable
 fun MyPageRoute(
-    padding: PaddingValues
+    onNavigateToLogin: () -> Unit
 ) {
-    val context = LocalContext.current
     val userInfo = remember { UserPrefs.loadUser() }
     val userProfile = ProfileInfo(profileImageUrl = "https://i.pinimg.com/736x/96/37/2d/96372ded13d1e6b17cdf10b4ecb23483.jpg")
 
     MyPageScreen(
         userInfo = userInfo?: UserInfo(),
         userProfile = userProfile,
-        onLogoutClick = {
+        onWithdrawClick = {
             UserPrefs.logout()
-            val intent = Intent(context, LoginActivity::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-            context.startActivity(intent)
-        },
-        modifier = Modifier.padding(padding)
+            onNavigateToLogin()
+        }
     )
 }
 
@@ -52,7 +43,7 @@ fun MyPageRoute(
 private fun MyPageScreen(
     userInfo: UserInfo,
     userProfile: ProfileInfo,
-    onLogoutClick: () -> Unit,
+    onWithdrawClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -88,9 +79,9 @@ private fun MyPageScreen(
         }
 
         Text(
-            text = stringResource(R.string.mypage_logout),
+            text = stringResource(R.string.mypage_withdraw),
             style = DiveTheme.typography.caption.regular_12,
-            modifier = Modifier.noRippleClickable { onLogoutClick() },
+            modifier = Modifier.noRippleClickable { onWithdrawClick() },
             textDecoration = TextDecoration.Underline,
         )
     }
@@ -135,7 +126,7 @@ private fun MyPagePreview() {
         MyPageScreen(
             userInfo = userInfo,
             userProfile = userProfile,
-            onLogoutClick = {}
+            onWithdrawClick = {}
         )
     }
 }

@@ -16,7 +16,7 @@
         android:theme="@style/Theme.Dive"
         tools:targetApi="31">
         <activity
-            android:name=".ui.feature.login.LoginActivity"
+            android:name=".ui.feature.main.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Dive">
             <intent-filter>
@@ -24,8 +24,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.MainActivity"/>
-        <activity android:name=".ui.feature.signup.SignUpActivity"/>
     </application>
 
 </manifest>

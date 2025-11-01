@@ -17,8 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.sopt.dive.ui.feature.main.MainRoute
 import com.sopt.dive.ui.model.DiveTab
-import com.sopt.dive.ui.navigation.Route
 import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.ui.util.noRippleClickable
 
@@ -37,17 +37,17 @@ fun DiveBottomBar(
         BottomBarItem(
             tab = DiveTab.HOME,
             selected = (currentTab == DiveTab.HOME),
-            onClick = { navController.navigate(Route.Home) }
+            onClick = { navController.navigate(MainRoute.Home) }
         )
         BottomBarItem(
             tab = DiveTab.SEARCH,
             selected = (currentTab == DiveTab.SEARCH),
-            onClick = { navController.navigate(Route.Search)}
+            onClick = { navController.navigate(MainRoute.Search)}
         )
         BottomBarItem(
             tab = DiveTab.MYPAGE,
             selected = (currentTab == DiveTab.MYPAGE),
-            onClick = { navController.navigate(Route.MyPage)}
+            onClick = { navController.navigate(MainRoute.MyPage)}
         )
     }
 }
