@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -78,7 +77,6 @@ private fun LoginScreen(
         modifier = modifier
             .fillMaxSize()
             .imePadding()
-            .navigationBarsPadding()
             .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

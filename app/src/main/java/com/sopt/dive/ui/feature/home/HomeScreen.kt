@@ -18,7 +18,9 @@ import com.sopt.dive.domain.model.ProfileInfo
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
-fun HomeRoute() {
+fun HomeRoute(
+    modifier: Modifier = Modifier
+) {
     val userProfile = ProfileInfo(
         profileImageUrl = "https://i.pinimg.com/736x/96/37/2d/96372ded13d1e6b17cdf10b4ecb23483.jpg",
         name = "이지현"
@@ -88,7 +90,8 @@ fun HomeRoute() {
 
     HomeScreen(
         userProfile = userProfile,
-        friendList = friendList
+        friendList = friendList,
+        modifier = modifier
     )
 }
 

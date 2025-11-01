@@ -1,35 +1,31 @@
 package com.sopt.dive.ui.feature.main
 
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.sopt.dive.ui.feature.login.LoginRoute
 import com.sopt.dive.ui.feature.signup.SignUpRoute
 
 @Composable
 fun AuthScreen(
-    onNavigateToHome: () -> Unit
+    navigator: AuthNavigator
 ) {
-    val authNavController = rememberNavController()
-
     NavHost(
-        navController = authNavController,
-        startDestination = AuthRoute.LogIn
+        navController = navigator.navController,
+        startDestination = AuthRoute.LogIn,
+        modifier = Modifier.systemBarsPadding()
     ) {
         composable<AuthRoute.LogIn> {
             LoginRoute(
-                onNavigateToSignUp = {
-                    authNavController.navigate(AuthRoute.SignUp)
-                },
-                onNavigateToHome = onNavigateToHome
+                onNavigateToSignUp = navigator::navigateToSignUp,
+                onNavigateToHome = navigator.onNavigateToHome
             )
         }
         composable<AuthRoute.SignUp> {
             SignUpRoute(
-                onNavigateToLogin = {
-                    authNavController.navigate(AuthRoute.LogIn)
-                }
+                onNavigateToLogin = navigator::navigateToLogin
             )
         }
     }

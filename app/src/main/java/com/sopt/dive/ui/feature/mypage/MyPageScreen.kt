@@ -24,7 +24,8 @@ import com.sopt.dive.ui.util.noRippleClickable
 
 @Composable
 fun MyPageRoute(
-    onNavigateToLogin: () -> Unit
+    onNavigateToLogin: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val userInfo = remember { UserPrefs.loadUser() }
     val userProfile = ProfileInfo(profileImageUrl = "https://i.pinimg.com/736x/96/37/2d/96372ded13d1e6b17cdf10b4ecb23483.jpg")
@@ -35,7 +36,8 @@ fun MyPageRoute(
         onWithdrawClick = {
             UserPrefs.logout()
             onNavigateToLogin()
-        }
+        },
+        modifier = modifier
     )
 }
 

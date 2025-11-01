@@ -10,14 +10,16 @@ import androidx.navigation.compose.rememberNavController
 import com.sopt.dive.ui.model.DiveTab
 
 @Composable
-fun rememberMainNavigator(
+fun rememberAppNavigator(
+    onNavigateToLogin: () -> Unit,
     navController: NavHostController = rememberNavController()
-): AppNavigator = remember(navController) {
-    AppNavigator(navController)
+): AppNavigator = remember(navController, onNavigateToLogin) {
+    AppNavigator(navController, onNavigateToLogin)
 }
 
 class AppNavigator(
-    val navController: NavHostController
+    val navController: NavHostController,
+    val onNavigateToLogin: () -> Unit
 ) {
     val currentTab: DiveTab
         @Composable get() {

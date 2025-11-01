@@ -1,5 +1,6 @@
 package com.sopt.dive.ui.feature.main
 
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -12,15 +13,15 @@ import com.sopt.dive.ui.feature.mypage.MyPageRoute
 import com.sopt.dive.ui.feature.search.SearchRoute
 
 @Composable
-fun MainScreen(
-    onNavigateToLogin: () -> Unit,
-    navigator: AppNavigator = rememberMainNavigator()
+fun AppScreen(
+    navigator: AppNavigator
 ) {
     Scaffold(
         bottomBar = {
             DiveBottomBar(
                 currentTab = navigator.currentTab,
-                onTabSelected = { navigator.navigateToTab(it) }
+                onTabSelected = { navigator.navigateToTab(it) },
+                modifier = Modifier.navigationBarsPadding()
             )
         }
     ) { paddingValues ->
@@ -36,9 +37,7 @@ fun MainScreen(
                 SearchRoute()
             }
             composable<MainRoute.MyPage> {
-                MyPageRoute(
-                    onNavigateToLogin = onNavigateToLogin
-                )
+                MyPageRoute(onNavigateToLogin = navigator.onNavigateToLogin)
             }
         }
     }

@@ -4,7 +4,6 @@ import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -147,7 +146,6 @@ private fun SignUpScreen(
 ) {
     Column(
         modifier = modifier
-            .navigationBarsPadding()
             .imePadding()
             .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally

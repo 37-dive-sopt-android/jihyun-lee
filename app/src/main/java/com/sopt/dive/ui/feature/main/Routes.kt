@@ -11,6 +11,7 @@ sealed interface RootRoute {
     data object Main : RootRoute
 }
 
+@Serializable
 sealed interface AuthRoute {
     @Serializable
     data object LogIn : AuthRoute
@@ -19,6 +20,7 @@ sealed interface AuthRoute {
     data object SignUp : AuthRoute
 }
 
+@Serializable
 sealed interface MainRoute {
     @Serializable
     data object Home : MainRoute

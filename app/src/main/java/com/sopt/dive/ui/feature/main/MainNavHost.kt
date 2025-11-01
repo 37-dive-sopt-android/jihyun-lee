@@ -18,20 +18,24 @@ fun MainNavHost() {
     ) {
         composable<RootRoute.Auth> {
             AuthScreen(
-                onNavigateToHome = {
-                    navController.navigate(RootRoute.Main) {
-                        popUpTo(RootRoute.Main) { inclusive = true }
+                navigator = rememberAuthNavigator(
+                    onNavigateToHome = {
+                        navController.navigate(RootRoute.Main) {
+                            popUpTo(RootRoute.Auth) { inclusive = true }
+                        }
                     }
-                }
+                )
             )
         }
         composable<RootRoute.Main> {
-            MainScreen(
-                onNavigateToLogin = {
-                    navController.navigate(RootRoute.Auth) {
-                        popUpTo(RootRoute.Auth) { inclusive = true }
+            AppScreen(
+                navigator = rememberAppNavigator(
+                    onNavigateToLogin = {
+                        navController.navigate(RootRoute.Auth) {
+                            popUpTo(RootRoute.Main) { inclusive = true }
+                        }
                     }
-                }
+                )
             )
         }
     }
