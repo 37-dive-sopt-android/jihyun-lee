@@ -21,13 +21,13 @@ sealed interface AuthRoute {
 }
 
 @Serializable
-sealed interface MainRoute {
+sealed interface AppRoute {
     @Serializable
-    data object Home : MainRoute
+    data object Home : AppRoute
 
     @Serializable
-    data object Search : MainRoute
+    data object Search : AppRoute
 
     @Serializable
-    data object MyPage : MainRoute
+    data object MyPage : AppRoute
 }

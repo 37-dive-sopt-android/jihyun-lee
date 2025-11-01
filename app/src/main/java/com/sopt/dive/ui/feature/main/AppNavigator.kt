@@ -29,18 +29,18 @@ class AppNavigator(
             val currentRouteName = navBackStackEntry?.destination?.route
 
             return when (currentRouteName) {
-                MainRoute.Home::class.qualifiedName -> DiveTab.HOME
-                MainRoute.Search::class.qualifiedName -> DiveTab.SEARCH
-                MainRoute.MyPage::class.qualifiedName -> DiveTab.MYPAGE
+                AppRoute.Home::class.qualifiedName -> DiveTab.HOME
+                AppRoute.Search::class.qualifiedName -> DiveTab.SEARCH
+                AppRoute.MyPage::class.qualifiedName -> DiveTab.MYPAGE
                 else -> DiveTab.HOME
             }
         }
 
     fun navigateToTab(tab: DiveTab) {
         val route = when (tab) {
-            DiveTab.HOME -> MainRoute.Home
-            DiveTab.SEARCH -> MainRoute.Search
-            DiveTab.MYPAGE -> MainRoute.MyPage
+            DiveTab.HOME -> AppRoute.Home
+            DiveTab.SEARCH -> AppRoute.Search
+            DiveTab.MYPAGE -> AppRoute.MyPage
         }
 
         navController.navigate(route) {

@@ -27,16 +27,16 @@ fun AppScreen(
     ) { paddingValues ->
         NavHost(
             navController = navigator.navController,
-            startDestination = MainRoute.Home,
+            startDestination = AppRoute.Home,
             modifier = Modifier.padding(paddingValues)
         ) {
-            composable<MainRoute.Home> {
+            composable<AppRoute.Home> {
                 HomeRoute()
             }
-            composable<MainRoute.Search> {
+            composable<AppRoute.Search> {
                 SearchRoute()
             }
-            composable<MainRoute.MyPage> {
+            composable<AppRoute.MyPage> {
                 MyPageRoute(onNavigateToLogin = navigator.onNavigateToLogin)
             }
         }
