@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -16,7 +18,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
 import com.sopt.dive.data.local.UserPrefs
-import com.sopt.dive.domain.model.ProfileInfo
 import com.sopt.dive.domain.model.UserInfo
 import com.sopt.dive.ui.components.ProfileImage
 import com.sopt.dive.ui.theme.DiveTheme
@@ -28,13 +29,15 @@ fun MyPageRoute(
     modifier: Modifier = Modifier
 ) {
     val userInfo = remember { UserPrefs.loadUser() }
-    val userProfile = ProfileInfo(profileImageUrl = "https://i.pinimg.com/736x/96/37/2d/96372ded13d1e6b17cdf10b4ecb23483.jpg")
 
     MyPageScreen(
         userInfo = userInfo?: UserInfo(),
-        userProfile = userProfile,
-        onWithdrawClick = {
+        onLogoutClick = {
             UserPrefs.logout()
+            onNavigateToLogin()
+        },
+        onWithdrawClick = {
+            UserPrefs.withdraw()
             onNavigateToLogin()
         },
         modifier = modifier
@@ -44,13 +47,14 @@ fun MyPageRoute(
 @Composable
 private fun MyPageScreen(
     userInfo: UserInfo,
-    userProfile: ProfileInfo,
+    onLogoutClick: () -> Unit,
     onWithdrawClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(20.dp),
     ) {
         Row(
@@ -58,7 +62,7 @@ private fun MyPageScreen(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            ProfileImage(userProfile.profileImageUrl)
+            ProfileImage(userInfo.profileImageUrl)
             Text(
                 text = userInfo.name,
                 style = DiveTheme.typography.body.regular_18
@@ -81,9 +85,17 @@ private fun MyPageScreen(
         }
 
         Text(
+            text = stringResource(R.string.mypage_logout),
+            style = DiveTheme.typography.caption.regular_12,
+            modifier = Modifier.noRippleClickable { onLogoutClick() },
+            textDecoration = TextDecoration.Underline,
+        )
+        Text(
             text = stringResource(R.string.mypage_withdraw),
             style = DiveTheme.typography.caption.regular_12,
-            modifier = Modifier.noRippleClickable { onWithdrawClick() },
+            modifier = Modifier
+                .noRippleClickable { onWithdrawClick() }
+                .padding(top = 8.dp),
             textDecoration = TextDecoration.Underline,
         )
     }
@@ -122,12 +134,11 @@ private fun MyPagePreview() {
             mbti = "istp"
         )
     }
-    val userProfile = ProfileInfo()
 
     DiveTheme {
         MyPageScreen(
             userInfo = userInfo,
-            userProfile = userProfile,
+            onLogoutClick = {},
             onWithdrawClick = {}
         )
     }

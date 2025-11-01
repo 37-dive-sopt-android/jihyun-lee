@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,22 +39,30 @@ fun LoginRoute(
 
     var userId by rememberSaveable { mutableStateOf("") }
     var userPassword by rememberSaveable { mutableStateOf("") }
+    val isLoginEnabled by remember(userId, userPassword) {
+        derivedStateOf {
+            userId.isNotBlank() && userPassword.isNotBlank()
+        }
+    }
+
+    val uiState = LoginUiState(
+        id = userId,
+        password = userPassword,
+        isLoginEnabled = isLoginEnabled
+    )
 
 
     LoginScreen(
-        id = userId,
-        password = userPassword,
+        uiState = uiState,
         onIdChange = { userId = it },
         onPasswordChange = { userPassword = it },
         onLoginClick = {
             val registeredId = UserPrefs.getId()
             val registeredPassword = UserPrefs.getPassword()
 
-            val isLoginEnable = userId.isNotBlank() && userPassword.isNotBlank() && userId == registeredId && userPassword == registeredPassword
-
-            if (isLoginEnable) {
+            if (userId == registeredId && userPassword == registeredPassword) {
                 Toast.makeText(context, context.getString(R.string.login_success_message), Toast.LENGTH_SHORT,).show()
-                UserPrefs.setLoggedIn(value = true,)
+                UserPrefs.setLoggedIn(value = true)
                 onNavigateToHome()
             } else {
                 Toast.makeText(context, context.getString(R.string.login_fail_message), Toast.LENGTH_SHORT).show()
@@ -65,13 +74,12 @@ fun LoginRoute(
 
 @Composable
 private fun LoginScreen(
-    id: String,
-    password: String,
+    uiState: LoginUiState,
     onIdChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onLoginClick: () -> Unit,
     onSignUpClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
@@ -95,14 +103,14 @@ private fun LoginScreen(
         ) {
             DiveBasicTextField(
                 label = stringResource(R.string.signup_id),
-                value = id,
+                value = uiState.id,
                 onValueChange = onIdChange,
                 placeholder = stringResource(R.string.signup_id_placeholder),
                 imeAction = ImeAction.Next
             )
             DiveBasicTextField(
                 label = stringResource(R.string.signup_pw),
-                value = password,
+                value = uiState.password,
                 onValueChange = onPasswordChange,
                 placeholder = stringResource(R.string.signup_pw_placeholder),
                 keyboardType = KeyboardType.Password,
@@ -112,13 +120,14 @@ private fun LoginScreen(
 
         DiveBasicButton(
             onClick = onLoginClick,
-            text = stringResource(R.string.login_title)
+            text = stringResource(R.string.login_title),
+            isEnable = uiState.isLoginEnabled
         )
         Text(
             text = stringResource(R.string.signup_button),
             style = DiveTheme.typography.caption.regular_12,
             modifier = Modifier
-                .padding(top = 4.dp)
+                .padding(top = 8.dp)
                 .noRippleClickable { onSignUpClick() },
             textDecoration = TextDecoration.Underline
         )
@@ -128,15 +137,25 @@ private fun LoginScreen(
 @Preview(showBackground = true)
 @Composable
 private fun LoginPreview() {
-    var userId by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+    var userId by rememberSaveable { mutableStateOf("") }
+    var userPassword by rememberSaveable { mutableStateOf("") }
+    val isLoginEnabled by remember(userId, userPassword) {
+        derivedStateOf {
+            userId.isNotBlank() && userPassword.isNotBlank()
+        }
+    }
+
+    val uiState = LoginUiState(
+        id = userId,
+        password = userPassword,
+        isLoginEnabled = isLoginEnabled
+    )
 
     DiveTheme {
         LoginScreen(
-            id = userId,
-            password = password,
+            uiState = uiState,
             onIdChange = { userId = it },
-            onPasswordChange = { password = it },
+            onPasswordChange = { userPassword = it },
             onLoginClick = {},
             onSignUpClick = {},
         )

@@ -1,6 +1,7 @@
 package com.sopt.dive.ui.feature.main
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -17,6 +18,7 @@ fun rememberAppNavigator(
     AppNavigator(navController, onNavigateToLogin)
 }
 
+@Stable
 class AppNavigator(
     val navController: NavHostController,
     val onNavigateToLogin: () -> Unit

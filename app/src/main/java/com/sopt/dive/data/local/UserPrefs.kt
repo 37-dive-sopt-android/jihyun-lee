@@ -13,6 +13,7 @@ object UserPrefs {
     private const val NAME = "name"
     private const val NICKNAME = "nickname"
     private const val MBTI = "mbti"
+    private const val PROFILE_IMAGE_URL = "profile_image_url"
 
     private lateinit var prefs: SharedPreferences
 
@@ -26,6 +27,7 @@ object UserPrefs {
         name: String,
         nickname: String,
         mbti: String,
+        profileImageUrl: String = ""
     ) {
         prefs.edit {
             putString(ID, id)
@@ -33,6 +35,7 @@ object UserPrefs {
             putString(NAME, name)
             putString(NICKNAME, nickname)
             putString(MBTI, mbti)
+            putString(PROFILE_IMAGE_URL, profileImageUrl)
         }
     }
 
@@ -52,16 +55,28 @@ object UserPrefs {
 
     fun getMbti(): String? = prefs.getString(MBTI, null)
 
+    fun getProfileImageUrl(): String? = prefs.getString(PROFILE_IMAGE_URL, null)
+    fun setProfileImageUrl(url: String) {
+        prefs.edit {
+            putString(PROFILE_IMAGE_URL, url)
+        }
+    }
+
     fun loadUser(): UserInfo? {
         val id = getId() ?: return null
         val pw = getPassword() ?: ""
         val name = getName() ?: ""
         val nick = getNickname() ?: ""
         val mbti = getMbti() ?: ""
-        return UserInfo(id, pw, name, nick, mbti)
+        val url = getProfileImageUrl() ?: ""
+        return UserInfo(id, pw, name, nick, mbti, url)
     }
 
     fun logout() {
+        setLoggedIn(false)
+    }
+
+    fun withdraw() {
         prefs.edit { clear() }
     }
 }

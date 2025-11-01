@@ -27,7 +27,7 @@ fun ProfileImage(
         modifier = modifier
             .size(imageSize)
             .clip(RoundedCornerShape(percent = 40))
-            .background(if(imageUrl == null) DiveTheme.colors.gray200 else DiveTheme.colors.transParent),
+            .background(if(imageUrl.isNullOrEmpty()) DiveTheme.colors.gray200 else DiveTheme.colors.transParent),
         contentAlignment = Alignment.Center
     ) {
         if (imageUrl.isNullOrEmpty()) {

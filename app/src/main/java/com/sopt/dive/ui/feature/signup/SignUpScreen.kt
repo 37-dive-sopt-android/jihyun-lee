@@ -1,6 +1,5 @@
 package com.sopt.dive.ui.feature.signup
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.imePadding
@@ -9,127 +8,31 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
-import com.sopt.dive.data.local.UserPrefs
-import com.sopt.dive.ui.model.TextFieldValidState
 import com.sopt.dive.ui.components.DiveBasicButton
 import com.sopt.dive.ui.components.DiveBasicTextField
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun SignUpRoute(
-    onNavigateToLogin: () -> Unit
+    onNavigateToLogin: () -> Unit,
+    state: SignUpState = rememberSignUpState(onNavigateToLogin = onNavigateToLogin)
 ) {
-    var id by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var name by remember { mutableStateOf("") }
-    var nickname by remember { mutableStateOf("") }
-    var mbti by remember { mutableStateOf("") }
-    var isNameTouched by remember { mutableStateOf(false) }
-    var isNicknameTouched by remember { mutableStateOf(false) }
-
-    val context = LocalContext.current
-
-    val idValidType by remember(id) {
-        derivedStateOf {
-            when {
-                id.isEmpty() -> TextFieldValidState.DEFAULT
-                id.length in 6..10 -> TextFieldValidState.VALID
-                else -> TextFieldValidState.INVALID(R.string.signup_id_fail_message)
-            }
-        }
-    }
-    val passwordValidType by remember(password) {
-        derivedStateOf {
-            when {
-                password.isEmpty() -> TextFieldValidState.DEFAULT
-                password.length in 8..12 -> TextFieldValidState.VALID
-                else -> TextFieldValidState.INVALID(R.string.signup_pw_fail_message)
-            }
-        }
-    }
-    val nameValidType by remember(name, isNameTouched) {
-        derivedStateOf {
-            when {
-                !isNameTouched -> TextFieldValidState.DEFAULT
-                name.isNotBlank() -> TextFieldValidState.VALID
-                else -> TextFieldValidState.INVALID(R.string.signup_name_fail_message)
-            }
-        }
-    }
-    val nicknameValidType by remember(nickname, isNicknameTouched) {
-        derivedStateOf {
-            when {
-                !isNicknameTouched -> TextFieldValidState.DEFAULT
-                nickname.isNotBlank() -> TextFieldValidState.VALID
-                else -> TextFieldValidState.INVALID(R.string.signup_nickname_fail_message)
-            }
-        }
-    }
-    val mbtiValidType by remember(mbti) {
-        derivedStateOf {
-            when {
-                mbti.isEmpty() -> TextFieldValidState.DEFAULT
-                mbti.length == 4 -> TextFieldValidState.VALID
-                else -> TextFieldValidState.INVALID(R.string.signup_mbti_fail_message)
-            }
-        }
-    }
-
-    val uiState = SignUpUiState(
-        id = id,
-        password = password,
-        name = name,
-        nickname = nickname,
-        mbti = mbti,
-        idValidType = idValidType,
-        passwordValidType = passwordValidType,
-        nameValidType = nameValidType,
-        nicknameValidType = nicknameValidType,
-        mbtiValidType = mbtiValidType
-    )
-
     SignUpScreen(
-        uiState = uiState,
-        onIdChange = { id = it },
-        onPwChange = { password = it },
-        onNameChange = {
-            name = it
-            isNameTouched = true
-        },
-        onNicknameChange = {
-            nickname = it
-            isNicknameTouched = true
-        },
-        onMbtiChange = { mbti = it },
-        onSignUpButtonClick = {
-            UserPrefs.saveUserInfo(
-                id = id,
-                password = password,
-                name = name,
-                nickname = nickname,
-                mbti = mbti
-            )
-            Toast.makeText(
-                context,
-                context.getString(R.string.signup_success_message),
-                Toast.LENGTH_SHORT,
-            ).show()
-            onNavigateToLogin()
-        }
+        uiState = state.uiState,
+        onIdChange = state::onIdChange,
+        onPwChange = state::onPwChange,
+        onNameChange = state::onNameChange,
+        onNicknameChange = state::onNicknameChange,
+        onMbtiChange = state::onMbtiChange,
+        onSignUpButtonClick = state::onSignUpButtonClick
     )
 }
 
@@ -208,7 +111,7 @@ private fun SignUpScreen(
         DiveBasicButton(
             onClick = onSignUpButtonClick,
             text = stringResource(R.string.signup_button),
-            modifier = Modifier
+            isEnable = uiState.isSignUpEnabled
         )
     }
 }
@@ -216,98 +119,17 @@ private fun SignUpScreen(
 @Preview(showBackground = true)
 @Composable
 private fun SignUpPreview() {
-    var id by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var name by remember { mutableStateOf("") }
-    var nickname by remember { mutableStateOf("") }
-    var mbti by remember { mutableStateOf("") }
-    var isNameTouched by remember { mutableStateOf(false) }
-    var isNicknameTouched by remember { mutableStateOf(false) }
-
-    val context = LocalContext.current
-
-    val idValidType by remember(id) {
-        derivedStateOf {
-            when {
-                id.isEmpty() -> TextFieldValidState.DEFAULT
-                id.length in 6..10 -> TextFieldValidState.VALID
-                else -> TextFieldValidState.INVALID(R.string.signup_id_fail_message)
-            }
-        }
-    }
-    val passwordValidType by remember(password) {
-        derivedStateOf {
-            when {
-                password.isEmpty() -> TextFieldValidState.DEFAULT
-                password.length in 8..12 -> TextFieldValidState.VALID
-                else -> TextFieldValidState.INVALID(R.string.signup_pw_fail_message)
-            }
-        }
-    }
-    val nameValidType by remember(name) {
-        derivedStateOf {
-            when {
-                !isNameTouched -> TextFieldValidState.DEFAULT
-                name.isNotBlank() -> TextFieldValidState.VALID
-                else -> TextFieldValidState.INVALID(R.string.signup_name_fail_message)
-            }
-        }
-    }
-    val nicknameValidType by remember(nickname) {
-        derivedStateOf {
-            when {
-                !isNicknameTouched -> TextFieldValidState.DEFAULT
-                nickname.isNotBlank() -> TextFieldValidState.VALID
-                else -> TextFieldValidState.INVALID(R.string.signup_nickname_fail_message)
-            }
-        }
-    }
-    val mbtiValidType by remember(mbti) {
-        derivedStateOf {
-            when {
-                mbti.isEmpty() -> TextFieldValidState.DEFAULT
-                mbti.length == 4 -> TextFieldValidState.VALID
-                else -> TextFieldValidState.INVALID(R.string.signup_mbti_fail_message)
-            }
-        }
-    }
-
-    val uiState = SignUpUiState(
-        id = id,
-        password = password,
-        name = name,
-        nickname = nickname,
-        mbti = mbti,
-        idValidType = idValidType,
-        passwordValidType = passwordValidType,
-        nameValidType = nameValidType,
-        nicknameValidType = nicknameValidType,
-        mbtiValidType = mbtiValidType
-    )
+    val state = rememberSignUpState(onNavigateToLogin = {})
 
     DiveTheme {
         SignUpScreen(
-            uiState = uiState,
-            onIdChange = { id = it },
-            onPwChange = { password = it },
-            onNameChange = {
-                name = it
-                isNameTouched = true
-            },
-            onNicknameChange = {
-                nickname = it
-                isNicknameTouched = true
-            },
-            onMbtiChange = { mbti = it },
-            onSignUpButtonClick = {
-                if (uiState.isSignUpEnabled) {
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.signup_success_message),
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                }
-            }
+            uiState = state.uiState,
+            onIdChange = state::onIdChange,
+            onPwChange = state::onPwChange,
+            onNameChange = state::onNameChange,
+            onNicknameChange = state::onNicknameChange,
+            onMbtiChange = state::onMbtiChange,
+            onSignUpButtonClick = state::onSignUpButtonClick
         )
     }
 }

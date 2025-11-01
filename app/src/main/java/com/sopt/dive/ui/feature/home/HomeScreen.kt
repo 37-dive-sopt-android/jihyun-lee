@@ -9,21 +9,27 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
+import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.domain.model.ProfileInfo
+import com.sopt.dive.domain.model.UserInfo
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun HomeRoute(
     modifier: Modifier = Modifier
 ) {
+    UserPrefs.setProfileImageUrl("https://i.pinimg.com/736x/96/37/2d/96372ded13d1e6b17cdf10b4ecb23483.jpg")
+    val currentUserInfo = remember { UserPrefs.loadUser() } ?: UserInfo()
+
     val userProfile = ProfileInfo(
-        profileImageUrl = "https://i.pinimg.com/736x/96/37/2d/96372ded13d1e6b17cdf10b4ecb23483.jpg",
-        name = "이지현"
+        profileImageUrl = currentUserInfo.profileImageUrl,
+        name = currentUserInfo.name
     )
 
     val friendList = listOf(
@@ -125,7 +131,7 @@ fun HomeScreen(
             }
         }
 
-        items(friendList) { profile ->
+        items(items = friendList) { profile ->
             ProfileItem(profile)
         }
     }

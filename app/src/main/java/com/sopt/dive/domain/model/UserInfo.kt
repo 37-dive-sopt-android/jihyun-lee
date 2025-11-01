@@ -5,5 +5,6 @@ data class UserInfo(
     val password: String = "",
     val name: String = "",
     val nickname: String = "",
-    val mbti: String = ""
+    val mbti: String = "",
+    val profileImageUrl: String = ""
 )

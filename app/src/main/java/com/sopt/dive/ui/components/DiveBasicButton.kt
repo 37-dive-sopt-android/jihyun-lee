@@ -21,21 +21,22 @@ fun DiveBasicButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isEnable: Boolean = true,
     containerColor: Color = DiveTheme.colors.purple40,
     contentColor: Color = DiveTheme.colors.white,
 ) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(20.dp))
+            .clip(RoundedCornerShape(16.dp))
             .noRippleClickable { onClick() }
-            .background(containerColor)
+            .background(if (isEnable) containerColor else DiveTheme.colors.gray200)
             .padding(vertical = 10.dp, horizontal = 20.dp)
             .fillMaxWidth(),
         contentAlignment = Alignment.Center,
     ) {
         Text(
             text = text,
-            color = contentColor,
+            color = if(isEnable) contentColor else DiveTheme.colors.gray600,
             style = DiveTheme.typography.caption.regular_14
         )
     }
