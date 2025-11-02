@@ -111,7 +111,7 @@ private fun LoginScreen(
                 keyboardType = KeyboardType.Password,
                 imeAction = ImeAction.Done,
                 trailingIcon = {
-                    IconButton(onClick = onPasswordToggleClick) { // ⬅️ IconButton 사용 (터치 영역 확보)
+                    IconButton(onClick = onPasswordToggleClick) {
                         Icon(
                             imageVector = if (uiState.isPasswordVisible) {
                                 ImageVector.vectorResource(R.drawable.ic_visibility_off)
