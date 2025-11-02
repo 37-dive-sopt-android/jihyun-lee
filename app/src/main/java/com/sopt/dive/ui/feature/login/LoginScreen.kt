@@ -30,7 +30,8 @@ import com.sopt.dive.ui.util.noRippleClickable
 @Composable
 fun LoginRoute(
     onNavigateToSignUp: () -> Unit,
-    onNavigateToHome: () -> Unit
+    onNavigateToHome: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val state = rememberLoginState(onNavigateToHome = onNavigateToHome)
 
@@ -40,7 +41,8 @@ fun LoginRoute(
         onPasswordChange = state::onPasswordChange,
         onPasswordToggleClick = state::onPasswordToggleClick,
         onLoginClick = state::onLoginClick,
-        onSignUpClick = onNavigateToSignUp
+        onSignUpClick = onNavigateToSignUp,
+        modifier = modifier
     )
 }
 

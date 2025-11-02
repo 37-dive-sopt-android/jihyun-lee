@@ -25,6 +25,7 @@ import com.sopt.dive.ui.theme.DiveTheme
 @Composable
 fun SignUpRoute(
     onNavigateToLogin: () -> Unit,
+    modifier: Modifier = Modifier,
     state: SignUpState = rememberSignUpState(onNavigateToLogin = onNavigateToLogin)
 ) {
     SignUpScreen(
@@ -34,7 +35,8 @@ fun SignUpRoute(
         onNameChange = state::onNameChange,
         onNicknameChange = state::onNicknameChange,
         onMbtiChange = state::onMbtiChange,
-        onSignUpButtonClick = state::onSignUpButtonClick
+        onSignUpButtonClick = state::onSignUpButtonClick,
+        modifier = modifier
     )
 }
 

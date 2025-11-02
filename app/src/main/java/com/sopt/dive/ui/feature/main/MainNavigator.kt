@@ -11,17 +11,15 @@ import androidx.navigation.compose.rememberNavController
 import com.sopt.dive.ui.model.DiveTab
 
 @Composable
-fun rememberAppNavigator(
-    onNavigateToLogin: () -> Unit,
+fun rememberMainNavigator(
     navController: NavHostController = rememberNavController()
-): AppNavigator = remember(navController, onNavigateToLogin) {
-    AppNavigator(navController, onNavigateToLogin)
+): MainNavigator = remember(navController) {
+    MainNavigator(navController)
 }
 
 @Stable
-class AppNavigator(
-    val navController: NavHostController,
-    val onNavigateToLogin: () -> Unit
+class MainNavigator(
+    val navController: NavHostController
 ) {
     val currentTab: DiveTab
         @Composable get() {
@@ -29,18 +27,31 @@ class AppNavigator(
             val currentRouteName = navBackStackEntry?.destination?.route
 
             return when (currentRouteName) {
-                AppRoute.Home::class.qualifiedName -> DiveTab.HOME
-                AppRoute.Search::class.qualifiedName -> DiveTab.SEARCH
-                AppRoute.MyPage::class.qualifiedName -> DiveTab.MYPAGE
+                Home::class.qualifiedName -> DiveTab.HOME
+                Search::class.qualifiedName -> DiveTab.SEARCH
+                MyPage::class.qualifiedName -> DiveTab.MYPAGE
                 else -> DiveTab.HOME
             }
         }
 
+    private val bottomBarRoutes = listOf(
+        Home::class.qualifiedName,
+        Search::class.qualifiedName,
+        MyPage::class.qualifiedName
+    )
+
+    val bottomBarIsVisible: Boolean
+        @Composable get() {
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRouteName = navBackStackEntry?.destination?.route
+            return currentRouteName in bottomBarRoutes
+        }
+
     fun navigateToTab(tab: DiveTab) {
         val route = when (tab) {
-            DiveTab.HOME -> AppRoute.Home
-            DiveTab.SEARCH -> AppRoute.Search
-            DiveTab.MYPAGE -> AppRoute.MyPage
+            DiveTab.HOME -> Home
+            DiveTab.SEARCH -> Search
+            DiveTab.MYPAGE -> MyPage
         }
 
         navController.navigate(route) {
@@ -50,5 +61,17 @@ class AppNavigator(
             launchSingleTop = true
             restoreState = true
         }
+    }
+
+    fun navigateToSignUp() {
+        navController.navigate(SignUp)
+    }
+
+    fun navigateToLogin() {
+        navController.navigate(LogIn)
+    }
+
+    fun navigateToHome() {
+        navController.navigate(Home)
     }
 }

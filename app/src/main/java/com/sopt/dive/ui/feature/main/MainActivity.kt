@@ -11,8 +11,11 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navigator = rememberMainNavigator()
             DiveTheme {
-                MainNavHost()
+                MainScreen(
+                    navigator = navigator
+                )
             }
         }
     }

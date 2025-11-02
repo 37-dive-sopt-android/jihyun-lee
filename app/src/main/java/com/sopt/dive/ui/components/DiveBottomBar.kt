@@ -22,31 +22,34 @@ import com.sopt.dive.ui.util.noRippleClickable
 fun DiveBottomBar(
     currentTab: DiveTab,
     onTabSelected: (DiveTab) -> Unit,
+    isVisible: Boolean,
     modifier: Modifier = Modifier
 ) {
-    Row (
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 10.dp)
-    ) {
-        BottomBarItem(
-            tab = DiveTab.HOME,
-            selected = (currentTab == DiveTab.HOME),
-            onClick = { onTabSelected(DiveTab.HOME) },
-            modifier = Modifier.weight(1f)
-        )
-        BottomBarItem(
-            tab = DiveTab.SEARCH,
-            selected = (currentTab == DiveTab.SEARCH),
-            onClick = { onTabSelected(DiveTab.SEARCH)},
-            modifier = Modifier.weight(1f)
-        )
-        BottomBarItem(
-            tab = DiveTab.MYPAGE,
-            selected = (currentTab == DiveTab.MYPAGE),
-            onClick = { onTabSelected(DiveTab.MYPAGE)},
-            modifier = Modifier.weight(1f)
-        )
+    if (isVisible) {
+        Row (
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(vertical = 10.dp)
+        ) {
+            BottomBarItem(
+                tab = DiveTab.HOME,
+                selected = (currentTab == DiveTab.HOME),
+                onClick = { onTabSelected(DiveTab.HOME) },
+                modifier = Modifier.weight(1f)
+            )
+            BottomBarItem(
+                tab = DiveTab.SEARCH,
+                selected = (currentTab == DiveTab.SEARCH),
+                onClick = { onTabSelected(DiveTab.SEARCH)},
+                modifier = Modifier.weight(1f)
+            )
+            BottomBarItem(
+                tab = DiveTab.MYPAGE,
+                selected = (currentTab == DiveTab.MYPAGE),
+                onClick = { onTabSelected(DiveTab.MYPAGE)},
+                modifier = Modifier.weight(1f)
+            )
+        }
     }
 }
 
@@ -81,7 +84,8 @@ private fun BottomBarPreview() {
     DiveTheme {
         DiveBottomBar(
             currentTab = DiveTab.HOME,
-            onTabSelected = {}
+            onTabSelected = {},
+            isVisible = true
         )
     }
 }

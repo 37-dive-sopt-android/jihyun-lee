@@ -3,31 +3,20 @@ package com.sopt.dive.ui.feature.main
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed interface RootRoute {
-    @Serializable
-    data object Auth : RootRoute
-
-    @Serializable
-    data object Main : RootRoute
-}
+sealed interface Route
 
 @Serializable
-sealed interface AuthRoute {
-    @Serializable
-    data object LogIn : AuthRoute
-
-    @Serializable
-    data object SignUp : AuthRoute
-}
+data object LogIn : Route
 
 @Serializable
-sealed interface AppRoute {
-    @Serializable
-    data object Home : AppRoute
+data object SignUp : Route
 
-    @Serializable
-    data object Search : AppRoute
+@Serializable
+data object Home : Route
 
-    @Serializable
-    data object MyPage : AppRoute
-}
+@Serializable
+data object Search : Route
+
+@Serializable
+data object MyPage : Route
+
