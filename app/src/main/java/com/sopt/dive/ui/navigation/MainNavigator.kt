@@ -1,4 +1,4 @@
-package com.sopt.dive.ui.feature.main
+package com.sopt.dive.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable

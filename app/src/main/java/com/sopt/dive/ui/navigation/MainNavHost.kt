@@ -1,4 +1,4 @@
-package com.sopt.dive.ui.feature.main
+package com.sopt.dive.ui.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.navigationBarsPadding

@@ -31,24 +31,14 @@ fun DiveBottomBar(
                 .fillMaxWidth()
                 .padding(vertical = 10.dp)
         ) {
-            BottomBarItem(
-                tab = DiveTab.HOME,
-                selected = (currentTab == DiveTab.HOME),
-                onClick = { onTabSelected(DiveTab.HOME) },
-                modifier = Modifier.weight(1f)
-            )
-            BottomBarItem(
-                tab = DiveTab.SEARCH,
-                selected = (currentTab == DiveTab.SEARCH),
-                onClick = { onTabSelected(DiveTab.SEARCH)},
-                modifier = Modifier.weight(1f)
-            )
-            BottomBarItem(
-                tab = DiveTab.MYPAGE,
-                selected = (currentTab == DiveTab.MYPAGE),
-                onClick = { onTabSelected(DiveTab.MYPAGE)},
-                modifier = Modifier.weight(1f)
-            )
+            DiveTab.entries.forEach { diveTab ->
+                BottomBarItem(
+                    tab = diveTab,
+                    selected = (currentTab == diveTab),
+                    onClick = { onTabSelected(diveTab) },
+                    modifier = Modifier.weight(1f)
+                )
+            }
         }
     }
 }
@@ -73,7 +63,7 @@ private fun BottomBarItem(
         Text(
             text = stringResource(tab.label),
             color = if (selected) tab.selectedColor else tab.defaultColor,
-            style = DiveTheme.typography.caption.regular_12
+            style = DiveTheme.typography.caption.small_regular
         )
     }
 }

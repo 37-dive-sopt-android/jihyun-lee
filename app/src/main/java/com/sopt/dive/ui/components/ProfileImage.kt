@@ -12,6 +12,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import coil.compose.AsyncImage
 import com.sopt.dive.R
@@ -27,7 +28,7 @@ fun ProfileImage(
         modifier = modifier
             .size(imageSize)
             .clip(RoundedCornerShape(percent = 40))
-            .background(if(imageUrl.isNullOrEmpty()) DiveTheme.colors.gray200 else DiveTheme.colors.transParent),
+            .background(if (imageUrl.isNullOrEmpty()) DiveTheme.colors.gray200 else DiveTheme.colors.transParent),
         contentAlignment = Alignment.Center
     ) {
         if (imageUrl.isNullOrEmpty()) {
@@ -45,5 +46,15 @@ fun ProfileImage(
                 contentScale = ContentScale.Crop
             )
         }
+    }
+}
+
+@Preview
+@Composable
+private fun ProfileImagePreview() {
+    DiveTheme {
+        ProfileImage(
+            imageUrl = null
+        )
     }
 }

@@ -17,7 +17,7 @@ import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.ui.util.noRippleClickable
 
 @Composable
-fun DiveBasicButton(
+fun DiveLargeButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -28,7 +28,9 @@ fun DiveBasicButton(
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
-            .noRippleClickable { onClick() }
+            .noRippleClickable {
+                if (isEnable) onClick()
+            }
             .background(if (isEnable) containerColor else DiveTheme.colors.gray200)
             .padding(vertical = 10.dp, horizontal = 20.dp)
             .fillMaxWidth(),
@@ -37,7 +39,7 @@ fun DiveBasicButton(
         Text(
             text = text,
             color = if(isEnable) contentColor else DiveTheme.colors.gray600,
-            style = DiveTheme.typography.caption.regular_14
+            style = DiveTheme.typography.caption.large_regular
         )
     }
 }
@@ -46,7 +48,7 @@ fun DiveBasicButton(
 @Composable
 private fun DiveBasicButtonPreview() {
     DiveTheme {
-        DiveBasicButton(
+        DiveLargeButton(
             "회원가입하기",
             onClick = {},
         )

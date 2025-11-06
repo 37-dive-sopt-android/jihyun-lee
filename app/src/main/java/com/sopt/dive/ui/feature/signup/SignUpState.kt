@@ -74,8 +74,8 @@ class SignUpState (
         }
     }
 
-    val uiState by derivedStateOf {
-        SignUpUiState(
+    val uiState: SignUpUiState
+        get() = SignUpUiState(
             id = id,
             password = password,
             name = name,
@@ -87,7 +87,6 @@ class SignUpState (
             nicknameValidType = nicknameValidType,
             mbtiValidType = mbtiValidType
         )
-    }
 
     fun onIdChange(newId: String) { id = newId }
     fun onPwChange(newPw: String) { password = newPw }

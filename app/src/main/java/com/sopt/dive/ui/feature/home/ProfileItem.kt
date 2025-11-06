@@ -35,8 +35,8 @@ fun ProfileItem(
     profileInfo: ProfileInfo,
     modifier: Modifier = Modifier,
     imageSize: Dp = Dp(60F),
-    nameTextStyle: TextStyle = defaultDiveTypography.body.regular_16,
-    messageTextStyle: TextStyle = defaultDiveTypography.caption.regular_12
+    nameTextStyle: TextStyle = defaultDiveTypography.body.medium_regular,
+    messageTextStyle: TextStyle = defaultDiveTypography.caption.medium_regular
 ) {
     Row (
         modifier = modifier.fillMaxWidth(),
@@ -99,13 +99,13 @@ private fun MusicBox(
     Row (
         modifier = modifier
             .border(1.dp, DiveTheme.colors.limeGreen, RoundedCornerShape(20.dp))
-            .padding(vertical = 4.dp, horizontal = 12.dp),
+            .padding(vertical = 6.dp, horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
             text = music,
-            style = DiveTheme.typography.caption.regular_14,
+            style = DiveTheme.typography.caption.medium_regular,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1f, fill = false)
@@ -129,7 +129,7 @@ private fun GiftButton(modifier: Modifier = Modifier) {
     ) {
         Text(
             text = stringResource(R.string.home_gift_button),
-            style = DiveTheme.typography.caption.regular_14
+            style = DiveTheme.typography.caption.medium_regular
         )
     }
 }

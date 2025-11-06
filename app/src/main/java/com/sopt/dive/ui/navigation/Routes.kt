@@ -1,4 +1,4 @@
-package com.sopt.dive.ui.feature.main
+package com.sopt.dive.ui.navigation
 
 import kotlinx.serialization.Serializable
 

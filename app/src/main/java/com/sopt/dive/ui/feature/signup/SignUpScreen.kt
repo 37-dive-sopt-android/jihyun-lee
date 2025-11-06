@@ -18,16 +18,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
-import com.sopt.dive.ui.components.DiveBasicButton
 import com.sopt.dive.ui.components.DiveBasicTextField
+import com.sopt.dive.ui.components.DiveLargeButton
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun SignUpRoute(
     onNavigateToLogin: () -> Unit,
-    modifier: Modifier = Modifier,
-    state: SignUpState = rememberSignUpState(onNavigateToLogin = onNavigateToLogin)
+    modifier: Modifier = Modifier
 ) {
+    val state = rememberSignUpState(onNavigateToLogin = onNavigateToLogin)
     SignUpScreen(
         uiState = state.uiState,
         onIdChange = state::onIdChange,
@@ -56,7 +56,7 @@ private fun SignUpScreen(
         topBar = {
             Text(
                 text = stringResource(R.string.signup_title),
-                style = DiveTheme.typography.heather.semibold_32,
+                style = DiveTheme.typography.heather.medium_bold,
                 color = DiveTheme.colors.gray600,
                 modifier = Modifier
                     .padding(horizontal = 20.dp, vertical = 40.dp)
@@ -65,7 +65,7 @@ private fun SignUpScreen(
             )
         },
         bottomBar = {
-            DiveBasicButton(
+            DiveLargeButton(
                 onClick = onSignUpButtonClick,
                 text = stringResource(R.string.signup_button),
                 isEnable = uiState.isSignUpEnabled,

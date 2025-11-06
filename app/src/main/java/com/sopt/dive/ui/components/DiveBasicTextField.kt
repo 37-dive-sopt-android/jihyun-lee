@@ -49,7 +49,7 @@ fun DiveBasicTextField(
     ) {
         Text(
             text = label,
-            style = DiveTheme.typography.body.semibold_18,
+            style = DiveTheme.typography.body.large_semibold,
             color = DiveTheme.colors.gray600
         )
         BasicTextField(
@@ -68,7 +68,7 @@ fun DiveBasicTextField(
                     shape = RoundedCornerShape(8.dp)
                 )
                 .padding(12.dp),
-            textStyle = DiveTheme.typography.caption.regular_12.copy(
+            textStyle = DiveTheme.typography.caption.large_regular.copy(
                 color = DiveTheme.colors.gray600
             ),
             maxLines = maxLines,
@@ -89,7 +89,7 @@ fun DiveBasicTextField(
                         if (value.isEmpty()) {
                             Text(
                                 text = placeholder,
-                                style = DiveTheme.typography.caption.regular_12,
+                                style = DiveTheme.typography.caption.large_regular,
                                 color = DiveTheme.colors.gray400
                             )
                         }
@@ -108,7 +108,7 @@ fun DiveBasicTextField(
             Text(
                 text = stringResource(textFieldValidType.messageResId),
                 color = textFieldValidType.color,
-                style = DiveTheme.typography.caption.regular_10
+                style = DiveTheme.typography.caption.small_regular
             )
         }
     }

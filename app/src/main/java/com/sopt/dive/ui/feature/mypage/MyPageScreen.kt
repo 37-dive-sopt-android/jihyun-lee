@@ -65,18 +65,19 @@ private fun MyPageScreen(
             ProfileImage(userInfo.profileImageUrl)
             Text(
                 text = userInfo.name,
-                style = DiveTheme.typography.body.regular_18
+                style = DiveTheme.typography.body.large_semibold,
+                color = DiveTheme.colors.gray600
             )
         }
         Text(
             text = stringResource(R.string.mypage_user_description, userInfo.name),
-            style = DiveTheme.typography.caption.regular_14,
+            style = DiveTheme.typography.caption.large_regular,
             modifier = Modifier.padding(top = 10.dp),
         )
 
         Column(
             modifier = Modifier.padding(vertical = 40.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             MyDataField(stringResource(R.string.signup_id), userInfo.id)
             MyDataField(stringResource(R.string.signup_pw), userInfo.password)
@@ -86,13 +87,13 @@ private fun MyPageScreen(
 
         Text(
             text = stringResource(R.string.mypage_logout),
-            style = DiveTheme.typography.caption.regular_12,
+            style = DiveTheme.typography.caption.medium_regular,
             modifier = Modifier.noRippleClickable { onLogoutClick() },
             textDecoration = TextDecoration.Underline,
         )
         Text(
             text = stringResource(R.string.mypage_withdraw),
-            style = DiveTheme.typography.caption.regular_12,
+            style = DiveTheme.typography.caption.medium_regular,
             modifier = Modifier
                 .noRippleClickable { onWithdrawClick() }
                 .padding(top = 8.dp),
@@ -113,11 +114,12 @@ private fun MyDataField(
     ) {
         Text(
             text = label,
-            style = DiveTheme.typography.body.regular_18
+            style = DiveTheme.typography.body.medium_semibold,
+            color = DiveTheme.colors.gray600
         )
         Text(
             text = text,
-            style = DiveTheme.typography.caption.regular_14
+            style = DiveTheme.typography.caption.large_regular
         )
     }
 }

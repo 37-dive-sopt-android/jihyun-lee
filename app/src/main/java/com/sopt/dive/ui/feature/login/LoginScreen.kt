@@ -22,8 +22,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
-import com.sopt.dive.ui.components.DiveBasicButton
 import com.sopt.dive.ui.components.DiveBasicTextField
+import com.sopt.dive.ui.components.DiveLargeButton
 import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.ui.util.noRippleClickable
 
@@ -62,7 +62,7 @@ private fun LoginScreen(
         topBar = {
             Text(
                 text = stringResource(R.string.login_title),
-                style = DiveTheme.typography.heather.semibold_32,
+                style = DiveTheme.typography.heather.medium_bold,
                 color = DiveTheme.colors.gray600,
                 modifier = Modifier
                     .padding(vertical = 40.dp, horizontal = 20.dp)
@@ -75,14 +75,14 @@ private fun LoginScreen(
                 modifier = Modifier.padding(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                DiveBasicButton(
+                DiveLargeButton(
                     onClick = onLoginClick,
                     text = stringResource(R.string.login_title),
                     isEnable = uiState.isLoginEnabled
                 )
                 Text(
                     text = stringResource(R.string.signup_button),
-                    style = DiveTheme.typography.caption.regular_12,
+                    style = DiveTheme.typography.caption.medium_regular,
                     modifier = Modifier
                         .padding(top = 8.dp)
                         .noRippleClickable { onSignUpClick() },

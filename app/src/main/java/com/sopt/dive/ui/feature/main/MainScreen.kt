@@ -6,6 +6,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.sopt.dive.ui.components.DiveBottomBar
+import com.sopt.dive.ui.navigation.MainNavHost
+import com.sopt.dive.ui.navigation.MainNavigator
+import com.sopt.dive.ui.navigation.rememberMainNavigator
 
 @Composable
 fun MainScreen(
