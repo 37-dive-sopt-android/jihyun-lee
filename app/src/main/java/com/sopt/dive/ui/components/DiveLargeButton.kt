@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,29 +14,32 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.ui.theme.DiveTheme
-import com.sopt.dive.ui.theme.Purple40
-import com.sopt.dive.util.noRippleClickable
+import com.sopt.dive.ui.util.noRippleClickable
 
 @Composable
-fun DiveBasicButton(
+fun DiveLargeButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    containerColor: Color = Purple40,
-    contentColor: Color = contentColorFor(containerColor),
+    isEnable: Boolean = true,
+    containerColor: Color = DiveTheme.colors.purple40,
+    contentColor: Color = DiveTheme.colors.white,
 ) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(20.dp))
-            .noRippleClickable { onClick() }
-            .background(containerColor)
+            .clip(RoundedCornerShape(16.dp))
+            .noRippleClickable {
+                if (isEnable) onClick()
+            }
+            .background(if (isEnable) containerColor else DiveTheme.colors.gray200)
             .padding(vertical = 10.dp, horizontal = 20.dp)
             .fillMaxWidth(),
         contentAlignment = Alignment.Center,
     ) {
         Text(
             text = text,
-            color = contentColor,
+            color = if(isEnable) contentColor else DiveTheme.colors.gray600,
+            style = DiveTheme.typography.caption.large_regular
         )
     }
 }
@@ -46,7 +48,7 @@ fun DiveBasicButton(
 @Composable
 private fun DiveBasicButtonPreview() {
     DiveTheme {
-        DiveBasicButton(
+        DiveLargeButton(
             "회원가입하기",
             onClick = {},
         )
