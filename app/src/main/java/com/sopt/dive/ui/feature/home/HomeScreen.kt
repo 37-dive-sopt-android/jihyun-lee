@@ -9,112 +9,41 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
-import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.domain.model.ProfileInfo
-import com.sopt.dive.domain.model.UserInfo
 import com.sopt.dive.ui.theme.DiveTheme
 
 @Composable
 fun HomeRoute(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = viewModel()
 ) {
-    UserPrefs.setProfileImageUrl("https://i.pinimg.com/736x/96/37/2d/96372ded13d1e6b17cdf10b4ecb23483.jpg")
-    val currentUserInfo = remember { UserPrefs.loadUser() } ?: UserInfo()
-
-    val userProfile = ProfileInfo(
-        profileImageUrl = currentUserInfo.profileImageUrl,
-        name = currentUserInfo.name
-    )
-
-    val friendList = listOf(
-        ProfileInfo(
-            profileImageUrl = "https://i.pinimg.com/736x/22/42/9b/22429b5137154dbefb84162d58d3f76b.jpg",
-            name = "이지현",
-            statusMessage = "안녕하세요",
-            music = "COLOR - NCT WISH"
-        ),
-        ProfileInfo(
-            name = "이지현",
-            isBirthday = true
-        ),
-        ProfileInfo(
-            profileImageUrl = "https://i.pinimg.com/736x/e6/17/fa/e617fa85c330cba8abbf56e11c542913.jpg",
-            name = "이지현",
-            music = "Drowning - WOODZ"
-        ),
-        ProfileInfo(
-            profileImageUrl = "https://i.pinimg.com/736x/22/42/9b/22429b5137154dbefb84162d58d3f76b.jpg",
-            name = "이지현",
-            statusMessage = "안녕하세요"
-        ),
-        ProfileInfo(
-            name = "이지현",
-            statusMessage = "생일이다아",
-            isBirthday = true
-        ),
-        ProfileInfo(
-            profileImageUrl = "https://i.pinimg.com/736x/e6/17/fa/e617fa85c330cba8abbf56e11c542913.jpg",
-            name = "이지현",
-            music = "FAMOUS - ALLDAY PROJECT"
-        ),
-        ProfileInfo(
-            profileImageUrl = "https://i.pinimg.com/736x/22/42/9b/22429b5137154dbefb84162d58d3f76b.jpg",
-            name = "이지현",
-            statusMessage = "안녕하세요",
-        ),
-        ProfileInfo(
-            name = "이지현",
-            isBirthday = true
-        ),
-        ProfileInfo(
-            profileImageUrl = "https://i.pinimg.com/736x/e6/17/fa/e617fa85c330cba8abbf56e11c542913.jpg",
-            name = "이지현",
-            isBirthday = true,
-            music = "Drowning - WOODZ"
-        ),
-        ProfileInfo(
-            profileImageUrl = "https://i.pinimg.com/736x/22/42/9b/22429b5137154dbefb84162d58d3f76b.jpg",
-            name = "이지현",
-            statusMessage = "안녕하세요",
-            music = "Blue Valentine - NMIXX"
-        ),
-        ProfileInfo(
-            name = "이지현",
-            isBirthday = true
-        ),
-        ProfileInfo(
-            profileImageUrl = "https://i.pinimg.com/736x/e6/17/fa/e617fa85c330cba8abbf56e11c542913.jpg",
-            name = "이지현"
-        )
-    )
+    val uiState = viewModel.uiState
 
     HomeScreen(
-        userProfile = userProfile,
-        friendList = friendList,
+        uiState = uiState,
         modifier = modifier
     )
 }
 
 @Composable
 fun HomeScreen(
-    userProfile: ProfileInfo,
-    friendList: List<ProfileInfo>,
+    uiState: HomeUiState,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn (
+    LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         item {
             ProfileItem(
-                profileInfo = userProfile,
+                profileInfo = uiState.userProfile,
                 imageSize = 80.dp,
                 nameTextStyle = DiveTheme.typography.body.large_regular
             )
@@ -124,14 +53,14 @@ fun HomeScreen(
             Column {
                 HorizontalDivider()
                 Text(
-                    text = stringResource(R.string.home_friends, friendList.size),
+                    text = stringResource(R.string.home_friends, uiState.friendList.size),
                     style = DiveTheme.typography.caption.medium_regular,
                     modifier = Modifier.padding(top = 12.dp)
                 )
             }
         }
 
-        items(items = friendList) { profile ->
+        items(items = uiState.friendList) { profile ->
             ProfileItem(profile)
         }
     }
@@ -140,28 +69,28 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 private fun HomePreview() {
-    val userProfile = ProfileInfo(
-        profileImageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
-        name = "이지현"
-    )
-
-    val friendList = listOf(
-        ProfileInfo(
+    val uiState = HomeUiState(
+        userProfile = ProfileInfo(
             profileImageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
-            name = "이지현",
-            statusMessage = "안녕하세요",
-            music = "COLOR - NCT WISH"
+            name = "이지현"
         ),
-        ProfileInfo(
-            name = "이지현",
-            isBirthday = true
+        friendList = listOf(
+            ProfileInfo(
+                profileImageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
+                name = "이지현",
+                statusMessage = "안녕하세요",
+                music = "COLOR - NCT WISH"
+            ),
+            ProfileInfo(
+                name = "이지현",
+                isBirthday = true
+            )
         )
     )
 
     DiveTheme {
         HomeScreen(
-            userProfile = userProfile,
-            friendList = friendList
+            uiState = uiState
         )
     }
 }
