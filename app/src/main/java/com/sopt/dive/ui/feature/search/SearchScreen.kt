@@ -27,8 +27,8 @@ fun SearchScreen(
         contentAlignment = Alignment.Center
     ){
         FlipCard(
-            frontImageUrl = "https://i.pinimg.com/736x/39/e4/83/39e483cc2769b34faa081680c3741c7c.jpg",
-            backImageUrl = "https://i.pinimg.com/736x/e4/1f/3c/e41f3cb1c9d36dda02709861e57d00ed.jpg",
+            imageUrl = "https://i.pinimg.com/736x/13/fc/14/13fc149bd618a181cf1542c3140c5f40.jpg",
+            text = "안녕하세요".repeat(100),
             modifier = Modifier.width(300.dp)
         )
     }
