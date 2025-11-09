@@ -1,11 +1,8 @@
 package com.sopt.dive.ui.feature.search
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.updateTransition
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
@@ -68,6 +65,15 @@ fun StackedFlipCard(
             FlipState.NotFlipped -> 0f
         }
     }
+    val textAlpha by transition.animateFloat(
+        transitionSpec = { commonSpring }
+    ) { state ->
+        when (state) {
+            FlipState.Flipped -> 1f
+            FlipState.NotFlipped -> 0f
+        }
+    }
+
     val frontShape = RoundedCornerShape(
         topStart = 20.dp,
         topEnd = 90.dp,
@@ -122,16 +128,13 @@ fun StackedFlipCard(
                 .background(DiveTheme.colors.limeGreen)
                 .zIndex(0f)
         ) {
-            AnimatedVisibility(
-                visible = (rotation > 90f),
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-                Text(
-                    text = text,
-                    textAlign = TextAlign.Center
-                )
-            }
+            Text(
+                text = text,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.graphicsLayer {
+                    alpha = textAlpha
+                }
+            )
         }
     }
 }
