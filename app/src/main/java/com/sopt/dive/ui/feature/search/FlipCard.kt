@@ -62,7 +62,6 @@ fun FlipCard(
             modifier = Modifier
                 .fillMaxSize()
                 .graphicsLayer {
-                    rotationY = 180f
                     alpha = if (rotation > 90f) 1f else 0f
                 }
         )

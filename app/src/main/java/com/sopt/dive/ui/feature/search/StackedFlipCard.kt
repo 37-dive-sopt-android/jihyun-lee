@@ -7,7 +7,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -24,13 +23,11 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.ui.util.noRippleClickable
-import kotlin.math.roundToInt
 
 private enum class FlipState { Flipped, NotFlipped }
 
@@ -100,12 +97,6 @@ fun StackedFlipCard(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxSize()
-                .offset {
-                    IntOffset(
-                        x = offset.dp.toPx().roundToInt(),
-                        y = offset.dp.toPx().roundToInt()
-                    )
-                }
                 .shadow(
                     elevation = if (rotation <= 10f) 12.dp else 0.dp,
                     shape = frontShape
@@ -113,6 +104,8 @@ fun StackedFlipCard(
                 .graphicsLayer {
                     rotationY = rotation
                     cameraDistance = 12f * density
+                    translationX = offset.dp.toPx()
+                    translationY = offset.dp.toPx()
                 }
                 .zIndex(if (rotation <= 90f) 1f else -1f)
                 .clip(frontShape)
