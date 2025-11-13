@@ -1,5 +1,6 @@
 package com.sopt.dive.ui.feature.login
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,9 +11,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
@@ -21,6 +26,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
 import com.sopt.dive.ui.components.DiveBasicTextField
 import com.sopt.dive.ui.components.DiveLargeButton
@@ -31,16 +38,29 @@ import com.sopt.dive.ui.util.noRippleClickable
 fun LoginRoute(
     onNavigateToSignUp: () -> Unit,
     onNavigateToHome: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: LoginViewModel = viewModel()
 ) {
-    val state = rememberLoginState(onNavigateToHome = onNavigateToHome)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+
+    LaunchedEffect(viewModel.sideEffect) {
+        viewModel.sideEffect.collect { effect ->
+            when (effect) {
+                is LoginSideEffect.NavigateToHome -> onNavigateToHome()
+                is LoginSideEffect.ShowToast -> {
+                    Toast.makeText(context, context.getString(effect.messageResId), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 
     LoginScreen(
-        uiState = state.uiState,
-        onIdChange = state::onIdChange,
-        onPasswordChange = state::onPasswordChange,
-        onPasswordToggleClick = state::onPasswordToggleClick,
-        onLoginClick = state::onLoginClick,
+        uiState = uiState,
+        onIdChange = viewModel::updateId,
+        onPasswordChange = viewModel::updatePassword,
+        onPasswordToggleClick = viewModel::togglePasswordVisibility,
+        onLoginClick = viewModel::login,
         onSignUpClick = onNavigateToSignUp,
         modifier = modifier
     )
@@ -133,15 +153,16 @@ private fun LoginScreen(
 @Preview(showBackground = true)
 @Composable
 private fun LoginPreview() {
-    val state = rememberLoginState(onNavigateToHome = {})
+    val viewModel = remember { LoginViewModel() }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     DiveTheme {
         LoginScreen(
-            uiState = state.uiState,
-            onIdChange = state::onIdChange,
-            onPasswordChange = state::onPasswordChange,
-            onPasswordToggleClick = state::onPasswordToggleClick,
-            onLoginClick = state::onLoginClick,
+            uiState = uiState,
+            onIdChange = viewModel::updateId,
+            onPasswordChange = viewModel::updatePassword,
+            onPasswordToggleClick = viewModel::togglePasswordVisibility,
+            onLoginClick = viewModel::login,
             onSignUpClick = {}
         )
     }

@@ -6,7 +6,11 @@ import androidx.compose.ui.text.input.VisualTransformation
 data class LoginUiState(
     val id: String = "",
     val password: String = "",
-    val isLoginEnabled: Boolean = false,
-    val isPasswordVisible: Boolean = false,
-    val visualTransformation: VisualTransformation = PasswordVisualTransformation()
-)
+    val isPasswordVisible: Boolean = false
+) {
+    val isLoginEnabled: Boolean
+        get() = id.isNotBlank() && password.isNotBlank()
+
+    val visualTransformation: VisualTransformation
+        get() = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation()
+}
