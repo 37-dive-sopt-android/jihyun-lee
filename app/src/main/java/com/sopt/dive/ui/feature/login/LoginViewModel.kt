@@ -6,6 +6,7 @@ import com.sopt.dive.R
 import com.sopt.dive.data.dto.request.LoginRequestDto
 import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.data.network.ServicePool
+import com.sopt.dive.data.network.getErrorMessage
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class LoginViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(LoginUiState())
@@ -56,10 +58,12 @@ class LoginViewModel : ViewModel() {
                     UserPrefs.setLoggedIn(true)
                     _sideEffect.emit(LoginSideEffect.ShowToastResId(R.string.login_success_message))
                     _sideEffect.emit(LoginSideEffect.NavigateToHome)
-                } else {
-                    _sideEffect.emit(LoginSideEffect.ShowToastString(response.message))
                 }
-
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                val errorMessage = getErrorMessage(e)
+                if (errorMessage.isNotBlank()) _sideEffect.emit(LoginSideEffect.ShowToastString(errorMessage))
+                else _sideEffect.emit(LoginSideEffect.ShowToastResId(R.string.login_fail_message))
             } catch (e: Exception) {
                 e.printStackTrace()
                 _sideEffect.emit(LoginSideEffect.ShowToastResId(R.string.login_fail_message))

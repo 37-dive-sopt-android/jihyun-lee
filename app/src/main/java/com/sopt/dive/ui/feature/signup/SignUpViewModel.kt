@@ -6,6 +6,7 @@ import com.sopt.dive.R
 import com.sopt.dive.data.dto.request.SignUpRequestDto
 import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.data.network.ServicePool
+import com.sopt.dive.data.network.getErrorMessage
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class SignUpViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(SignUpUiState())
@@ -71,6 +73,11 @@ class SignUpViewModel : ViewModel() {
                 } else {
                     _sideEffect.emit(SignUpSideEffect.ShowToastString(response.message))
                 }
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                val errorMessage = getErrorMessage(e)
+                if (errorMessage.isNotBlank()) _sideEffect.emit(SignUpSideEffect.ShowToastString(errorMessage))
+                else _sideEffect.emit(SignUpSideEffect.ShowToastResId(R.string.signup_fail_message))
             } catch (e: Exception) {
                 e.printStackTrace()
                 _sideEffect.emit(SignUpSideEffect.ShowToastResId(R.string.signup_fail_message))

@@ -1,7 +1,6 @@
 package com.sopt.dive.data.service
 
 import com.sopt.dive.data.dto.base.ApiResponse
-import com.sopt.dive.data.dto.base.NullableApiResponse
 import com.sopt.dive.data.dto.request.SignUpRequestDto
 import com.sopt.dive.data.dto.response.SignUpResponseDto
 import retrofit2.http.Body
@@ -24,5 +23,5 @@ interface UserService {
     @DELETE("/api/v1/users/{id}")
     suspend fun windraw(
         @Path("id") id: Int
-    ): NullableApiResponse<Unit>
+    ): ApiResponse<Unit>
 }
