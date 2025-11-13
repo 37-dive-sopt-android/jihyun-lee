@@ -3,7 +3,9 @@ package com.sopt.dive.ui.feature.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.R
+import com.sopt.dive.data.dto.request.LoginRequestDto
 import com.sopt.dive.data.local.UserPrefs
+import com.sopt.dive.data.network.ServicePool
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -20,19 +22,19 @@ class LoginViewModel : ViewModel() {
     private val _sideEffect = MutableSharedFlow<LoginSideEffect>()
     val sideEffect: SharedFlow<LoginSideEffect> = _sideEffect.asSharedFlow()
 
-    fun updateId(newId: String) {
+    fun onIdChange(newId: String) {
         _uiState.update { currentState ->
             currentState.copy(id = newId)
         }
     }
 
-    fun updatePassword(newPassword: String) {
+    fun onPasswordChange(newPassword: String) {
         _uiState.update { currentState ->
             currentState.copy(password = newPassword)
         }
     }
 
-    fun togglePasswordVisibility() {
+    fun onPasswordToggleClick() {
         _uiState.update { currentState ->
             val newVisibility = !currentState.isPasswordVisible
             currentState.copy(isPasswordVisible = newVisibility)
@@ -42,15 +44,25 @@ class LoginViewModel : ViewModel() {
     fun login() {
         val currentId = _uiState.value.id
         val currentPassword = _uiState.value.password
-        val registeredId = UserPrefs.getId()
-        val registeredPassword = UserPrefs.getPassword()
 
         viewModelScope.launch {
-            if (currentId == registeredId && currentPassword == registeredPassword) {
-                UserPrefs.setLoggedIn(value = true)
-                _sideEffect.emit(LoginSideEffect.ShowToast(R.string.login_success_message))
-                _sideEffect.emit(LoginSideEffect.NavigateToHome)
-            } else {
+            try {
+                val loginRequest = LoginRequestDto(
+                    username = currentId,
+                    password = currentPassword
+                )
+                val response = ServicePool.authService.login(loginRequest)
+
+                if (response.success){
+                    UserPrefs.setLoggedIn(true)
+                    _sideEffect.emit(LoginSideEffect.ShowToast(R.string.login_success_message))
+                    _sideEffect.emit(LoginSideEffect.NavigateToHome)
+                } else {
+                    _sideEffect.emit(LoginSideEffect.ShowToast(R.string.login_fail_message))
+                }
+
+            } catch (e: Exception) {
+                e.printStackTrace()
                 _sideEffect.emit(LoginSideEffect.ShowToast(R.string.login_fail_message))
             }
         }

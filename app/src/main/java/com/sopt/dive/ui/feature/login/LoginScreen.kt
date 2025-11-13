@@ -57,9 +57,9 @@ fun LoginRoute(
 
     LoginScreen(
         uiState = uiState,
-        onIdChange = viewModel::updateId,
-        onPasswordChange = viewModel::updatePassword,
-        onPasswordToggleClick = viewModel::togglePasswordVisibility,
+        onIdChange = viewModel::onIdChange,
+        onPasswordChange = viewModel::onPasswordChange,
+        onPasswordToggleClick = viewModel::onPasswordToggleClick,
         onLoginClick = viewModel::login,
         onSignUpClick = onNavigateToSignUp,
         modifier = modifier
@@ -159,9 +159,9 @@ private fun LoginPreview() {
     DiveTheme {
         LoginScreen(
             uiState = uiState,
-            onIdChange = viewModel::updateId,
-            onPasswordChange = viewModel::updatePassword,
-            onPasswordToggleClick = viewModel::togglePasswordVisibility,
+            onIdChange = viewModel::onIdChange,
+            onPasswordChange = viewModel::onPasswordChange,
+            onPasswordToggleClick = viewModel::onPasswordToggleClick,
             onLoginClick = viewModel::login,
             onSignUpClick = {}
         )
