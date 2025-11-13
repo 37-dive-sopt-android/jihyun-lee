@@ -8,4 +8,8 @@ interface UserDataSource {
     suspend fun singUp(
         signUpRequestDto: SignUpRequestDto
     ): BaseResponseDto<UserResponseDto>
+
+    suspend fun getUserInfo(
+        id: Int
+    ): BaseResponseDto<UserResponseDto>
 }

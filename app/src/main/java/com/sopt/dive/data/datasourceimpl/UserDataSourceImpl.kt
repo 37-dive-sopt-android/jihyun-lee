@@ -12,4 +12,8 @@ class UserDataSourceImpl(
     override suspend fun singUp(signUpRequestDto: SignUpRequestDto): BaseResponseDto<UserResponseDto> {
         return userService.singUp(signUpRequestDto)
     }
+
+    override suspend fun getUserInfo(id: Int): BaseResponseDto<UserResponseDto> {
+       return userService.getUserInfo(id)
+    }
 }

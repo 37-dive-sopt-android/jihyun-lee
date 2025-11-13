@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
+import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.domain.model.UserInfo
 import com.sopt.dive.ui.components.ProfileImage
 import com.sopt.dive.ui.theme.DiveTheme
@@ -32,6 +33,13 @@ fun MyPageRoute(
     viewModel: MyPageViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val id = UserPrefs.getId()
+
+    LaunchedEffect(id) {
+        if (id != null) {
+            viewModel.loadUserInfo(id)
+        }
+    }
 
     LaunchedEffect(viewModel.sideEffect) {
         viewModel.sideEffect.collect { effect ->
@@ -85,7 +93,6 @@ private fun MyPageScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             MyDataField(stringResource(R.string.signup_id), uiState.userInfo.id)
-            MyDataField(stringResource(R.string.signup_pw), uiState.userInfo.password)
             MyDataField(stringResource(R.string.signup_email), uiState.userInfo.email)
             MyDataField(stringResource(R.string.signup_age), uiState.userInfo.age?.toString() ?: "")
         }
@@ -134,7 +141,6 @@ private fun MyDataField(
 private fun MyPagePreview() {
     val userInfo = UserInfo(
         id = "아이디",
-        password = "비밀번호",
         name = "이지현",
         email = "example@email.com",
         age = 25

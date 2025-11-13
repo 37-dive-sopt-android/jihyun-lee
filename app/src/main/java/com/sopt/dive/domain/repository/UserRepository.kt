@@ -7,4 +7,8 @@ interface UserRepository {
     suspend fun signUp(
         signUpRequestDto: SignUpRequestDto
     ): Result<UserResponseDto>
+
+    suspend fun getUserInfo(
+        id: Int
+    ): Result<UserResponseDto>
 }
