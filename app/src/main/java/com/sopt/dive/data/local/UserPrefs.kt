@@ -9,6 +9,7 @@ object UserPrefs {
     private const val FILE = "user_prefs"
     private const val IS_LOGGED_IN = "is_logged_in"
     private const val ID = "id"
+    private const val USER_NAME = "user_name"
     private const val PASSWORD = "password"
     private const val NAME = "name"
     private const val EMAIL = "email"
@@ -22,7 +23,8 @@ object UserPrefs {
     }
 
     fun saveUserInfo(
-        id: String,
+        id: Int,
+        username: String,
         password: String,
         name: String,
         email: String,
@@ -30,7 +32,8 @@ object UserPrefs {
         profileImageUrl: String = ""
     ) {
         prefs.edit {
-            putString(ID, id)
+            putInt(ID, id)
+            putString(USER_NAME, username)
             putString(PASSWORD, password)
             putString(NAME, name)
             putString(EMAIL, email)
@@ -45,7 +48,16 @@ object UserPrefs {
 
     fun isLoggedIn(): Boolean = prefs.getBoolean(IS_LOGGED_IN, false)
 
-    fun getId(): String? = prefs.getString(ID, null)
+    fun getId(): Int? {
+        val id = prefs.getInt(ID, -1)
+        return if (id == -1) null else id
+    }
+
+    fun setId(id: Int) {
+        prefs.edit { putInt(ID, id) }
+    }
+
+    fun getUserName(): String? = prefs.getString(USER_NAME, null)
 
     fun getPassword(): String? = prefs.getString(PASSWORD, null)
 
@@ -54,8 +66,8 @@ object UserPrefs {
     fun getEmail(): String? = prefs.getString(EMAIL, null)
 
     fun getAge(): Int? {
-        val age = prefs.getInt(AGE, 0)
-        return if (age == 0) null else age
+        val age = prefs.getInt(AGE, -1)
+        return if (age == -1) null else age
     }
 
     fun getProfileImageUrl(): String? = prefs.getString(PROFILE_IMAGE_URL, null)
@@ -67,12 +79,13 @@ object UserPrefs {
 
     fun loadUser(): UserInfo? {
         val id = getId() ?: return null
+        val username = getUserName() ?: ""
         val pw = getPassword() ?: ""
         val name = getName() ?: ""
         val email = getEmail() ?: ""
         val age = getAge()
         val url = getProfileImageUrl() ?: ""
-        return UserInfo(id, pw, name, email, age, url)
+        return UserInfo(username, pw, name, email, age, url)
     }
 
     fun logout() {

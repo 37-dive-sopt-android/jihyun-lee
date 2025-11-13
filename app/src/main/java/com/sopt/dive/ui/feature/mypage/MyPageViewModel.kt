@@ -9,8 +9,8 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class MyPageViewModel : ViewModel() {
     private val _uiState = MutableStateFlow(MyPageUiState())
@@ -25,9 +25,12 @@ class MyPageViewModel : ViewModel() {
 
     private fun loadUserInfo() {
         viewModelScope.launch {
-            val user = UserPrefs.loadUser()
-            if (user != null) {
-                _uiState.update { it.copy(userInfo = user) }
+            try {
+
+            } catch (e: HttpException) {
+
+            } catch (e: Exception) {
+
             }
         }
     }

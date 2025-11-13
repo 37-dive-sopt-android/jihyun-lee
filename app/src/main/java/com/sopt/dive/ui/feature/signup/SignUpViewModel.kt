@@ -6,7 +6,7 @@ import com.sopt.dive.R
 import com.sopt.dive.data.dto.request.SignUpRequestDto
 import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.data.network.ServicePool
-import com.sopt.dive.data.network.getErrorMessage
+import com.sopt.dive.domain.repository.UserRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -15,9 +15,10 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 
 class SignUpViewModel : ViewModel() {
+    private val userRepository: UserRepository = ServicePool.userRepository
+
     private val _uiState = MutableStateFlow(SignUpUiState())
     val uiState: StateFlow<SignUpUiState> = _uiState.asStateFlow()
 
@@ -50,38 +51,24 @@ class SignUpViewModel : ViewModel() {
         val currentState = _uiState.value
 
         viewModelScope.launch {
-            try {
-                val signUpRequest = SignUpRequestDto(
-                    username = currentState.id,
-                    password = currentState.password,
-                    name = currentState.name,
-                    email = currentState.email,
-                    age = currentState.age ?: 0
-                )
-                val response = ServicePool.userService.singUp(signUpRequest)
+            val signUpRequest = SignUpRequestDto(
+                username = currentState.id,
+                password = currentState.password,
+                name = currentState.name,
+                email = currentState.email,
+                age = currentState.age ?: 0
+            )
 
-                if (response.success) {
-                    UserPrefs.saveUserInfo(
-                        id = currentState.id,
-                        password = currentState.password,
-                        name = currentState.name,
-                        email = currentState.email,
-                        age = currentState.age ?: 0
-                    )
+            userRepository.signUp(signUpRequest)
+                .onSuccess { response ->
+                    UserPrefs.setId(response.id)
                     _sideEffect.emit(SignUpSideEffect.ShowToastResId(R.string.signup_success_message))
                     _sideEffect.emit(SignUpSideEffect.NavigateToLogin)
-                } else {
-                    _sideEffect.emit(SignUpSideEffect.ShowToastString(response.message))
                 }
-            } catch (e: HttpException) {
-                e.printStackTrace()
-                val errorMessage = getErrorMessage(e)
-                if (errorMessage.isNotBlank()) _sideEffect.emit(SignUpSideEffect.ShowToastString(errorMessage))
-                else _sideEffect.emit(SignUpSideEffect.ShowToastResId(R.string.signup_fail_message))
-            } catch (e: Exception) {
-                e.printStackTrace()
-                _sideEffect.emit(SignUpSideEffect.ShowToastResId(R.string.signup_fail_message))
-            }
+                .onFailure { exception ->
+                    exception.printStackTrace()
+                    _sideEffect.emit(SignUpSideEffect.ShowToastString(exception.message?:""))
+                }
         }
     }
 }

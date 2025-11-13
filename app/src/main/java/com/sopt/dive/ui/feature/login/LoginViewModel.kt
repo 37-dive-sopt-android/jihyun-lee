@@ -7,6 +7,7 @@ import com.sopt.dive.data.dto.request.LoginRequestDto
 import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.data.network.ServicePool
 import com.sopt.dive.data.network.getErrorMessage
+import com.sopt.dive.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -18,6 +19,8 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 
 class LoginViewModel : ViewModel() {
+    private val authRepository: AuthRepository = ServicePool.authRepository
+
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
 
@@ -47,27 +50,21 @@ class LoginViewModel : ViewModel() {
         val currentState = _uiState.value
 
         viewModelScope.launch {
-            try {
-                val loginRequest = LoginRequestDto(
-                    username = currentState.id,
-                    password = currentState.password
-                )
-                val response = ServicePool.authService.login(loginRequest)
+            val loginRequest = LoginRequestDto(
+                username = currentState.id,
+                password = currentState.password
+            )
 
-                if (response.success){
+            authRepository.login(loginRequest)
+                .onSuccess { response ->
                     UserPrefs.setLoggedIn(true)
-                    _sideEffect.emit(LoginSideEffect.ShowToastResId(R.string.login_success_message))
+                    _sideEffect.emit(LoginSideEffect.ShowToastString(response.message))
                     _sideEffect.emit(LoginSideEffect.NavigateToHome)
                 }
-            } catch (e: HttpException) {
-                e.printStackTrace()
-                val errorMessage = getErrorMessage(e)
-                if (errorMessage.isNotBlank()) _sideEffect.emit(LoginSideEffect.ShowToastString(errorMessage))
-                else _sideEffect.emit(LoginSideEffect.ShowToastResId(R.string.login_fail_message))
-            } catch (e: Exception) {
-                e.printStackTrace()
-                _sideEffect.emit(LoginSideEffect.ShowToastResId(R.string.login_fail_message))
-            }
+                .onFailure { exception ->
+                    exception.printStackTrace()
+                    _sideEffect.emit(LoginSideEffect.ShowToastString(exception.message ?: ""))
+                }
         }
     }
 }
