@@ -12,4 +12,8 @@ interface UserDataSource {
     suspend fun getUserInfo(
         id: Int
     ): BaseResponseDto<UserResponseDto>
+
+    suspend fun withdraw(
+        id: Int
+    ): BaseResponseDto<Unit>
 }

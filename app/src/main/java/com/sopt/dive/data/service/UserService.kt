@@ -21,7 +21,7 @@ interface UserService {
     ): BaseResponseDto<UserResponseDto>
 
     @DELETE("/api/v1/users/{id}")
-    suspend fun windraw(
+    suspend fun withdraw(
         @Path("id") id: Int
     ): BaseResponseDto<Unit>
 }

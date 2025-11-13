@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
-import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.domain.model.UserInfo
 import com.sopt.dive.ui.components.ProfileImage
 import com.sopt.dive.ui.theme.DiveTheme
@@ -33,13 +32,6 @@ fun MyPageRoute(
     viewModel: MyPageViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val id = UserPrefs.getId()
-
-    LaunchedEffect(id) {
-        if (id != null) {
-            viewModel.loadUserInfo(id)
-        }
-    }
 
     LaunchedEffect(viewModel.sideEffect) {
         viewModel.sideEffect.collect { effect ->

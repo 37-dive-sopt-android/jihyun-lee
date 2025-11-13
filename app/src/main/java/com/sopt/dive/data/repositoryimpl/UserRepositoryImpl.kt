@@ -43,4 +43,19 @@ class UserRepositoryImpl(
             Result.failure(e)
         }
     }
+
+    override suspend fun withdraw(id: Int): Result<Unit> {
+        return try {
+            val response = userDataSource.withdraw(id)
+            if (response.success) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception(response.message))
+            }
+        } catch (e: HttpException) {
+            Result.failure(Exception(getErrorMessage(e)))
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }

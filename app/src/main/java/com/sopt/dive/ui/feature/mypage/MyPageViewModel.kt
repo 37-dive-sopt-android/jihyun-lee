@@ -24,25 +24,31 @@ class MyPageViewModel : ViewModel() {
     private val _sideEffect = MutableSharedFlow<MyPageSideEffect>()
     val sideEffect: SharedFlow<MyPageSideEffect> = _sideEffect.asSharedFlow()
 
-    fun loadUserInfo(id: Int) {
-        viewModelScope.launch {
-            userRepository.getUserInfo(id)
-                .onSuccess { response ->
-                    _uiState.update {
-                        it.copy(
-                            userInfo = UserInfo(
-                                id = response.username,
-                                name = response.name,
-                                email = response.email,
-                                age = response.age
-                            )
-                        )
-                    }
-                }
-                .onFailure { exception ->
-                    exception.printStackTrace()
+    init {
+        loadUserInfo()
+    }
 
-                }
+    private fun loadUserInfo() {
+        viewModelScope.launch {
+            val id = UserPrefs.getId()
+            if (id != null) {
+                userRepository.getUserInfo(id)
+                    .onSuccess { response ->
+                        _uiState.update {
+                            it.copy(
+                                userInfo = UserInfo(
+                                    id = response.username,
+                                    name = response.name,
+                                    email = response.email,
+                                    age = response.age
+                                )
+                            )
+                        }
+                    }
+                    .onFailure { exception ->
+                        exception.printStackTrace()
+                    }
+            }
         }
     }
 
@@ -55,6 +61,13 @@ class MyPageViewModel : ViewModel() {
 
     fun withdraw() {
         viewModelScope.launch {
+            val id = UserPrefs.getId()
+            if (id != null) {
+                userRepository.withdraw(id)
+                    .onFailure { exception ->
+                        exception.printStackTrace()
+                    }
+            }
             UserPrefs.withdraw()
             _sideEffect.emit(MyPageSideEffect.NavigateToLogin)
         }

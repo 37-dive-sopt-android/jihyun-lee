@@ -16,4 +16,8 @@ class UserDataSourceImpl(
     override suspend fun getUserInfo(id: Int): BaseResponseDto<UserResponseDto> {
        return userService.getUserInfo(id)
     }
+
+    override suspend fun withdraw(id: Int): BaseResponseDto<Unit> {
+        return userService.withdraw(id)
+    }
 }

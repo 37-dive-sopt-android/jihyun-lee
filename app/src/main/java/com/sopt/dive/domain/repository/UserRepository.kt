@@ -11,4 +11,8 @@ interface UserRepository {
     suspend fun getUserInfo(
         id: Int
     ): Result<UserResponseDto>
+
+    suspend fun withdraw(
+        id: Int
+    ): Result<Unit>
 }
