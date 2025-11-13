@@ -84,6 +84,14 @@ fun StackedFlipCard(
         bottomEnd = 170.dp
     )
 
+    val maxElevation = 12.dp
+    val frontElevation = if (rotation <= 90f) {
+        maxElevation * (1f - (rotation / 90f))
+    } else 0.dp
+    val backElevation = if (rotation > 90f) {
+        maxElevation * ((rotation - 90f) / 90f)
+    } else 0.dp
+
     Box(
         modifier = modifier
             .aspectRatio(2f / 3f)
@@ -98,7 +106,7 @@ fun StackedFlipCard(
             modifier = Modifier
                 .fillMaxSize()
                 .shadow(
-                    elevation = if (rotation <= 10f) 12.dp else 0.dp,
+                    elevation = frontElevation,
                     shape = frontShape
                 )
                 .graphicsLayer {
@@ -114,7 +122,7 @@ fun StackedFlipCard(
             modifier = Modifier
                 .fillMaxSize()
                 .shadow(
-                    elevation = if (rotation >= 170f) 12.dp else 0.dp,
+                    elevation = backElevation,
                     shape = backShape
                 )
                 .clip(backShape)
