@@ -55,15 +55,15 @@ class LoginViewModel : ViewModel() {
 
                 if (response.success){
                     UserPrefs.setLoggedIn(true)
-                    _sideEffect.emit(LoginSideEffect.ShowToast(R.string.login_success_message))
+                    _sideEffect.emit(LoginSideEffect.ShowToastString(response.message))
                     _sideEffect.emit(LoginSideEffect.NavigateToHome)
                 } else {
-                    _sideEffect.emit(LoginSideEffect.ShowToast(R.string.login_fail_message))
+                    _sideEffect.emit(LoginSideEffect.ShowToastString(response.message))
                 }
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                _sideEffect.emit(LoginSideEffect.ShowToast(R.string.login_fail_message))
+                _sideEffect.emit(LoginSideEffect.ShowToastResId(R.string.login_fail_message))
             }
         }
     }

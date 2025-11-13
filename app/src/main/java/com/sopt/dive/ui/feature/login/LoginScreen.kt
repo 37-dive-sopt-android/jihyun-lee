@@ -48,8 +48,11 @@ fun LoginRoute(
         viewModel.sideEffect.collect { effect ->
             when (effect) {
                 is LoginSideEffect.NavigateToHome -> onNavigateToHome()
-                is LoginSideEffect.ShowToast -> {
-                    Toast.makeText(context, context.getString(effect.messageResId), Toast.LENGTH_SHORT).show()
+                is LoginSideEffect.ShowToastString -> {
+                    Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+                }
+                is LoginSideEffect.ShowToastResId -> {
+                    Toast.makeText(context, effect.messageResId, Toast.LENGTH_SHORT).show()
                 }
             }
         }
