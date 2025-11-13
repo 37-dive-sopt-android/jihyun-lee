@@ -9,6 +9,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,9 +18,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
-import com.sopt.dive.data.local.UserPrefs
-import com.sopt.dive.domain.model.UserInfo
 import com.sopt.dive.ui.components.ProfileImage
 import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.ui.util.noRippleClickable
@@ -26,27 +28,30 @@ import com.sopt.dive.ui.util.noRippleClickable
 @Composable
 fun MyPageRoute(
     onNavigateToLogin: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: MyPageViewModel = viewModel()
 ) {
-    val userInfo = remember { UserPrefs.loadUser() }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(viewModel.sideEffect) {
+        viewModel.sideEffect.collect { effect ->
+            when (effect) {
+                is MyPageSideEffect.NavigateToLogin -> onNavigateToLogin()
+            }
+        }
+    }
 
     MyPageScreen(
-        userInfo = userInfo?: UserInfo(),
-        onLogoutClick = {
-            UserPrefs.logout()
-            onNavigateToLogin()
-        },
-        onWithdrawClick = {
-            UserPrefs.withdraw()
-            onNavigateToLogin()
-        },
+        uiState = uiState,
+        onLogoutClick = viewModel::logout,
+        onWithdrawClick = viewModel::withdraw,
         modifier = modifier
     )
 }
 
 @Composable
 private fun MyPageScreen(
-    userInfo: UserInfo,
+    uiState: MyPageUiState,
     onLogoutClick: () -> Unit,
     onWithdrawClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -62,15 +67,15 @@ private fun MyPageScreen(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            ProfileImage(userInfo.profileImageUrl)
+            ProfileImage(uiState.userInfo.profileImageUrl)
             Text(
-                text = userInfo.name,
+                text = uiState.userInfo.name,
                 style = DiveTheme.typography.body.large_semibold,
                 color = DiveTheme.colors.gray600
             )
         }
         Text(
-            text = stringResource(R.string.mypage_user_description, userInfo.name),
+            text = stringResource(R.string.mypage_user_description, uiState.userInfo.name),
             style = DiveTheme.typography.caption.large_regular,
             modifier = Modifier.padding(top = 10.dp),
         )
@@ -79,10 +84,10 @@ private fun MyPageScreen(
             modifier = Modifier.padding(vertical = 40.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
-            MyDataField(stringResource(R.string.signup_id), userInfo.id)
-            MyDataField(stringResource(R.string.signup_pw), userInfo.password)
-            MyDataField(stringResource(R.string.signup_nickname), userInfo.nickname)
-            MyDataField(stringResource(R.string.signup_mbti), userInfo.mbti)
+            MyDataField(stringResource(R.string.signup_id), uiState.userInfo.id)
+            MyDataField(stringResource(R.string.signup_pw), uiState.userInfo.password)
+            MyDataField(stringResource(R.string.signup_nickname), uiState.userInfo.nickname)
+            MyDataField(stringResource(R.string.signup_mbti), uiState.userInfo.mbti)
         }
 
         Text(
@@ -127,19 +132,12 @@ private fun MyDataField(
 @Preview(showBackground = true)
 @Composable
 private fun MyPagePreview() {
-    val userInfo = remember {
-        UserInfo(
-            id = "아이디",
-            password = "비밀번호",
-            name = "이지현",
-            nickname = "지현",
-            mbti = "istp"
-        )
-    }
+    val viewModel = remember { MyPageViewModel() }
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     DiveTheme {
         MyPageScreen(
-            userInfo = userInfo,
+            uiState = uiState,
             onLogoutClick = {},
             onWithdrawClick = {}
         )
