@@ -4,7 +4,7 @@ data class UserInfo(
     val id: String = "",
     val password: String = "",
     val name: String = "",
-    val nickname: String = "",
-    val mbti: String = "",
+    val email: String = "",
+    val age: Int? = null,
     val profileImageUrl: String = ""
 )

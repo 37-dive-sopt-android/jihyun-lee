@@ -42,8 +42,11 @@ fun SignUpRoute(
         viewModel.sideEffect.collect { effect ->
             when (effect) {
                 is SignUpSideEffect.NavigateToLogin -> onNavigateToLogin()
-                is SignUpSideEffect.ShowToast -> {
-                    Toast.makeText(context, context.getString(effect.messageResId), Toast.LENGTH_SHORT).show()
+                is SignUpSideEffect.ShowToastResId -> {
+                    Toast.makeText(context, effect.messageResId, Toast.LENGTH_SHORT).show()
+                }
+                is SignUpSideEffect.ShowToastString -> {
+                    Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -51,11 +54,11 @@ fun SignUpRoute(
 
     SignUpScreen(
         uiState = uiState,
-        onIdChange = viewModel::updateId,
-        onPwChange = viewModel::updatePassword,
-        onNameChange = viewModel::updateName,
-        onNicknameChange = viewModel::updateNickname,
-        onMbtiChange = viewModel::updateMbti,
+        onIdChange = viewModel::onIdChange,
+        onPwChange = viewModel::onPwChange,
+        onNameChange = viewModel::onNameChange,
+        onEmailChange = viewModel::onEmailChange,
+        onAgeChange = viewModel::onAgeChange,
         onSignUpButtonClick = viewModel::signUp,
         modifier = modifier
     )
@@ -67,8 +70,8 @@ private fun SignUpScreen(
     onIdChange: (String) -> Unit,
     onPwChange: (String) -> Unit,
     onNameChange: (String) -> Unit,
-    onNicknameChange: (String) -> Unit,
-    onMbtiChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onAgeChange: (String) -> Unit,
     onSignUpButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -127,20 +130,20 @@ private fun SignUpScreen(
                 textFieldValidType = uiState.nameValidType
             )
             DiveBasicTextField(
-                label = stringResource(R.string.signup_nickname),
-                value = uiState.nickname,
-                onValueChange = onNicknameChange,
-                placeholder = stringResource(R.string.signup_nickname_placeholder),
+                label = stringResource(R.string.signup_email),
+                value = uiState.email,
+                onValueChange = onEmailChange,
+                placeholder = stringResource(R.string.signup_email_placeholder),
                 imeAction = ImeAction.Next,
-                textFieldValidType = uiState.nicknameValidType
+                textFieldValidType = uiState.emailValidType
             )
             DiveBasicTextField(
-                label = stringResource(R.string.signup_mbti),
-                value = uiState.mbti,
-                onValueChange = onMbtiChange,
-                placeholder = stringResource(R.string.signup_mbti_placeholder),
+                label = stringResource(R.string.signup_age),
+                value = uiState.age?.toString() ?: "",
+                onValueChange = onAgeChange,
+                placeholder = stringResource(R.string.signup_age_placeholder),
                 imeAction = ImeAction.Done,
-                textFieldValidType = uiState.mbtiValidType
+                textFieldValidType = uiState.ageValidType
             )
         }
     }
@@ -155,11 +158,11 @@ private fun SignUpPreview() {
     DiveTheme {
         SignUpScreen(
             uiState = uiState,
-            onIdChange = viewModel::updateId,
-            onPwChange = viewModel::updatePassword,
-            onNameChange = viewModel::updateName,
-            onNicknameChange = viewModel::updateNickname,
-            onMbtiChange = viewModel::updateMbti,
+            onIdChange = viewModel::onIdChange,
+            onPwChange = viewModel::onPwChange,
+            onNameChange = viewModel::onNameChange,
+            onEmailChange = viewModel::onEmailChange,
+            onAgeChange = viewModel::onAgeChange,
             onSignUpButtonClick = viewModel::signUp
         )
     }

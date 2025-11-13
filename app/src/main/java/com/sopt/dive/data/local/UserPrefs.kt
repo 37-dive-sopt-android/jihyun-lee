@@ -11,8 +11,8 @@ object UserPrefs {
     private const val ID = "id"
     private const val PASSWORD = "password"
     private const val NAME = "name"
-    private const val NICKNAME = "nickname"
-    private const val MBTI = "mbti"
+    private const val EMAIL = "email"
+    private const val AGE = "age"
     private const val PROFILE_IMAGE_URL = "profile_image_url"
 
     private lateinit var prefs: SharedPreferences
@@ -25,16 +25,16 @@ object UserPrefs {
         id: String,
         password: String,
         name: String,
-        nickname: String,
-        mbti: String,
+        email: String,
+        age: Int,
         profileImageUrl: String = ""
     ) {
         prefs.edit {
             putString(ID, id)
             putString(PASSWORD, password)
             putString(NAME, name)
-            putString(NICKNAME, nickname)
-            putString(MBTI, mbti)
+            putString(EMAIL, email)
+            putInt(AGE, age)
             putString(PROFILE_IMAGE_URL, profileImageUrl)
         }
     }
@@ -51,9 +51,12 @@ object UserPrefs {
 
     fun getName(): String? = prefs.getString(NAME, null)
 
-    fun getNickname(): String? = prefs.getString(NICKNAME, null)
+    fun getEmail(): String? = prefs.getString(EMAIL, null)
 
-    fun getMbti(): String? = prefs.getString(MBTI, null)
+    fun getAge(): Int? {
+        val age = prefs.getInt(AGE, 0)
+        return if (age == 0) null else age
+    }
 
     fun getProfileImageUrl(): String? = prefs.getString(PROFILE_IMAGE_URL, null)
     fun setProfileImageUrl(url: String) {
@@ -66,10 +69,10 @@ object UserPrefs {
         val id = getId() ?: return null
         val pw = getPassword() ?: ""
         val name = getName() ?: ""
-        val nick = getNickname() ?: ""
-        val mbti = getMbti() ?: ""
+        val email = getEmail() ?: ""
+        val age = getAge()
         val url = getProfileImageUrl() ?: ""
-        return UserInfo(id, pw, name, nick, mbti, url)
+        return UserInfo(id, pw, name, email, age, url)
     }
 
     fun logout() {

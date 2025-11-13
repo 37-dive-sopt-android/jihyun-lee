@@ -42,20 +42,19 @@ class LoginViewModel : ViewModel() {
     }
 
     fun login() {
-        val currentId = _uiState.value.id
-        val currentPassword = _uiState.value.password
+        val currentState = _uiState.value
 
         viewModelScope.launch {
             try {
                 val loginRequest = LoginRequestDto(
-                    username = currentId,
-                    password = currentPassword
+                    username = currentState.id,
+                    password = currentState.password
                 )
                 val response = ServicePool.authService.login(loginRequest)
 
                 if (response.success){
                     UserPrefs.setLoggedIn(true)
-                    _sideEffect.emit(LoginSideEffect.ShowToastString(response.message))
+                    _sideEffect.emit(LoginSideEffect.ShowToastResId(R.string.login_success_message))
                     _sideEffect.emit(LoginSideEffect.NavigateToHome)
                 } else {
                     _sideEffect.emit(LoginSideEffect.ShowToastString(response.message))

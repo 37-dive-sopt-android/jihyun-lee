@@ -86,8 +86,8 @@ private fun MyPageScreen(
         ) {
             MyDataField(stringResource(R.string.signup_id), uiState.userInfo.id)
             MyDataField(stringResource(R.string.signup_pw), uiState.userInfo.password)
-            MyDataField(stringResource(R.string.signup_nickname), uiState.userInfo.nickname)
-            MyDataField(stringResource(R.string.signup_mbti), uiState.userInfo.mbti)
+            MyDataField(stringResource(R.string.signup_email), uiState.userInfo.email)
+            MyDataField(stringResource(R.string.signup_age), uiState.userInfo.age?.toString() ?: "")
         }
 
         Text(
@@ -136,8 +136,8 @@ private fun MyPagePreview() {
         id = "아이디",
         password = "비밀번호",
         name = "이지현",
-        nickname = "지현",
-        mbti = "istp"
+        email = "example@email.com",
+        age = 25
     )
 
     DiveTheme {

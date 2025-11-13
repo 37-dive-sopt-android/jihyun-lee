@@ -1,5 +1,6 @@
 package com.sopt.dive.ui.feature.signup
 
+import android.util.Patterns
 import com.sopt.dive.R
 import com.sopt.dive.ui.model.TextFieldValidState
 
@@ -7,11 +8,16 @@ data class SignUpUiState(
     val id: String = "",
     val password: String = "",
     val name: String = "",
-    val nickname: String = "",
-    val mbti: String = "",
+    val email: String = "",
+    val age: Int? = null,
     val isNameTouched: Boolean = false,
-    val isNicknameTouched: Boolean = false
+    val isEmailTouched: Boolean = false,
 ) {
+    companion object {
+        private val PASSWORD_REGEX =
+            Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!_.,?])(?=\\S+$).{8,12}$")
+    }
+
     val idValidType: TextFieldValidState
         get() = when {
             id.isEmpty() -> TextFieldValidState.DEFAULT
@@ -22,7 +28,7 @@ data class SignUpUiState(
     val passwordValidType: TextFieldValidState
         get() = when {
             password.isEmpty() -> TextFieldValidState.DEFAULT
-            password.length in 8..12 -> TextFieldValidState.VALID
+            PASSWORD_REGEX.matches(password) -> TextFieldValidState.VALID
             else -> TextFieldValidState.INVALID(R.string.signup_pw_fail_message)
         }
 
@@ -33,24 +39,24 @@ data class SignUpUiState(
             else -> TextFieldValidState.INVALID(R.string.signup_name_fail_message)
         }
 
-    val nicknameValidType: TextFieldValidState
+    val emailValidType: TextFieldValidState
         get() = when {
-            !isNicknameTouched -> TextFieldValidState.DEFAULT
-            nickname.isNotBlank() -> TextFieldValidState.VALID
-            else -> TextFieldValidState.INVALID(R.string.signup_nickname_fail_message)
+            !isEmailTouched -> TextFieldValidState.DEFAULT
+            Patterns.EMAIL_ADDRESS.matcher(email).matches() -> TextFieldValidState.VALID
+            else -> TextFieldValidState.INVALID(R.string.signup_email_fail_message)
         }
 
-    val mbtiValidType: TextFieldValidState
+    val ageValidType: TextFieldValidState
         get() = when {
-            mbti.isEmpty() -> TextFieldValidState.DEFAULT
-            mbti.length == 4 -> TextFieldValidState.VALID
-            else -> TextFieldValidState.INVALID(R.string.signup_mbti_fail_message)
+            (age == null) -> TextFieldValidState.DEFAULT
+            (age > 0) -> TextFieldValidState.VALID
+            else -> TextFieldValidState.INVALID(R.string.signup_age_fail_message)
         }
 
     val isSignUpEnabled: Boolean
         get() = idValidType == TextFieldValidState.VALID &&
                 passwordValidType == TextFieldValidState.VALID &&
                 nameValidType == TextFieldValidState.VALID &&
-                nicknameValidType == TextFieldValidState.VALID &&
-                mbtiValidType == TextFieldValidState.VALID
+                emailValidType == TextFieldValidState.VALID &&
+                ageValidType == TextFieldValidState.VALID
 }
