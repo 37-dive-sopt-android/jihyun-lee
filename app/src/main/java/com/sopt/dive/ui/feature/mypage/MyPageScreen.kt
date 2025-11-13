@@ -11,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
+import com.sopt.dive.domain.model.UserInfo
 import com.sopt.dive.ui.components.ProfileImage
 import com.sopt.dive.ui.theme.DiveTheme
 import com.sopt.dive.ui.util.noRippleClickable
@@ -132,12 +132,17 @@ private fun MyDataField(
 @Preview(showBackground = true)
 @Composable
 private fun MyPagePreview() {
-    val viewModel = remember { MyPageViewModel() }
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val userInfo = UserInfo(
+        id = "아이디",
+        password = "비밀번호",
+        name = "이지현",
+        nickname = "지현",
+        mbti = "istp"
+    )
 
     DiveTheme {
         MyPageScreen(
-            uiState = uiState,
+            uiState = MyPageUiState(userInfo = userInfo),
             onLogoutClick = {},
             onWithdrawClick = {}
         )
