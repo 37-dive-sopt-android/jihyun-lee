@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -17,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
+import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.domain.model.ProfileInfo
 import com.sopt.dive.ui.theme.DiveTheme
 
@@ -26,7 +28,13 @@ fun HomeRoute(
     viewModel: HomeViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val id = UserPrefs.getId()
 
+    LaunchedEffect(id) {
+        if (id != null) {
+            viewModel.loadData(id)
+        }
+    }
     HomeScreen(
         uiState = uiState,
         modifier = modifier
