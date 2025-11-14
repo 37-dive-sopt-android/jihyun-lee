@@ -86,7 +86,7 @@ private fun MyPageScreen(
         ) {
             MyDataField(stringResource(R.string.signup_id), uiState.userInfo.userId)
             MyDataField(stringResource(R.string.signup_email), uiState.userInfo.email)
-            MyDataField(stringResource(R.string.signup_age), uiState.userInfo.age?.toString() ?: "")
+            MyDataField(stringResource(R.string.signup_age), uiState.userInfo.age.toString())
         }
 
         Text(
