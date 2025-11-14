@@ -2,60 +2,33 @@ package com.sopt.dive.data.repositoryimpl
 
 import com.sopt.dive.data.datasource.UserDataSource
 import com.sopt.dive.data.dto.request.SignUpRequestDto
-import com.sopt.dive.data.dto.response.UserResponseDto
-import com.sopt.dive.data.network.getErrorMessage
+import com.sopt.dive.data.mapper.toDomain
+import com.sopt.dive.data.util.handleApiResponse
+import com.sopt.dive.data.util.handleNullableApiResponse
+import com.sopt.dive.data.util.safeApiCall
+import com.sopt.dive.domain.model.UserInfo
 import com.sopt.dive.domain.repository.UserRepository
-import retrofit2.HttpException
 
 class UserRepositoryImpl(
     private val userDataSource: UserDataSource
 ): UserRepository {
-    override suspend fun signUp(signUpRequestDto: SignUpRequestDto): Result<UserResponseDto> {
-        return try {
-            val response = userDataSource.singUp(signUpRequestDto)
-
-            if (response.success) {
-                val nonNullData = response.data ?: throw Exception("Successful response but data field was null.")
-                Result.success(nonNullData)
-            } else {
-                Result.failure(Exception(response.message))
-            }
-        } catch (e: HttpException) {
-            Result.failure(Exception(getErrorMessage(e)))
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
+    override suspend fun signUp(signUpRequestDto: SignUpRequestDto): Result<UserInfo> = safeApiCall {
+        userDataSource.singUp(signUpRequestDto)
+            .handleApiResponse()
+            .getOrThrow()
+            .toDomain()
     }
 
-    override suspend fun getUserInfo(id: Int): Result<UserResponseDto> {
-        return try {
-            val response = userDataSource.getUserInfo(id)
-
-            if (response.success) {
-                val nonNullData = response.data ?: throw Exception("Successful response but data field was null.")
-                Result.success(nonNullData)
-            } else {
-                Result.failure(Exception(response.message))
-            }
-        } catch (e: HttpException) {
-            Result.failure(Exception(getErrorMessage(e)))
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
+    override suspend fun getUserInfo(id: Int): Result<UserInfo> = safeApiCall {
+        userDataSource.getUserInfo(id)
+            .handleApiResponse()
+            .getOrThrow()
+            .toDomain()
     }
 
-    override suspend fun withdraw(id: Int): Result<Unit> {
-        return try {
-            val response = userDataSource.withdraw(id)
-            if (response.success) {
-                Result.success(Unit)
-            } else {
-                Result.failure(Exception(response.message))
-            }
-        } catch (e: HttpException) {
-            Result.failure(Exception(getErrorMessage(e)))
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
+    override suspend fun withdraw(id: Int): Result<Unit> = safeApiCall {
+        userDataSource.withdraw(id)
+            .handleNullableApiResponse()
+            .getOrThrow()
     }
 }

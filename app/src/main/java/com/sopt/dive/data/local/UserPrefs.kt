@@ -16,33 +16,21 @@ object UserPrefs {
         prefs = context.applicationContext.getSharedPreferences(FILE, Context.MODE_PRIVATE)
     }
 
-    fun setLoggedIn(
-        value: Boolean,
-    ) = prefs.edit { putBoolean(IS_LOGGED_IN, value) }
-
+    fun setLoggedIn(value: Boolean) = prefs.edit(commit = true) { putBoolean(IS_LOGGED_IN, value) }
     fun isLoggedIn(): Boolean = prefs.getBoolean(IS_LOGGED_IN, false)
 
     fun getId(): Int? {
         val id = prefs.getInt(ID, -1)
         return if (id == -1) null else id
     }
-
-    fun setId(id: Int) {
-        prefs.edit { putInt(ID, id) }
-    }
+    fun setId(id: Int) = prefs.edit(commit = true) { putInt(ID, id) }
 
     fun getProfileImageUrl(): String? = prefs.getString(PROFILE_IMAGE_URL, null)
-    fun setProfileImageUrl(url: String) {
-        prefs.edit {
-            putString(PROFILE_IMAGE_URL, url)
-        }
-    }
+    fun setProfileImageUrl(url: String) = prefs.edit(commit = true) { putString(PROFILE_IMAGE_URL, url) }
 
     fun logout() {
         setLoggedIn(false)
     }
 
-    fun withdraw() {
-        prefs.edit { clear() }
-    }
+    fun withdraw() = prefs.edit(commit = true) { clear() }
 }
