@@ -1,8 +1,8 @@
-package com.sopt.dive.data.repositoryimpl
+package com.sopt.dive.data.remote.repositoryimpl
 
-import com.sopt.dive.data.datasource.UserDataSource
-import com.sopt.dive.data.dto.request.SignUpRequestDto
-import com.sopt.dive.data.mapper.toDomain
+import com.sopt.dive.data.remote.datasource.UserDataSource
+import com.sopt.dive.data.remote.dto.request.SignUpRequestDto
+import com.sopt.dive.data.remote.mapper.toDomain
 import com.sopt.dive.data.util.handleApiResponse
 import com.sopt.dive.data.util.handleNullableApiResponse
 import com.sopt.dive.data.util.safeApiCall

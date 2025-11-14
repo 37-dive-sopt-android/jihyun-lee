@@ -1,13 +1,13 @@
-package com.sopt.dive.data.network
+package com.sopt.dive.data.remote.network
 
-import com.sopt.dive.data.datasource.AuthDataSource
-import com.sopt.dive.data.datasource.UserDataSource
-import com.sopt.dive.data.datasourceimpl.AuthDataSourceImpl
-import com.sopt.dive.data.datasourceimpl.UserDataSourceImpl
-import com.sopt.dive.data.repositoryimpl.AuthRepositoryImpl
-import com.sopt.dive.data.repositoryimpl.UserRepositoryImpl
-import com.sopt.dive.data.service.AuthService
-import com.sopt.dive.data.service.UserService
+import com.sopt.dive.data.remote.datasource.AuthDataSource
+import com.sopt.dive.data.remote.datasource.UserDataSource
+import com.sopt.dive.data.remote.datasourceimpl.AuthDataSourceImpl
+import com.sopt.dive.data.remote.datasourceimpl.UserDataSourceImpl
+import com.sopt.dive.data.remote.repositoryimpl.AuthRepositoryImpl
+import com.sopt.dive.data.remote.repositoryimpl.UserRepositoryImpl
+import com.sopt.dive.data.remote.service.AuthService
+import com.sopt.dive.data.remote.service.UserService
 import com.sopt.dive.domain.repository.AuthRepository
 import com.sopt.dive.domain.repository.UserRepository
 

@@ -1,6 +1,6 @@
 package com.sopt.dive.domain.repository
 
-import com.sopt.dive.data.dto.request.SignUpRequestDto
+import com.sopt.dive.data.remote.dto.request.SignUpRequestDto
 import com.sopt.dive.domain.model.UserModel
 
 interface UserRepository {

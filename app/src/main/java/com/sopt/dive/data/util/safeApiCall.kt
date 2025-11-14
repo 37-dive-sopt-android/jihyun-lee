@@ -1,6 +1,6 @@
 package com.sopt.dive.data.util
 
-import com.sopt.dive.data.dto.response.BaseResponseDto
+import com.sopt.dive.data.remote.dto.response.BaseResponseDto
 import retrofit2.HttpException
 
 internal suspend fun <T> safeApiCall(block: suspend () -> T): Result<T> {

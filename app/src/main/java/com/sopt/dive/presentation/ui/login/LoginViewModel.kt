@@ -3,9 +3,9 @@ package com.sopt.dive.presentation.ui.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.R
-import com.sopt.dive.data.dto.request.LoginRequestDto
+import com.sopt.dive.data.remote.dto.request.LoginRequestDto
 import com.sopt.dive.data.local.UserPrefs
-import com.sopt.dive.data.network.ServicePool
+import com.sopt.dive.data.remote.network.ServicePool
 import com.sopt.dive.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow

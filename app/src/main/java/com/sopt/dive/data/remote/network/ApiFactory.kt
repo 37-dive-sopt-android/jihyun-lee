@@ -1,4 +1,4 @@
-package com.sopt.dive.data.network
+package com.sopt.dive.data.remote.network
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.sopt.dive.BuildConfig

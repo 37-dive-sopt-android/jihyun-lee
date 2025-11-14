@@ -1,8 +1,8 @@
-package com.sopt.dive.data.datasource
+package com.sopt.dive.data.remote.datasource
 
-import com.sopt.dive.data.dto.request.SignUpRequestDto
-import com.sopt.dive.data.dto.response.BaseResponseDto
-import com.sopt.dive.data.dto.response.UserResponseDto
+import com.sopt.dive.data.remote.dto.request.SignUpRequestDto
+import com.sopt.dive.data.remote.dto.response.BaseResponseDto
+import com.sopt.dive.data.remote.dto.response.UserResponseDto
 
 interface UserDataSource {
     suspend fun singUp(

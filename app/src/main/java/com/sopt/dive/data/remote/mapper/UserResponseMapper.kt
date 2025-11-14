@@ -1,6 +1,6 @@
-package com.sopt.dive.data.mapper
+package com.sopt.dive.data.remote.mapper
 
-import com.sopt.dive.data.dto.response.UserResponseDto
+import com.sopt.dive.data.remote.dto.response.UserResponseDto
 import com.sopt.dive.domain.model.UserModel
 
 fun UserResponseDto.toDomain(): UserModel {

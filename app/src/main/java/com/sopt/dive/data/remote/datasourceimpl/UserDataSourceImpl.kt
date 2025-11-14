@@ -1,10 +1,10 @@
-package com.sopt.dive.data.datasourceimpl
+package com.sopt.dive.data.remote.datasourceimpl
 
-import com.sopt.dive.data.datasource.UserDataSource
-import com.sopt.dive.data.dto.request.SignUpRequestDto
-import com.sopt.dive.data.dto.response.BaseResponseDto
-import com.sopt.dive.data.dto.response.UserResponseDto
-import com.sopt.dive.data.service.UserService
+import com.sopt.dive.data.remote.datasource.UserDataSource
+import com.sopt.dive.data.remote.dto.request.SignUpRequestDto
+import com.sopt.dive.data.remote.dto.response.BaseResponseDto
+import com.sopt.dive.data.remote.dto.response.UserResponseDto
+import com.sopt.dive.data.remote.service.UserService
 
 class UserDataSourceImpl(
     private val userService: UserService

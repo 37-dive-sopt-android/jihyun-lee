@@ -3,7 +3,7 @@ package com.sopt.dive.presentation.ui.mypage
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.data.local.UserPrefs
-import com.sopt.dive.data.network.ServicePool
+import com.sopt.dive.data.remote.network.ServicePool
 import com.sopt.dive.domain.model.UserModel
 import com.sopt.dive.domain.repository.UserRepository
 import kotlinx.coroutines.flow.MutableSharedFlow

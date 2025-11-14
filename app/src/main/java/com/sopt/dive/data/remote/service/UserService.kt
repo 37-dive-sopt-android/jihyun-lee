@@ -1,8 +1,8 @@
-package com.sopt.dive.data.service
+package com.sopt.dive.data.remote.service
 
-import com.sopt.dive.data.dto.response.BaseResponseDto
-import com.sopt.dive.data.dto.request.SignUpRequestDto
-import com.sopt.dive.data.dto.response.UserResponseDto
+import com.sopt.dive.data.remote.dto.response.BaseResponseDto
+import com.sopt.dive.data.remote.dto.request.SignUpRequestDto
+import com.sopt.dive.data.remote.dto.response.UserResponseDto
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
