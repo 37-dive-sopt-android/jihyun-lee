@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
-import com.sopt.dive.domain.model.UserInfo
+import com.sopt.dive.domain.model.UserModel
 import com.sopt.dive.presentation.components.ProfileImage
 import com.sopt.dive.presentation.theme.DiveTheme
 import com.sopt.dive.presentation.util.noRippleClickable
@@ -131,7 +131,7 @@ private fun MyDataField(
 @Preview(showBackground = true)
 @Composable
 private fun MyPagePreview() {
-    val userInfo = UserInfo(
+    val userInfo = UserModel(
         id = 0,
         userId = "아이디",
         name = "이지현",

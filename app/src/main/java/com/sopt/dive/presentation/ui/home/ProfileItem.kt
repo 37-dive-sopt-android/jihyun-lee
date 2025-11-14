@@ -25,14 +25,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
-import com.sopt.dive.domain.model.ProfileInfo
+import com.sopt.dive.domain.model.ProfileModel
 import com.sopt.dive.presentation.components.ProfileImage
 import com.sopt.dive.presentation.theme.DiveTheme
 import com.sopt.dive.presentation.theme.defaultDiveTypography
 
 @Composable
 fun ProfileItem(
-    profileInfo: ProfileInfo,
+    profileInfo: ProfileModel,
     modifier: Modifier = Modifier,
     imageSize: Dp = Dp(60F),
     nameTextStyle: TextStyle = defaultDiveTypography.body.medium_regular,
@@ -140,7 +140,7 @@ private fun ProfileItemPreview() {
     DiveTheme {
         Column {
             ProfileItem(
-                ProfileInfo(
+                ProfileModel(
                     profileImageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
                     name = "이지현",
                     statusMessage = "안녕하세요",
@@ -148,7 +148,7 @@ private fun ProfileItemPreview() {
                 )
             )
             ProfileItem(
-                ProfileInfo(
+                ProfileModel(
                     name = "이지현",
                     isBirthday = true
                 )

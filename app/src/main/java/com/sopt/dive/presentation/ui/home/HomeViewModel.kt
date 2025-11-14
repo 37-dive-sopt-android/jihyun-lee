@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.data.network.ServicePool
-import com.sopt.dive.domain.model.ProfileInfo
+import com.sopt.dive.domain.model.ProfileModel
 import com.sopt.dive.domain.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,7 +25,7 @@ class HomeViewModel: ViewModel() {
                 .onSuccess { userInfo ->
                     _uiState.update {
                         it.copy(
-                            userProfile = ProfileInfo(
+                            userProfile = ProfileModel(
                                 profileImageUrl = UserPrefs.getProfileImageUrl(),
                                 name = userInfo.name
                             ),

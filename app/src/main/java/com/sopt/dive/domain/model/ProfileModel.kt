@@ -1,6 +1,6 @@
 package com.sopt.dive.domain.model
 
-data class ProfileInfo(
+data class ProfileModel(
     val name: String = "",
     val profileImageUrl: String? = null,
     val statusMessage: String? = null,

@@ -19,7 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
 import com.sopt.dive.data.local.UserPrefs
-import com.sopt.dive.domain.model.ProfileInfo
+import com.sopt.dive.domain.model.ProfileModel
 import com.sopt.dive.presentation.theme.DiveTheme
 
 @Composable
@@ -80,18 +80,18 @@ fun HomeScreen(
 @Composable
 private fun HomePreview() {
     val uiState = HomeUiState(
-        userProfile = ProfileInfo(
+        userProfile = ProfileModel(
             profileImageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
             name = "이지현"
         ),
         friendList = listOf(
-            ProfileInfo(
+            ProfileModel(
                 profileImageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
                 name = "이지현",
                 statusMessage = "안녕하세요",
                 music = "COLOR - NCT WISH"
             ),
-            ProfileInfo(
+            ProfileModel(
                 name = "이지현",
                 isBirthday = true
             )

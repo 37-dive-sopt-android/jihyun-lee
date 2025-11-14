@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.data.network.ServicePool
-import com.sopt.dive.domain.model.UserInfo
+import com.sopt.dive.domain.model.UserModel
 import com.sopt.dive.domain.repository.UserRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,7 +36,7 @@ class MyPageViewModel : ViewModel() {
                     .onSuccess { response ->
                         _uiState.update {
                             it.copy(
-                                userInfo = UserInfo(
+                                userInfo = UserModel(
                                     id = response.id,
                                     userId = response.userId,
                                     name = response.name,

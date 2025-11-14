@@ -1,8 +1,8 @@
 package com.sopt.dive.presentation.ui.home
 
-import com.sopt.dive.domain.model.ProfileInfo
+import com.sopt.dive.domain.model.ProfileModel
 
 data class HomeUiState(
-    val userProfile: ProfileInfo = ProfileInfo(),
-    val friendList: List<ProfileInfo> = emptyList()
+    val userProfile: ProfileModel = ProfileModel(),
+    val friendList: List<ProfileModel> = emptyList()
 )

@@ -54,9 +54,9 @@ class LoginViewModel : ViewModel() {
             )
 
             authRepository.login(loginRequest)
-                .onSuccess { id ->
+                .onSuccess { loginModel ->
                     UserPrefs.setLoggedIn(true)
-                    UserPrefs.setId(id)
+                    UserPrefs.setId(loginModel.id)
                     _sideEffect.emit(LoginSideEffect.ShowToastResId(R.string.login_success_message))
                     _sideEffect.emit(LoginSideEffect.NavigateToHome)
                 }

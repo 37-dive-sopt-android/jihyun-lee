@@ -1,9 +1,9 @@
 package com.sopt.dive.presentation.ui.mypage
 
-import com.sopt.dive.domain.model.UserInfo
+import com.sopt.dive.domain.model.UserModel
 
 data class MyPageUiState(
-    val userInfo: UserInfo = UserInfo(
+    val userInfo: UserModel = UserModel(
         id = 0,
         userId = "",
         name = "",

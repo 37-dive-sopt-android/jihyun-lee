@@ -1,10 +1,10 @@
 package com.sopt.dive.data.mapper
 
 import com.sopt.dive.data.dto.response.UserResponseDto
-import com.sopt.dive.domain.model.UserInfo
+import com.sopt.dive.domain.model.UserModel
 
-fun UserResponseDto.toDomain(): UserInfo {
-    return UserInfo(
+fun UserResponseDto.toDomain(): UserModel {
+    return UserModel(
         id = id,
         userId = username,
         name = name,
