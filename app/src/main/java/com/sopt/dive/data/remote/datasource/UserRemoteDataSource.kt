@@ -4,7 +4,7 @@ import com.sopt.dive.data.remote.dto.request.SignUpRequestDto
 import com.sopt.dive.data.remote.dto.response.BaseResponseDto
 import com.sopt.dive.data.remote.dto.response.UserResponseDto
 
-interface UserDataSource {
+interface UserRemoteDataSource {
     suspend fun singUp(
         signUpRequestDto: SignUpRequestDto
     ): BaseResponseDto<UserResponseDto>

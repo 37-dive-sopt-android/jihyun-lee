@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -23,7 +22,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
 import com.sopt.dive.presentation.components.DiveBasicTextField
 import com.sopt.dive.presentation.components.DiveLargeButton
@@ -33,7 +31,7 @@ import com.sopt.dive.presentation.theme.DiveTheme
 fun SignUpRoute(
     onNavigateToLogin: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SignUpViewModel = viewModel()
+    viewModel: SignUpViewModel
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -152,18 +150,15 @@ private fun SignUpScreen(
 @Preview(showBackground = true)
 @Composable
 private fun SignUpPreview() {
-    val viewModel = remember { SignUpViewModel() }
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
     DiveTheme {
         SignUpScreen(
-            uiState = uiState,
-            onIdChange = viewModel::onIdChange,
-            onPasswordChange = viewModel::onPasswordChange,
-            onNameChange = viewModel::onNameChange,
-            onEmailChange = viewModel::onEmailChange,
-            onAgeChange = viewModel::onAgeChange,
-            onSignUpButtonClick = viewModel::signUp
+            uiState = SignUpUiState(),
+            onIdChange = {},
+            onPasswordChange = {},
+            onNameChange = {},
+            onEmailChange = {},
+            onAgeChange = {},
+            onSignUpButtonClick = {}
         )
     }
 }

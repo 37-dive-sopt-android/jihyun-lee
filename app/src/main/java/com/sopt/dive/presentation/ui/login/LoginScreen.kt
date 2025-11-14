@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -27,19 +26,18 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
 import com.sopt.dive.presentation.components.DiveBasicTextField
 import com.sopt.dive.presentation.components.DiveLargeButton
 import com.sopt.dive.presentation.theme.DiveTheme
-import com.sopt.dive.presentation.util.noRippleClickable
+import com.sopt.dive.core.extention.noRippleClickable
 
 @Composable
 fun LoginRoute(
     onNavigateToSignUp: () -> Unit,
     onNavigateToHome: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: LoginViewModel = viewModel()
+    viewModel: LoginViewModel
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -156,16 +154,16 @@ private fun LoginScreen(
 @Preview(showBackground = true)
 @Composable
 private fun LoginPreview() {
-    val viewModel = remember { LoginViewModel() }
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
     DiveTheme {
         LoginScreen(
-            uiState = uiState,
-            onIdChange = viewModel::onIdChange,
-            onPasswordChange = viewModel::onPasswordChange,
-            onPasswordToggleClick = viewModel::onPasswordToggleClick,
-            onLoginClick = viewModel::login,
+            uiState = LoginUiState(
+                id = "test_id",
+                password = ""
+            ),
+            onIdChange = {},
+            onPasswordChange = {},
+            onPasswordToggleClick = {},
+            onLoginClick = {},
             onSignUpClick = {}
         )
     }

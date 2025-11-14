@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.sopt.dive.R
 import com.sopt.dive.data.remote.dto.request.SignUpRequestDto
 import com.sopt.dive.data.local.UserPrefs
-import com.sopt.dive.data.remote.network.ServicePool
 import com.sopt.dive.domain.repository.UserRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,9 +15,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SignUpViewModel : ViewModel() {
-    private val userRepository: UserRepository = ServicePool.userRepository
-
+class SignUpViewModel(
+    private val userRepository: UserRepository
+) : ViewModel() {
     private val _uiState = MutableStateFlow(SignUpUiState())
     val uiState: StateFlow<SignUpUiState> = _uiState.asStateFlow()
 
@@ -60,8 +59,8 @@ class SignUpViewModel : ViewModel() {
             )
 
             userRepository.signUp(signUpRequest)
-                .onSuccess { userInfo ->
-                    UserPrefs.setId(userInfo.id)
+                .onSuccess { result ->
+                    UserPrefs.setId(result.id)
                     _sideEffect.emit(SignUpSideEffect.ShowToastResId(R.string.signup_success_message))
                     _sideEffect.emit(SignUpSideEffect.NavigateToLogin)
                 }

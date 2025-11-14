@@ -23,13 +23,13 @@ import com.sopt.dive.R
 import com.sopt.dive.domain.model.UserModel
 import com.sopt.dive.presentation.components.ProfileImage
 import com.sopt.dive.presentation.theme.DiveTheme
-import com.sopt.dive.presentation.util.noRippleClickable
+import com.sopt.dive.core.extention.noRippleClickable
 
 @Composable
 fun MyPageRoute(
     onNavigateToLogin: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: MyPageViewModel = viewModel()
+    viewModel: MyPageViewModel
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

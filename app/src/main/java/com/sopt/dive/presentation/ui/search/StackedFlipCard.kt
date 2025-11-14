@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import com.sopt.dive.presentation.theme.DiveTheme
-import com.sopt.dive.presentation.util.noRippleClickable
+import com.sopt.dive.core.extention.noRippleClickable
 
 private enum class FlipState { Flipped, NotFlipped }
 

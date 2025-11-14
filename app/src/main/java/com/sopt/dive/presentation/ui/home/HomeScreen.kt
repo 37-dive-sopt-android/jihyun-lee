@@ -25,16 +25,10 @@ import com.sopt.dive.presentation.theme.DiveTheme
 @Composable
 fun HomeRoute(
     modifier: Modifier = Modifier,
-    viewModel: HomeViewModel = viewModel()
+    viewModel: HomeViewModel
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val id = UserPrefs.getId()
 
-    LaunchedEffect(id) {
-        if (id != null) {
-            viewModel.loadData(id)
-        }
-    }
     HomeScreen(
         uiState = uiState,
         modifier = modifier

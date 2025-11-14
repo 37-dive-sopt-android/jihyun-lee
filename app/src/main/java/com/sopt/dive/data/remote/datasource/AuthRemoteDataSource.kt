@@ -4,7 +4,7 @@ import com.sopt.dive.data.remote.dto.request.LoginRequestDto
 import com.sopt.dive.data.remote.dto.response.BaseResponseDto
 import com.sopt.dive.data.remote.dto.response.LoginResponseDto
 
-interface AuthDataSource {
+interface AuthRemoteDataSource {
     suspend fun login(
         loginRequestDto: LoginRequestDto
     ): BaseResponseDto<LoginResponseDto>

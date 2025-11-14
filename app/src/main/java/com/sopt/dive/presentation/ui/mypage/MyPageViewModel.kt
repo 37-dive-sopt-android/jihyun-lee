@@ -3,7 +3,6 @@ package com.sopt.dive.presentation.ui.mypage
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.data.local.UserPrefs
-import com.sopt.dive.data.remote.network.ServicePool
 import com.sopt.dive.domain.model.UserModel
 import com.sopt.dive.domain.repository.UserRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -15,9 +14,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class MyPageViewModel : ViewModel() {
-    private val userRepository: UserRepository = ServicePool.userRepository
-
+class MyPageViewModel(
+    private val userRepository: UserRepository
+) : ViewModel() {
     private val _uiState = MutableStateFlow(MyPageUiState())
     val uiState: StateFlow<MyPageUiState> = _uiState.asStateFlow()
 
@@ -33,15 +32,16 @@ class MyPageViewModel : ViewModel() {
             val id = UserPrefs.getId()
             if (id != null) {
                 userRepository.getUserInfo(id)
-                    .onSuccess { response ->
+                    .onSuccess { result ->
                         _uiState.update {
                             it.copy(
                                 userInfo = UserModel(
-                                    id = response.id,
-                                    userId = response.userId,
-                                    name = response.name,
-                                    email = response.email,
-                                    age = response.age
+                                    id = result.id,
+                                    userId = result.userId,
+                                    name = result.name,
+                                    email = result.email,
+                                    age = result.age,
+                                    profileImageUrl = result.profileImageUrl
                                 )
                             )
                         }
