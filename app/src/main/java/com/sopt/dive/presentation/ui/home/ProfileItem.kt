@@ -25,14 +25,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.R
-import com.sopt.dive.domain.model.ProfileModel
+import com.sopt.dive.domain.model.ReqresUserModel
 import com.sopt.dive.presentation.components.ProfileImage
 import com.sopt.dive.presentation.theme.DiveTheme
 import com.sopt.dive.presentation.theme.defaultDiveTypography
 
 @Composable
 fun ProfileItem(
-    profileInfo: ProfileModel,
+    profileInfo: ReqresUserModel,
     modifier: Modifier = Modifier,
     imageSize: Dp = Dp(60F),
     nameTextStyle: TextStyle = defaultDiveTypography.body.medium_regular,
@@ -44,7 +44,7 @@ fun ProfileItem(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         ProfileImage(
-            imageUrl = profileInfo.profileImageUrl,
+            imageUrl = profileInfo.avatar,
             imageSize = imageSize
         )
 
@@ -56,7 +56,7 @@ fun ProfileItem(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = profileInfo.name,
+                    text = "${profileInfo.firstName} ${profileInfo.lastName}",
                     style = nameTextStyle,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -69,9 +69,9 @@ fun ProfileItem(
                     )
                 }
             }
-            if (!profileInfo.statusMessage.isNullOrEmpty()) {
+            if (profileInfo.email.isNotEmpty()) {
                 Text(
-                    text = profileInfo.statusMessage,
+                    text = profileInfo.email,
                     style = messageTextStyle,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
@@ -140,17 +140,24 @@ private fun ProfileItemPreview() {
     DiveTheme {
         Column {
             ProfileItem(
-                ProfileModel(
-                    profileImageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
-                    name = "이지현",
-                    statusMessage = "안녕하세요",
-                    music = "COLOR - NCT WISH"
+                ReqresUserModel(
+                    id = 0,
+                    email = "example",
+                    firstName = "first",
+                    lastName = "last",
+                    avatar = "",
+                    isBirthday = true
                 )
             )
             ProfileItem(
-                ProfileModel(
-                    name = "이지현",
-                    isBirthday = true
+                ReqresUserModel(
+                    id = 0,
+                    email = "example",
+                    firstName = "first",
+                    lastName = "last",
+                    avatar = "",
+                    isBirthday = true,
+                    music = "COLOR - NCT WISH"
                 )
             )
         }

@@ -3,6 +3,8 @@ package com.sopt.dive.presentation.ui.home
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -11,15 +13,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
-import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.domain.model.ProfileModel
+import com.sopt.dive.domain.model.ReqresUserModel
+import com.sopt.dive.presentation.components.ProfileImage
 import com.sopt.dive.presentation.theme.DiveTheme
 
 @Composable
@@ -28,6 +31,10 @@ fun HomeRoute(
     viewModel: HomeViewModel
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.loadData()
+    }
 
     HomeScreen(
         uiState = uiState,
@@ -46,11 +53,20 @@ fun HomeScreen(
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         item {
-            ProfileItem(
-                profileInfo = uiState.userProfile,
-                imageSize = 80.dp,
-                nameTextStyle = DiveTheme.typography.body.large_regular
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                ProfileImage(
+                    imageUrl = uiState.userProfile.profileImageUrl,
+                    imageSize = 80.dp
+                )
+                Text(
+                    text = uiState.userProfile.name,
+                    style = DiveTheme.typography.body.large_regular
+                )
+            }
         }
 
         item {
@@ -79,15 +95,12 @@ private fun HomePreview() {
             name = "이지현"
         ),
         friendList = listOf(
-            ProfileModel(
-                profileImageUrl = "https://i.pinimg.com/736x/be/e0/d0/bee0d0a2cf15e7d3a92da047a016bbb6.jpg",
-                name = "이지현",
-                statusMessage = "안녕하세요",
-                music = "COLOR - NCT WISH"
-            ),
-            ProfileModel(
-                name = "이지현",
-                isBirthday = true
+            ReqresUserModel(
+                id = 0,
+                email = "",
+                firstName = "",
+                lastName = "",
+                avatar = ""
             )
         )
     )

@@ -23,7 +23,7 @@ class UserRepositoryImpl(
     }
 
     override suspend fun getUserInfo(id: Int): Result<UserModel> = safeApiCall {
-        val cachedEntity = userLocalDataSource.getUser(id)
+        val cachedEntity = userLocalDataSource.getUser()
         if(cachedEntity == null) {
             val remoteData = userRemoteDataSource.getUserInfo(id)
                 .handleApiResponse()
@@ -42,6 +42,6 @@ class UserRepositoryImpl(
         userRemoteDataSource.withdraw(id)
             .handleNullableApiResponse()
             .getOrThrow()
-        userLocalDataSource.deleteUser(id)
+        userLocalDataSource.deleteUser()
     }
 }

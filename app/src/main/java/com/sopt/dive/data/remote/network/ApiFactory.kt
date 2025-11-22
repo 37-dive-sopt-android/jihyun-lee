@@ -10,6 +10,11 @@ import retrofit2.Retrofit
 
 object ApiFactory {
     private const val BASE_URL: String = BuildConfig.BASE_URL
+    private const val OPEN_API_BASE_URL = "https://reqres.in/api/"
+
+    private val json = Json {
+        ignoreUnknownKeys = true
+    }
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -19,7 +24,17 @@ object ApiFactory {
         .addInterceptor(loggingInterceptor)
         .build()
 
-    val retrofit: Retrofit by lazy {
+    private val openApiClient = client.newBuilder()
+        .addInterceptor { chain ->
+            val originalRequest = chain.request()
+            val newRequest = originalRequest.newBuilder()
+                .addHeader("x-api-key", "reqres-free-v1")
+                .build()
+            chain.proceed(newRequest)
+        }
+        .build()
+
+    val diveRetrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(client)
@@ -27,5 +42,14 @@ object ApiFactory {
             .build()
     }
 
-    inline fun <reified T> create(): T = retrofit.create(T::class.java)
+    val openApiRetrofit: Retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl(OPEN_API_BASE_URL)
+            .client(openApiClient)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
+
+    inline fun <reified T> createDiveService(): T = diveRetrofit.create(T::class.java)
+    inline fun <reified T> createOpenApiService(): T = openApiRetrofit.create(T::class.java)
 }

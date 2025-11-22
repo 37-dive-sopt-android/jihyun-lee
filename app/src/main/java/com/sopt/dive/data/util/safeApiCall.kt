@@ -1,6 +1,7 @@
 package com.sopt.dive.data.util
 
-import com.sopt.dive.data.remote.dto.response.BaseResponseDto
+import com.sopt.dive.data.remote.dto.response.BaseReqresResponse
+import com.sopt.dive.data.remote.dto.response.BaseResponse
 import retrofit2.HttpException
 
 internal suspend fun <T> safeApiCall(block: suspend () -> T): Result<T> {
@@ -13,7 +14,7 @@ internal suspend fun <T> safeApiCall(block: suspend () -> T): Result<T> {
     }
 }
 
-fun <T> BaseResponseDto<T>.handleApiResponse(): Result<T> {
+fun <T> BaseResponse<T>.handleApiResponse(): Result<T> {
     return if (this.success) {
         val data = this.data ?: return Result.failure(Exception("Successful response but data field was null."))
         Result.success(data)
@@ -22,10 +23,14 @@ fun <T> BaseResponseDto<T>.handleApiResponse(): Result<T> {
     }
 }
 
-fun <T> BaseResponseDto<T>.handleNullableApiResponse(): Result<T?> {
+fun <T> BaseResponse<T>.handleNullableApiResponse(): Result<T?> {
     return if (this.success) {
         Result.success(this.data)
     } else {
         Result.failure(Exception(this.message))
     }
+}
+
+fun <T> BaseReqresResponse<T>.handleReqresApiResponse(): Result<T> {
+    return Result.success(this.data)
 }

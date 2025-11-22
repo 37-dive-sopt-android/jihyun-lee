@@ -23,11 +23,7 @@ class MyPageViewModel(
     private val _sideEffect = MutableSharedFlow<MyPageSideEffect>()
     val sideEffect: SharedFlow<MyPageSideEffect> = _sideEffect.asSharedFlow()
 
-    init {
-        loadUserInfo()
-    }
-
-    private fun loadUserInfo() {
+    fun loadUserInfo() {
         viewModelScope.launch {
             val id = UserPrefs.getId()
             if (id != null) {

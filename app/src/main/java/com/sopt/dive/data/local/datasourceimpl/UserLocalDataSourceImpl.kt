@@ -11,11 +11,11 @@ class UserLocalDataSourceImpl(
         userDao.insertUser(userEntity)
     }
 
-    override suspend fun getUser(id: Int): UserEntity? {
+    override suspend fun getUser(): UserEntity? {
         return userDao.getUser()
     }
 
-    override suspend fun deleteUser(id: Int) {
+    override suspend fun deleteUser() {
         userDao.deleteUser()
     }
 }

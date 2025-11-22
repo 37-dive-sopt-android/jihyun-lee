@@ -1,19 +1,19 @@
 package com.sopt.dive.data.remote.datasource
 
 import com.sopt.dive.data.remote.dto.request.SignUpRequestDto
-import com.sopt.dive.data.remote.dto.response.BaseResponseDto
+import com.sopt.dive.data.remote.dto.response.BaseResponse
 import com.sopt.dive.data.remote.dto.response.UserResponseDto
 
 interface UserRemoteDataSource {
     suspend fun singUp(
         signUpRequestDto: SignUpRequestDto
-    ): BaseResponseDto<UserResponseDto>
+    ): BaseResponse<UserResponseDto>
 
     suspend fun getUserInfo(
         id: Int
-    ): BaseResponseDto<UserResponseDto>
+    ): BaseResponse<UserResponseDto>
 
     suspend fun withdraw(
         id: Int
-    ): BaseResponseDto<Unit>
+    ): BaseResponse<Unit>
 }

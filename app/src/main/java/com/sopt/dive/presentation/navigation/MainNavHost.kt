@@ -39,7 +39,7 @@ fun MainNavHost(
             HomeRoute(
                 modifier = Modifier.padding(paddingValues),
                 viewModel = viewModel(
-                    factory = ViewModelFactory { HomeViewModel(appContainer.userRepository) }
+                    factory = ViewModelFactory { HomeViewModel(appContainer.userRepository, appContainer.reqresRepository) }
                 )
             )
         }

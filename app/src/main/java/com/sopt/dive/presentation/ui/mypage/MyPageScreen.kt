@@ -33,6 +33,10 @@ fun MyPageRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        viewModel.loadUserInfo()
+    }
+
     LaunchedEffect(viewModel.sideEffect) {
         viewModel.sideEffect.collect { effect ->
             when (effect) {
