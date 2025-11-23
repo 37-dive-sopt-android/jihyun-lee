@@ -18,12 +18,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.sopt.dive.R
 import com.sopt.dive.domain.model.UserModel
 import com.sopt.dive.presentation.components.ProfileImage
 import com.sopt.dive.presentation.theme.DiveTheme
-import com.sopt.dive.core.extention.noRippleClickable
+import com.sopt.dive.core.util.noRippleClickable
 
 @Composable
 fun MyPageRoute(

@@ -1,6 +1,6 @@
 package com.sopt.dive.data.util
 
-import com.sopt.dive.data.remote.dto.response.BaseResponse
+import com.sopt.dive.data.network.BaseResponse
 import kotlinx.serialization.json.Json
 import retrofit2.HttpException
 

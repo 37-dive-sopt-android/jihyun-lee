@@ -2,7 +2,7 @@ package com.sopt.dive
 
 import android.app.Application
 import com.sopt.dive.data.local.UserPrefs
-import com.sopt.dive.di.AppContainer
+import com.sopt.dive.core.di.AppContainer
 
 class DiveApp : Application() {
     lateinit var appContainer: AppContainer

@@ -9,9 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.sopt.dive.core.util.ViewModelFactory
 import com.sopt.dive.data.local.UserPrefs
-import com.sopt.dive.di.AppContainer
+import com.sopt.dive.core.di.AppContainer
+import com.sopt.dive.core.di.viewModelFactory
 import com.sopt.dive.presentation.ui.home.HomeRoute
 import com.sopt.dive.presentation.ui.home.HomeViewModel
 import com.sopt.dive.presentation.ui.login.LoginRoute
@@ -39,7 +39,7 @@ fun MainNavHost(
             HomeRoute(
                 modifier = Modifier.padding(paddingValues),
                 viewModel = viewModel(
-                    factory = ViewModelFactory { HomeViewModel(appContainer.userRepository, appContainer.reqresRepository) }
+                    factory = viewModelFactory { HomeViewModel(appContainer.userRepository, appContainer.reqresRepository) }
                 )
             )
         }
@@ -53,7 +53,7 @@ fun MainNavHost(
                 onNavigateToLogin = navigator::navigateToLogin,
                 modifier = Modifier.padding(paddingValues),
                 viewModel = viewModel(
-                    factory = ViewModelFactory { MyPageViewModel(appContainer.userRepository) }
+                    factory = viewModelFactory { MyPageViewModel(appContainer.userRepository) }
                 )
             )
         }
@@ -65,7 +65,7 @@ fun MainNavHost(
                     .navigationBarsPadding()
                     .statusBarsPadding(),
                 viewModel = viewModel(
-                    factory = ViewModelFactory { LoginViewModel(appContainer.authRepository) }
+                    factory = viewModelFactory { LoginViewModel(appContainer.authRepository) }
                 )
             )
         }
@@ -76,7 +76,7 @@ fun MainNavHost(
                     .navigationBarsPadding()
                     .statusBarsPadding(),
                 viewModel = viewModel(
-                    factory = ViewModelFactory { SignUpViewModel(appContainer.userRepository) }
+                    factory = viewModelFactory { SignUpViewModel(appContainer.userRepository) }
                 )
             )
         }

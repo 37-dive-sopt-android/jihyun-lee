@@ -1,6 +1,6 @@
 package com.sopt.dive.data.remote.service
 
-import com.sopt.dive.data.remote.dto.response.BaseResponse
+import com.sopt.dive.data.network.BaseResponse
 import com.sopt.dive.data.remote.dto.request.LoginRequestDto
 import com.sopt.dive.data.remote.dto.response.LoginResponseDto
 import retrofit2.http.Body

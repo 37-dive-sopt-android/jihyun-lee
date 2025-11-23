@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.sopt.dive.di.AppContainer
+import com.sopt.dive.core.di.AppContainer
 import com.sopt.dive.presentation.components.DiveBottomBar
 import com.sopt.dive.presentation.navigation.MainNavHost
 import com.sopt.dive.presentation.navigation.MainNavigator

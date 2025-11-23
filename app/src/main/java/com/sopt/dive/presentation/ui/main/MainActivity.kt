@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.sopt.dive.DiveApp
-import com.sopt.dive.di.AppContainer
+import com.sopt.dive.core.di.AppContainer
 import com.sopt.dive.presentation.navigation.rememberMainNavigator
 import com.sopt.dive.presentation.theme.DiveTheme
 

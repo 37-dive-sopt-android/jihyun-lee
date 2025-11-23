@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sopt.dive.presentation.theme.DiveTheme
-import com.sopt.dive.core.extention.noRippleClickable
+import com.sopt.dive.core.util.noRippleClickable
 
 @Composable
 fun DiveLargeButton(

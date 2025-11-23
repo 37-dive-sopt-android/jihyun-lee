@@ -30,7 +30,7 @@ import com.sopt.dive.R
 import com.sopt.dive.presentation.components.DiveBasicTextField
 import com.sopt.dive.presentation.components.DiveLargeButton
 import com.sopt.dive.presentation.theme.DiveTheme
-import com.sopt.dive.core.extention.noRippleClickable
+import com.sopt.dive.core.util.noRippleClickable
 
 @Composable
 fun LoginRoute(

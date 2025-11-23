@@ -1,7 +1,7 @@
 package com.sopt.dive.data.util
 
-import com.sopt.dive.data.remote.dto.response.BaseReqresResponse
-import com.sopt.dive.data.remote.dto.response.BaseResponse
+import com.sopt.dive.data.network.BaseReqresResponse
+import com.sopt.dive.data.network.BaseResponse
 import retrofit2.HttpException
 
 internal suspend fun <T> safeApiCall(block: suspend () -> T): Result<T> {

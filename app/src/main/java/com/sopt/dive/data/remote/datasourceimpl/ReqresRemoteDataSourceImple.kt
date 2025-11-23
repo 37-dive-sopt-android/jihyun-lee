@@ -1,7 +1,7 @@
 package com.sopt.dive.data.remote.datasourceimpl
 
 import com.sopt.dive.data.remote.datasource.ReqresRemoteDataSource
-import com.sopt.dive.data.remote.dto.response.BaseReqresResponse
+import com.sopt.dive.data.network.BaseReqresResponse
 import com.sopt.dive.data.remote.dto.response.ReqresUserResponseDto
 import com.sopt.dive.data.remote.service.ReqresService
 

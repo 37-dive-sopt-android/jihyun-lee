@@ -1,7 +1,7 @@
 package com.sopt.dive.data.remote.datasource
 
 import com.sopt.dive.data.remote.dto.request.SignUpRequestDto
-import com.sopt.dive.data.remote.dto.response.BaseResponse
+import com.sopt.dive.data.network.BaseResponse
 import com.sopt.dive.data.remote.dto.response.UserResponseDto
 
 interface UserRemoteDataSource {
