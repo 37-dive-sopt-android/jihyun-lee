@@ -7,8 +7,11 @@ import com.sopt.dive.domain.model.ProfileModel
 import com.sopt.dive.domain.repository.ReqresRepository
 import com.sopt.dive.domain.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -18,7 +21,19 @@ class HomeViewModel(
     private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
     private var _uiState = MutableStateFlow(HomeUiState())
-    val uiState = _uiState.asStateFlow()
+
+    val uiState: StateFlow<HomeUiState> = combine(
+        _uiState,
+        reqresRepository.getFriendsStream()
+    ) { state, friends ->
+        state.copy(
+            friendList = friends
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = HomeUiState()
+    )
 
     fun loadData() {
         viewModelScope.launch {
@@ -42,17 +57,21 @@ class HomeViewModel(
         }
 
         viewModelScope.launch {
-            reqresRepository.getUsers(0, 0)
-                .onSuccess { result ->
-                    _uiState.update {
-                        it.copy(
-                            friendList = result
-                        )
-                    }
-                }
-                .onFailure { e ->
-                    e.printStackTrace()
-                }
+            val currentFriends = reqresRepository.getFriendsStream().first()
+
+            if (currentFriends.isEmpty()) {
+                reqresRepository.updateFriends(0, 0)
+                    .onFailure { e -> e.printStackTrace() }
+            } else {
+                println("로컬 DB에 데이터가 있어서 서버 통신을 스킵합니다.")
+            }
+        }
+    }
+
+    fun refreshData() {
+        viewModelScope.launch {
+            reqresRepository.updateFriends(0, 0)
+                .onFailure { e -> e.printStackTrace() }
         }
     }
 }

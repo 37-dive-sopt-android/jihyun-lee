@@ -5,7 +5,7 @@ import com.sopt.dive.data.network.BaseReqresResponse
 import com.sopt.dive.data.remote.dto.response.ReqresUserResponseDto
 import com.sopt.dive.data.remote.service.ReqresService
 
-class ReqresRemoteDataSourceImple(
+class ReqresRemoteDataSourceImpl(
     private val reqresService: ReqresService
 ): ReqresRemoteDataSource {
     override suspend fun getUsers(

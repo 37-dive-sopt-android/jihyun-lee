@@ -1,12 +1,11 @@
 package com.sopt.dive.core.di
 
 import android.content.Context
-import androidx.room.Room
 import com.sopt.dive.data.local.AppDatabase
 import com.sopt.dive.data.local.datasourceimpl.UserLocalDataSourceImpl
 import com.sopt.dive.data.local.datastore.UserPreferencesRepository
 import com.sopt.dive.data.remote.datasourceimpl.AuthRemoteDataSourceImpl
-import com.sopt.dive.data.remote.datasourceimpl.ReqresRemoteDataSourceImple
+import com.sopt.dive.data.remote.datasourceimpl.ReqresRemoteDataSourceImpl
 import com.sopt.dive.data.remote.datasourceimpl.UserRemoteDataSourceImpl
 import com.sopt.dive.data.network.ApiFactory
 import com.sopt.dive.data.remote.service.AuthService
@@ -41,14 +40,16 @@ class AppContainer(
     }
 
     private val reqresService: ReqresService = ApiFactory.createOpenApiService<ReqresService>()
-    private val reqresRemoteDataSource = ReqresRemoteDataSourceImple(reqresService)
+    private val reqresRemoteDataSource = ReqresRemoteDataSourceImpl(reqresService)
     val reqresRepository: ReqresRepository by lazy {
-        ReqresRepositoryImpl(reqresRemoteDataSource)
+        ReqresRepositoryImpl(
+            reqresRemoteDataSource = reqresRemoteDataSource,
+            friendDao = database.friendDao()
+        )
     }
 
-    private val database: AppDatabase = Room.databaseBuilder(
-        context, AppDatabase::class.java, "dive_db"
-    ).build()
+    private val database by lazy { AppDatabase.getDatabase(context) }
+
     private val userDao = database.userDao()
     private val userLocalDataSource = UserLocalDataSourceImpl(userDao)
 }
