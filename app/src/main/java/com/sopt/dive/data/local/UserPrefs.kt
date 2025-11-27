@@ -8,7 +8,6 @@ object UserPrefs {
     private const val FILE = "user_prefs"
     private const val IS_LOGGED_IN = "is_logged_in"
     private const val ID = "id"
-    private const val PROFILE_IMAGE_URL = "profile_image_url"
 
     private lateinit var prefs: SharedPreferences
 
@@ -24,9 +23,6 @@ object UserPrefs {
         return if (id == -1) null else id
     }
     fun setId(id: Int) = prefs.edit(commit = true) { putInt(ID, id) }
-
-    fun getProfileImageUrl(): String? = prefs.getString(PROFILE_IMAGE_URL, null)
-    fun setProfileImageUrl(url: String) = prefs.edit(commit = true) { putString(PROFILE_IMAGE_URL, url) }
 
     fun logout() {
         setLoggedIn(false)

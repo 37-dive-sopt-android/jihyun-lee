@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.R
 import com.sopt.dive.data.remote.dto.request.LoginRequestDto
-import com.sopt.dive.data.local.UserPrefs
+import com.sopt.dive.data.local.datastore.UserPreferencesRepository
 import com.sopt.dive.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState.asStateFlow()
@@ -54,8 +55,9 @@ class LoginViewModel(
 
             authRepository.login(loginRequest)
                 .onSuccess { result ->
-                    UserPrefs.setLoggedIn(true)
-                    UserPrefs.setId(result.id)
+                    userPreferencesRepository.setId(result.id)
+                    userPreferencesRepository.setLoggedIn(true)
+
                     _sideEffect.emit(LoginSideEffect.ShowToastResId(R.string.login_success_message))
                     _sideEffect.emit(LoginSideEffect.NavigateToHome)
                 }

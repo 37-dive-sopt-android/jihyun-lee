@@ -39,7 +39,13 @@ fun MainNavHost(
             HomeRoute(
                 modifier = Modifier.padding(paddingValues),
                 viewModel = viewModel(
-                    factory = viewModelFactory { HomeViewModel(appContainer.userRepository, appContainer.reqresRepository) }
+                    factory = viewModelFactory {
+                        HomeViewModel(
+                            userRepository = appContainer.userRepository,
+                            reqresRepository = appContainer.reqresRepository,
+                            userPreferencesRepository = appContainer.userPreferencesRepository
+                        )
+                    }
                 )
             )
         }
@@ -65,7 +71,12 @@ fun MainNavHost(
                     .navigationBarsPadding()
                     .statusBarsPadding(),
                 viewModel = viewModel(
-                    factory = viewModelFactory { LoginViewModel(appContainer.authRepository) }
+                    factory = viewModelFactory {
+                        LoginViewModel(
+                            authRepository = appContainer.authRepository,
+                            userPreferencesRepository = appContainer.userPreferencesRepository
+                        )
+                    }
                 )
             )
         }

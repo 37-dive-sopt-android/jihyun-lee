@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.sopt.dive.data.local.AppDatabase
 import com.sopt.dive.data.local.datasourceimpl.UserLocalDataSourceImpl
+import com.sopt.dive.data.local.datastore.UserPreferencesRepository
 import com.sopt.dive.data.remote.datasourceimpl.AuthRemoteDataSourceImpl
 import com.sopt.dive.data.remote.datasourceimpl.ReqresRemoteDataSourceImple
 import com.sopt.dive.data.remote.datasourceimpl.UserRemoteDataSourceImpl
@@ -21,6 +22,10 @@ import com.sopt.dive.domain.repository.UserRepository
 class AppContainer(
     context: Context
 ) {
+    val userPreferencesRepository: UserPreferencesRepository by lazy {
+        UserPreferencesRepository(context)
+    }
+
     private val authService: AuthService = ApiFactory.createDiveService<AuthService>()
     private val authRemoteDataSource = AuthRemoteDataSourceImpl(authService)
     val authRepository: AuthRepository by lazy {
