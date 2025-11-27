@@ -8,18 +8,18 @@
     <string name="signup_pw_placeholder">비밀번호를 입력해주세요</string>
     <string name="signup_name">NAME</string>
     <string name="signup_name_placeholder">이름을 입력해주세요</string>
-    <string name="signup_nickname">NICKNAME</string>
-    <string name="signup_nickname_placeholder">닉네임을 입력해주세요</string>
-    <string name="signup_mbti">MBTI</string>
-    <string name="signup_mbti_placeholder">MBTI를 입력해주세요</string>
+    <string name="signup_email">EMAIL</string>
+    <string name="signup_email_placeholder">이메일을 입력해주세요</string>
+    <string name="signup_age">AGE</string>
+    <string name="signup_age_placeholder">나이를 입력해주세요</string>
     <string name="signup_button">회원가입하기</string>
     <string name="signup_success_message">회원가입 성공</string>
     <string name="signup_id_fail_message">아이디는 6~10글자여야 합니다.</string>
-    <string name="signup_pw_fail_message">비밀번호는 8~12글자여야 합니다.</string>
+    <string name="signup_pw_fail_message">공백제외 대/소문자/숫자/특수문자 각 1자 이상 8~64글자로 입력해주세요.</string>
     <string name="signup_name_fail_message">이름은 1글자 이상 입력해야 합니다.</string>
-    <string name="signup_nickname_fail_message">닉네임은 1글자 이상 입력해야 합니다.</string>
-    <string name="signup_mbti_fail_message">MBTI는 4글자여야 합니다.</string>
-    <string name="signup_empty_fail_message">모든 정보를 입력해주세요</string>
+    <string name="signup_email_fail_message">이메일 형식으로 입력해주세요.</string>
+    <string name="signup_age_fail_message">나이는 1 이상의 숫자를 입력해야 합니다.</string>
+    <string name="signup_fail_message">회원가입 실패</string>
 
     <string name="login_title">Welcome To SOPT</string>
     <string name="login_success_message">로그인에 성공했습니다</string>
