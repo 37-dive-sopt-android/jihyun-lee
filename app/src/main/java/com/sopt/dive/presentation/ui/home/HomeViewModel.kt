@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class HomeViewModel(
     private val userRepository: UserRepository,
@@ -63,7 +64,7 @@ class HomeViewModel(
                 reqresRepository.updateFriends(0, 0)
                     .onFailure { e -> e.printStackTrace() }
             } else {
-                println("로컬 DB에 데이터가 있어서 서버 통신을 스킵합니다.")
+                Timber.tag("LOG").d("로컬 DB에 데이터가 있어서 서버 통신을 스킵합니다.")
             }
         }
     }
