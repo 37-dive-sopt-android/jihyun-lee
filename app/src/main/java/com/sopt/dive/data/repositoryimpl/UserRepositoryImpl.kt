@@ -2,12 +2,14 @@ package com.sopt.dive.data.repositoryimpl
 
 import com.sopt.dive.data.local.datasource.UserLocalDataSource
 import com.sopt.dive.data.mapper.toDomain
+import com.sopt.dive.data.mapper.toDto
 import com.sopt.dive.data.mapper.toEntity
 import com.sopt.dive.data.remote.datasource.UserRemoteDataSource
 import com.sopt.dive.data.remote.dto.request.SignUpRequestDto
 import com.sopt.dive.data.util.handleApiResponse
 import com.sopt.dive.data.util.handleNullableApiResponse
 import com.sopt.dive.data.util.safeApiCall
+import com.sopt.dive.domain.model.SignUpModel
 import com.sopt.dive.domain.model.UserModel
 import com.sopt.dive.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
@@ -36,8 +38,10 @@ class UserRepositoryImpl(
         userLocalDataSource.saveUser(entityToSave)
     }
 
-    override suspend fun signUp(signUpRequestDto: SignUpRequestDto): Result<UserModel> = safeApiCall {
-        userRemoteDataSource.singUp(signUpRequestDto)
+    override suspend fun signUp(signUpModel: SignUpModel): Result<UserModel> = safeApiCall {
+        val requestDto = signUpModel.toDto()
+
+        userRemoteDataSource.singUp(requestDto)
             .handleApiResponse()
             .getOrThrow()
             .toDomain()

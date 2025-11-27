@@ -3,7 +3,7 @@ package com.sopt.dive.presentation.ui.signup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.R
-import com.sopt.dive.data.remote.dto.request.SignUpRequestDto
+import com.sopt.dive.domain.model.SignUpModel
 import com.sopt.dive.domain.repository.UserRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,8 +49,8 @@ class SignUpViewModel(
         val currentState = _uiState.value
 
         viewModelScope.launch {
-            val signUpRequest = SignUpRequestDto(
-                username = currentState.id,
+            val signUpRequest = SignUpModel(
+                id = currentState.id,
                 password = currentState.password,
                 name = currentState.name,
                 email = currentState.email,
