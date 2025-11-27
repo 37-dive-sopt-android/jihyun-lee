@@ -59,7 +59,12 @@ fun MainNavHost(
                 onNavigateToLogin = navigator::navigateToLogin,
                 modifier = Modifier.padding(paddingValues),
                 viewModel = viewModel(
-                    factory = viewModelFactory { MyPageViewModel(appContainer.userRepository) }
+                    factory = viewModelFactory {
+                        MyPageViewModel(
+                            userRepository = appContainer.userRepository,
+                            userPreferencesRepository = appContainer.userPreferencesRepository
+                        )
+                    }
                 )
             )
         }
