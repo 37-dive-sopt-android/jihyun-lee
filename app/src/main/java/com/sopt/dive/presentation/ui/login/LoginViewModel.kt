@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -24,6 +25,13 @@ class LoginViewModel(
 
     private val _sideEffect = MutableSharedFlow<LoginSideEffect>()
     val sideEffect: SharedFlow<LoginSideEffect> = _sideEffect.asSharedFlow()
+
+    init {
+        viewModelScope.launch {
+            val isLoggedIn = userPreferencesRepository.isLoggedIn.first()
+            if (isLoggedIn) _sideEffect.emit(LoginSideEffect.NavigateToHome)
+        }
+    }
 
     fun onIdChange(newId: String) {
         _uiState.update { currentState ->

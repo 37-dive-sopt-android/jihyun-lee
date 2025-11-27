@@ -20,6 +20,10 @@ class UserPreferencesRepository(private val context: Context) {
         preferences[ID] ?: 0
     }
 
+    val isLoggedIn: Flow<Boolean> = dataStore.data.map { preferences ->
+        preferences[IS_LOGGED_IN]==true
+    }
+
     suspend fun setId(id: Int) = dataStore.edit { preferences ->
         preferences[ID] = id
     }

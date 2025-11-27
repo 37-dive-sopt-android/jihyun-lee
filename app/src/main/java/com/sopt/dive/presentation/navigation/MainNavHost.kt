@@ -9,7 +9,6 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.core.di.AppContainer
 import com.sopt.dive.core.di.viewModelFactory
 import com.sopt.dive.presentation.ui.home.HomeRoute
@@ -29,11 +28,9 @@ fun MainNavHost(
     paddingValues: PaddingValues,
     appContainer: AppContainer
 ) {
-    val startDestination = if (UserPrefs.isLoggedIn()) Home else LogIn
-
     NavHost(
         navController = navigator.navController,
-        startDestination = startDestination
+        startDestination = LogIn
     ) {
         composable<Home> {
             HomeRoute(
