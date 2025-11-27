@@ -1,7 +1,6 @@
 package com.sopt.dive
 
 import android.app.Application
-import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.core.di.AppContainer
 
 class DiveApp : Application() {
@@ -10,6 +9,5 @@ class DiveApp : Application() {
     override fun onCreate() {
         super.onCreate()
         appContainer = AppContainer(this)
-        UserPrefs.init(this)
     }
 }
