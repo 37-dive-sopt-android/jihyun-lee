@@ -5,7 +5,6 @@ import com.sopt.dive.data.mapper.toDomain
 import com.sopt.dive.data.mapper.toDto
 import com.sopt.dive.data.mapper.toEntity
 import com.sopt.dive.data.remote.datasource.UserRemoteDataSource
-import com.sopt.dive.data.remote.dto.request.SignUpRequestDto
 import com.sopt.dive.data.util.handleApiResponse
 import com.sopt.dive.data.util.handleNullableApiResponse
 import com.sopt.dive.data.util.safeApiCall
@@ -53,5 +52,8 @@ class UserRepositoryImpl(
             .getOrThrow()
         userLocalDataSource.deleteUser()
     }
+
+    override suspend fun clearLocalUserData(id: Int) =
+        userLocalDataSource.deleteUser()
 
 }

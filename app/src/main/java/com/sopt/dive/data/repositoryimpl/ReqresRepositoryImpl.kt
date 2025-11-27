@@ -31,4 +31,7 @@ class ReqresRepositoryImpl(
         reqresLocalDataSource.saveFriends(entities)
     }
 
+    override suspend fun deleteAllFriends() =
+        reqresLocalDataSource.deleteAllFriends()
+
 }

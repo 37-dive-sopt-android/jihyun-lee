@@ -68,7 +68,7 @@ class HomeViewModel(
             val currentFriends = reqresRepository.getFriendsStream().first()
 
             if (currentFriends.isEmpty()) {
-                reqresRepository.updateFriends(0, 0)
+                reqresRepository.updateFriends(1, 12)
                     .onFailure { e -> e.printStackTrace() }
             } else {
                 Timber.tag("TEST").d("Home: 로컬 DB에 친구  목록 데이터가 있어서 서버 통신을 스킵합니다.")
@@ -82,7 +82,7 @@ class HomeViewModel(
             if (id != 0) {
                 userRepository.updateUserInfo(id)
             }
-            reqresRepository.updateFriends(0, 0)
+            reqresRepository.updateFriends(1, 12)
         }
     }
 }

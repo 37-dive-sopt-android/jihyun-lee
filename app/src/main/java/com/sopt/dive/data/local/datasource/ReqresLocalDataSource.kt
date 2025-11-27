@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface ReqresLocalDataSource {
     fun getFriendsStream(): Flow<List<FriendEntity>>
     suspend fun saveFriends(friends: List<FriendEntity>)
+    suspend fun deleteAllFriends()
 }

@@ -6,4 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface ReqresRepository {
     fun getFriendsStream(): Flow<List<ReqresUserModel>>
     suspend fun updateFriends(page: Int, perPage: Int): Result<Unit>
+    suspend fun deleteAllFriends()
 }

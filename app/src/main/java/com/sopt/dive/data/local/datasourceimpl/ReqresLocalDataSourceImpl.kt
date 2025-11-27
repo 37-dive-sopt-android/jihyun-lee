@@ -13,4 +13,8 @@ class ReqresLocalDataSourceImpl(
 
     override suspend fun saveFriends(friends: List<FriendEntity>) =
         friendDao.insertAll(friends)
+
+    override suspend fun deleteAllFriends() {
+        friendDao.deleteAll()
+    }
 }

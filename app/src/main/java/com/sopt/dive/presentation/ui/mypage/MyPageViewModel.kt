@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.data.local.datastore.UserPreferencesRepository
 import com.sopt.dive.domain.model.UserModel
+import com.sopt.dive.domain.repository.ReqresRepository
 import com.sopt.dive.domain.repository.UserRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -20,6 +21,7 @@ import timber.log.Timber
 
 class MyPageViewModel(
     private val userRepository: UserRepository,
+    private val reqresRepository: ReqresRepository,
     private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
     val uiState: StateFlow<MyPageUiState> = userPreferencesRepository.id
@@ -77,6 +79,9 @@ class MyPageViewModel(
 
     fun logout() {
         viewModelScope.launch {
+            val id = userPreferencesRepository.id.first()
+            if (id != 0) userRepository.clearLocalUserData(id)
+            reqresRepository.deleteAllFriends()
             userPreferencesRepository.logOut()
             _sideEffect.emit(MyPageSideEffect.NavigateToLogin)
         }
@@ -89,6 +94,7 @@ class MyPageViewModel(
 
             userRepository.withdraw(id)
                 .onSuccess {
+                    reqresRepository.deleteAllFriends()
                     userPreferencesRepository.withdraw()
                     _sideEffect.emit(MyPageSideEffect.NavigateToLogin)
                 }

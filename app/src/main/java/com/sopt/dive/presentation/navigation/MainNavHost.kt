@@ -59,6 +59,7 @@ fun MainNavHost(
                     factory = viewModelFactory {
                         MyPageViewModel(
                             userRepository = appContainer.userRepository,
+                            reqresRepository = appContainer.reqresRepository,
                             userPreferencesRepository = appContainer.userPreferencesRepository
                         )
                     }
