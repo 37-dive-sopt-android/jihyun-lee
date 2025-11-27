@@ -1,6 +1,5 @@
 package com.sopt.dive.data.repositoryimpl
 
-import com.sopt.dive.data.local.dao.UserDao
 import com.sopt.dive.data.local.datasource.UserLocalDataSource
 import com.sopt.dive.data.mapper.toDomain
 import com.sopt.dive.data.mapper.toEntity
@@ -18,6 +17,7 @@ class UserRepositoryImpl(
     private val userRemoteDataSource: UserRemoteDataSource,
     private val userLocalDataSource: UserLocalDataSource
 ): UserRepository {
+
     override fun getUserStream(id: Int): Flow<UserModel?> {
         return userLocalDataSource.getUserStream(id).map { entity ->
             entity?.toDomain()

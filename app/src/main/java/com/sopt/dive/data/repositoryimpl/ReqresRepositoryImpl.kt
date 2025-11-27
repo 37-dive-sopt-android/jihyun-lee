@@ -1,6 +1,6 @@
 package com.sopt.dive.data.repositoryimpl
 
-import com.sopt.dive.data.local.dao.FriendDao
+import com.sopt.dive.data.local.datasource.ReqresLocalDataSource
 import com.sopt.dive.data.mapper.toDomain
 import com.sopt.dive.data.mapper.toEntity
 import com.sopt.dive.data.remote.datasource.ReqresRemoteDataSource
@@ -13,10 +13,11 @@ import kotlinx.coroutines.flow.map
 
 class ReqresRepositoryImpl(
     private val reqresRemoteDataSource: ReqresRemoteDataSource,
-    private val friendDao: FriendDao
+    private val reqresLocalDataSource: ReqresLocalDataSource
 ): ReqresRepository {
+
     override fun getFriendsStream(): Flow<List<ReqresUserModel>> =
-        friendDao.getAllFriends().map { entities ->
+        reqresLocalDataSource.getFriendsStream().map { entities ->
             entities.toDomain()
         }
 
@@ -27,7 +28,7 @@ class ReqresRepositoryImpl(
 
         val entities = response.toEntity()
 
-        friendDao.insertAll(entities)
+        reqresLocalDataSource.saveFriends(entities)
     }
 
 }
