@@ -39,8 +39,7 @@ fun MainNavHost(
                     factory = viewModelFactory {
                         HomeViewModel(
                             userRepository = appContainer.userRepository,
-                            reqresRepository = appContainer.reqresRepository,
-                            userPreferencesRepository = appContainer.userPreferencesRepository
+                            reqresRepository = appContainer.reqresRepository
                         )
                     }
                 )
@@ -59,8 +58,7 @@ fun MainNavHost(
                     factory = viewModelFactory {
                         MyPageViewModel(
                             userRepository = appContainer.userRepository,
-                            reqresRepository = appContainer.reqresRepository,
-                            userPreferencesRepository = appContainer.userPreferencesRepository
+                            reqresRepository = appContainer.reqresRepository
                         )
                     }
                 )
@@ -74,12 +72,7 @@ fun MainNavHost(
                     .navigationBarsPadding()
                     .statusBarsPadding(),
                 viewModel = viewModel(
-                    factory = viewModelFactory {
-                        LoginViewModel(
-                            authRepository = appContainer.authRepository,
-                            userPreferencesRepository = appContainer.userPreferencesRepository
-                        )
-                    }
+                    factory = viewModelFactory { LoginViewModel(authRepository = appContainer.authRepository) }
                 )
             )
         }

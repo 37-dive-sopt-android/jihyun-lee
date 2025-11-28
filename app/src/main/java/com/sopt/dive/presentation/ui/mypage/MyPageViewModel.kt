@@ -2,7 +2,6 @@ package com.sopt.dive.presentation.ui.mypage
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sopt.dive.data.local.datastore.UserPreferencesRepository
 import com.sopt.dive.domain.model.UserModel
 import com.sopt.dive.domain.repository.ReqresRepository
 import com.sopt.dive.domain.repository.UserRepository
@@ -12,8 +11,6 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -21,17 +18,9 @@ import timber.log.Timber
 
 class MyPageViewModel(
     private val userRepository: UserRepository,
-    private val reqresRepository: ReqresRepository,
-    private val userPreferencesRepository: UserPreferencesRepository
+    private val reqresRepository: ReqresRepository
 ) : ViewModel() {
-    val uiState: StateFlow<MyPageUiState> = userPreferencesRepository.id
-        .flatMapLatest { id ->
-            if (id==0) {
-                flowOf(null)
-            } else {
-                userRepository.getUserStream(id)
-            }
-        }
+    val uiState: StateFlow<MyPageUiState> = userRepository.myProfile
         .map { userModel ->
             MyPageUiState(
                 userInfo = userModel ?: UserModel(
@@ -55,13 +44,10 @@ class MyPageViewModel(
 
     fun loadUserInfo() {
         viewModelScope.launch {
-            val id = userPreferencesRepository.id.first()
-            if (id==0) return@launch
-
-            val currentUser = userRepository.getUserStream(id).first()
+            val currentUser = userRepository.myProfile.first()
 
             if (currentUser==null) {
-                userRepository.updateUserInfo(id)
+                userRepository.fetchMyInfo()
                     .onFailure { e -> e.printStackTrace() }
             } else {
                 Timber.tag("TEST").d("MyPage: 로컬 사용자 데이터가 존재하여 서버 통신을 건너뜁니다.")
@@ -71,31 +57,23 @@ class MyPageViewModel(
 
     fun refreshUserInfo() {
         viewModelScope.launch {
-            val id = userPreferencesRepository.id.first()
-            if (id==0) return@launch
-            userRepository.updateUserInfo(id)
+            userRepository.fetchMyInfo()
         }
     }
 
     fun logout() {
         viewModelScope.launch {
-            val id = userPreferencesRepository.id.first()
-            if (id != 0) userRepository.clearLocalUserData(id)
+            userRepository.logout()
             reqresRepository.deleteAllFriends()
-            userPreferencesRepository.logOut()
             _sideEffect.emit(MyPageSideEffect.NavigateToLogin)
         }
     }
 
     fun withdraw() {
         viewModelScope.launch {
-            val id = userPreferencesRepository.id.first()
-            if (id==0) return@launch
-
-            userRepository.withdraw(id)
+            userRepository.withdraw()
                 .onSuccess {
                     reqresRepository.deleteAllFriends()
-                    userPreferencesRepository.withdraw()
                     _sideEffect.emit(MyPageSideEffect.NavigateToLogin)
                 }
                 .onFailure { exception ->
