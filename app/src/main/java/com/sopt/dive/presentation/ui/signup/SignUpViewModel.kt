@@ -3,8 +3,10 @@ package com.sopt.dive.presentation.ui.signup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.R
+import com.sopt.dive.data.network.NetworkError
 import com.sopt.dive.domain.model.SignUpModel
 import com.sopt.dive.domain.repository.UserRepository
+import com.sopt.dive.presentation.util.toUserErrorMessage
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -63,8 +65,13 @@ class SignUpViewModel(
                     _sideEffect.emit(SignUpSideEffect.NavigateToLogin)
                 }
                 .onFailure { exception ->
-                    exception.printStackTrace()
-                    _sideEffect.emit(SignUpSideEffect.ShowToastString(exception.message?:""))
+                    if (exception is NetworkError) {
+                        val message = exception.toUserErrorMessage()
+                        _sideEffect.emit(SignUpSideEffect.ShowToastString(message))
+                    } else {
+                        exception.printStackTrace()
+                        _sideEffect.emit(SignUpSideEffect.ShowToastString("알 수 없는 오류가 발생했습니다."))
+                    }
                 }
         }
     }

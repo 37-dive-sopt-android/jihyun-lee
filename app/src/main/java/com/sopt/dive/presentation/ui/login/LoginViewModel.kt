@@ -3,8 +3,10 @@ package com.sopt.dive.presentation.ui.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.R
+import com.sopt.dive.data.network.NetworkError
 import com.sopt.dive.data.remote.dto.request.LoginRequestDto
 import com.sopt.dive.domain.repository.AuthRepository
+import com.sopt.dive.presentation.util.toUserErrorMessage
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -65,8 +67,13 @@ class LoginViewModel(
                     _sideEffect.emit(LoginSideEffect.NavigateToHome)
                 }
                 .onFailure { exception ->
-                    exception.printStackTrace()
-                    _sideEffect.emit(LoginSideEffect.ShowToastString(exception.message ?: ""))
+                    if (exception is NetworkError) {
+                        val message = exception.toUserErrorMessage()
+                        _sideEffect.emit(LoginSideEffect.ShowToastString(message))
+                    } else {
+                        exception.printStackTrace()
+                        _sideEffect.emit(LoginSideEffect.ShowToastString("알 수 없는 오류가 발생했습니다."))
+                    }
                 }
         }
     }

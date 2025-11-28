@@ -4,8 +4,8 @@ import com.sopt.dive.data.local.datasource.UserPreferenceDataSource
 import com.sopt.dive.data.remote.dto.request.LoginRequestDto
 import com.sopt.dive.data.mapper.toDomain
 import com.sopt.dive.data.remote.datasource.AuthRemoteDataSource
-import com.sopt.dive.data.util.handleApiResponse
-import com.sopt.dive.data.util.safeApiCall
+import com.sopt.dive.data.network.handleApiResponse
+import com.sopt.dive.data.network.safeApiCall
 import com.sopt.dive.domain.model.LoginModel
 import com.sopt.dive.domain.repository.AuthRepository
 import kotlinx.coroutines.flow.Flow
