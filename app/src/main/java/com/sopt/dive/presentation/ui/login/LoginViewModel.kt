@@ -30,6 +30,7 @@ class LoginViewModel(
         viewModelScope.launch {
             val isLoggedIn = authRepository.isLoggedIn.first()
             if (isLoggedIn) _sideEffect.emit(LoginSideEffect.NavigateToHome)
+            else _uiState.update { it.copy(isLoading = false) }
         }
     }
 

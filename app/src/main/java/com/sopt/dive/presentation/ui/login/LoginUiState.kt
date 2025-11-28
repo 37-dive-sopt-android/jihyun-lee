@@ -4,6 +4,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 
 data class LoginUiState(
+    val isLoading: Boolean = true,
     val id: String = "",
     val password: String = "",
     val isPasswordVisible: Boolean = false

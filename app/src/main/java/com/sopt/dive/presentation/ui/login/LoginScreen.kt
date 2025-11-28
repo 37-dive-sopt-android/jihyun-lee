@@ -56,15 +56,18 @@ fun LoginRoute(
         }
     }
 
-    LoginScreen(
-        uiState = uiState,
-        onIdChange = viewModel::onIdChange,
-        onPasswordChange = viewModel::onPasswordChange,
-        onPasswordToggleClick = viewModel::onPasswordToggleClick,
-        onLoginClick = viewModel::login,
-        onSignUpClick = onNavigateToSignUp,
-        modifier = modifier
-    )
+    if (uiState.isLoginEnabled) {}
+    else {
+        LoginScreen(
+            uiState = uiState,
+            onIdChange = viewModel::onIdChange,
+            onPasswordChange = viewModel::onPasswordChange,
+            onPasswordToggleClick = viewModel::onPasswordToggleClick,
+            onLoginClick = viewModel::login,
+            onSignUpClick = onNavigateToSignUp,
+            modifier = modifier
+        )
+    }
 }
 
 @Composable
