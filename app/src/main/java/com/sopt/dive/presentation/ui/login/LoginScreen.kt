@@ -56,7 +56,7 @@ fun LoginRoute(
         }
     }
 
-    if (uiState.isLoginEnabled) {}
+    if (uiState.isLoading) return
     else {
         LoginScreen(
             uiState = uiState,
