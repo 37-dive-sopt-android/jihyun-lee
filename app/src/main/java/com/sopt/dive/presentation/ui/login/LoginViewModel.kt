@@ -3,15 +3,17 @@ package com.sopt.dive.presentation.ui.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sopt.dive.R
+import com.sopt.dive.data.network.NetworkError
 import com.sopt.dive.data.remote.dto.request.LoginRequestDto
-import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.domain.repository.AuthRepository
+import com.sopt.dive.presentation.util.toUserErrorMessage
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -23,6 +25,14 @@ class LoginViewModel(
 
     private val _sideEffect = MutableSharedFlow<LoginSideEffect>()
     val sideEffect: SharedFlow<LoginSideEffect> = _sideEffect.asSharedFlow()
+
+    init {
+        viewModelScope.launch {
+            val isLoggedIn = authRepository.isLoggedIn.first()
+            if (isLoggedIn) _sideEffect.emit(LoginSideEffect.NavigateToHome)
+            else _uiState.update { it.copy(isLoading = false) }
+        }
+    }
 
     fun onIdChange(newId: String) {
         _uiState.update { currentState ->
@@ -54,14 +64,17 @@ class LoginViewModel(
 
             authRepository.login(loginRequest)
                 .onSuccess { result ->
-                    UserPrefs.setLoggedIn(true)
-                    UserPrefs.setId(result.id)
                     _sideEffect.emit(LoginSideEffect.ShowToastResId(R.string.login_success_message))
                     _sideEffect.emit(LoginSideEffect.NavigateToHome)
                 }
                 .onFailure { exception ->
-                    exception.printStackTrace()
-                    _sideEffect.emit(LoginSideEffect.ShowToastString(exception.message ?: ""))
+                    if (exception is NetworkError) {
+                        val message = exception.toUserErrorMessage()
+                        _sideEffect.emit(LoginSideEffect.ShowToastString(message))
+                    } else {
+                        exception.printStackTrace()
+                        _sideEffect.emit(LoginSideEffect.ShowToastString("알 수 없는 오류가 발생했습니다."))
+                    }
                 }
         }
     }

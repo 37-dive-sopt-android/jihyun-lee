@@ -17,7 +17,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import com.sopt.dive.R
 import com.sopt.dive.domain.model.UserModel
 import com.sopt.dive.presentation.components.ProfileImage
@@ -31,17 +33,20 @@ fun MyPageRoute(
     viewModel: MyPageViewModel
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
 
     LaunchedEffect(Unit) {
         viewModel.loadUserInfo()
     }
 
-    LaunchedEffect(viewModel.sideEffect) {
-        viewModel.sideEffect.collect { effect ->
-            when (effect) {
-                is MyPageSideEffect.NavigateToLogin -> onNavigateToLogin()
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect
+            .flowWithLifecycle(lifecycleOwner.lifecycle)
+            .collect { effect ->
+                when (effect) {
+                    is MyPageSideEffect.NavigateToLogin -> onNavigateToLogin()
+                }
             }
-        }
     }
 
     MyPageScreen(

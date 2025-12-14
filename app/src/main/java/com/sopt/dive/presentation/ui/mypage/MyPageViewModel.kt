@@ -2,71 +2,83 @@ package com.sopt.dive.presentation.ui.mypage
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sopt.dive.data.local.UserPrefs
 import com.sopt.dive.domain.model.UserModel
+import com.sopt.dive.domain.repository.ReqresRepository
 import com.sopt.dive.domain.repository.UserRepository
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MyPageViewModel(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val reqresRepository: ReqresRepository
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(MyPageUiState())
-    val uiState: StateFlow<MyPageUiState> = _uiState.asStateFlow()
+    val uiState: StateFlow<MyPageUiState> = userRepository.myProfile
+        .map { userModel ->
+            MyPageUiState(
+                userInfo = userModel ?: UserModel(
+                    id = 0,
+                    userId = "",
+                    name = "",
+                    email = "",
+                    age = 0
+                )
+            )
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = MyPageUiState()
+        )
+
 
     private val _sideEffect = MutableSharedFlow<MyPageSideEffect>()
     val sideEffect: SharedFlow<MyPageSideEffect> = _sideEffect.asSharedFlow()
 
     fun loadUserInfo() {
         viewModelScope.launch {
-            val id = UserPrefs.getId()
-            if (id != null) {
-                userRepository.getUserInfo(id)
-                    .onSuccess { result ->
-                        _uiState.update {
-                            it.copy(
-                                userInfo = UserModel(
-                                    id = result.id,
-                                    userId = result.userId,
-                                    name = result.name,
-                                    email = result.email,
-                                    age = result.age,
-                                    profileImageUrl = result.profileImageUrl
-                                )
-                            )
-                        }
-                    }
-                    .onFailure { exception ->
-                        exception.printStackTrace()
-                    }
+            val currentUser = userRepository.myProfile.first()
+
+            if (currentUser==null) {
+                userRepository.fetchMyInfo()
+                    .onFailure { e -> e.printStackTrace() }
+            } else {
+                Timber.tag("TEST").d("MyPage: 로컬 사용자 데이터가 존재하여 서버 통신을 건너뜁니다.")
             }
+        }
+    }
+
+    fun refreshUserInfo() {
+        viewModelScope.launch {
+            userRepository.fetchMyInfo()
         }
     }
 
     fun logout() {
         viewModelScope.launch {
-            UserPrefs.logout()
+            userRepository.logout()
+            reqresRepository.deleteAllFriends()
             _sideEffect.emit(MyPageSideEffect.NavigateToLogin)
         }
     }
 
     fun withdraw() {
         viewModelScope.launch {
-            val id = UserPrefs.getId()
-            if (id != null) {
-                userRepository.withdraw(id)
-                    .onFailure { exception ->
-                        exception.printStackTrace()
-                    }
-            }
-            UserPrefs.withdraw()
-            _sideEffect.emit(MyPageSideEffect.NavigateToLogin)
+            userRepository.withdraw()
+                .onSuccess {
+                    reqresRepository.deleteAllFriends()
+                    _sideEffect.emit(MyPageSideEffect.NavigateToLogin)
+                }
+                .onFailure { exception ->
+                    exception.printStackTrace()
+                }
         }
     }
 }
