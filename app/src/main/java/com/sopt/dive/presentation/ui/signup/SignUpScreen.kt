@@ -21,7 +21,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.flowWithLifecycle
 import com.sopt.dive.R
 import com.sopt.dive.presentation.components.DiveBasicTextField
 import com.sopt.dive.presentation.components.DiveLargeButton
@@ -35,19 +37,23 @@ fun SignUpRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
 
-    LaunchedEffect(viewModel.sideEffect) {
-        viewModel.sideEffect.collect { effect ->
-            when (effect) {
-                is SignUpSideEffect.NavigateToLogin -> onNavigateToLogin()
-                is SignUpSideEffect.ShowToastResId -> {
-                    Toast.makeText(context, effect.messageResId, Toast.LENGTH_SHORT).show()
-                }
-                is SignUpSideEffect.ShowToastString -> {
-                    Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+    LaunchedEffect(viewModel.sideEffect, lifecycleOwner) {
+        viewModel.sideEffect
+            .flowWithLifecycle(lifecycleOwner.lifecycle)
+            .collect { effect ->
+                when (effect) {
+                    is SignUpSideEffect.NavigateToLogin -> onNavigateToLogin()
+                    is SignUpSideEffect.ShowToastResId -> {
+                        Toast.makeText(context, effect.messageResId, Toast.LENGTH_SHORT).show()
+                    }
+
+                    is SignUpSideEffect.ShowToastString -> {
+                        Toast.makeText(context, effect.message, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
-        }
     }
 
     SignUpScreen(
@@ -73,7 +79,7 @@ private fun SignUpScreen(
     onSignUpButtonClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Scaffold (
+    Scaffold(
         modifier = modifier.imePadding(),
         topBar = {
             Text(
